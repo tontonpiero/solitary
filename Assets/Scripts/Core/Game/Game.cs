@@ -9,6 +9,8 @@ namespace Solitary.Core
         public const int FoundationsCount = 4;
 
         public GameState State { get; private set; } = GameState.NotStarted;
+        public int Moves { get; private set; } = 0;
+        public int Score { get; private set; } = 0;
 
         // Decks
         public StockDeck StockDeck { get; private set; }
@@ -69,12 +71,20 @@ namespace Solitary.Core
         {
             if (source == null || destination == null || amount < 1) return;
 
-            commandInvoker.AddCommand(new MoveCommand(source, destination, amount));
+            ICommand command = new MoveCommand(this, source, destination, amount);
+            commandInvoker.AddCommand(command);
+            Moves++;
         }
 
         public void UndoLastMove()
         {
             commandInvoker.UndoCommand();
+            Moves++;
+        }
+
+        public void SetScore(int score)
+        {
+            Score = score;
         }
 
         public class Builder

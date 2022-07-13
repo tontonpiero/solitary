@@ -262,6 +262,40 @@ namespace Solitary.Tests
             Assert.That(game.CanMoveCards(game.FoundationDecks[0], game.ColumnDecks[1], 1), Is.False);
         }
 
+        [Test]
+        public void Test_Game_Score_And_Moves()
+        {
+            Game game = CreateTestableGame(out _);
+            game.Start();
+
+            game.ColumnDecks[0].Push(cardFactory.Create(CardRank.Seven, CardSuit.Hearts));
+            game.WasteDeck.Push(cardFactory.Create(CardRank.Five, CardSuit.Diamonds));
+            game.WasteDeck.Push(cardFactory.Create(CardRank.Six, CardSuit.Spades));
+
+            Assert.That(game.Score, Is.EqualTo(0));
+            Assert.That(game.Moves, Is.EqualTo(0));
+
+            game.MoveCards(game.WasteDeck, game.ColumnDecks[0], 1);
+
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints));
+            Assert.That(game.Moves, Is.EqualTo(1));
+
+            game.MoveCards(game.WasteDeck, game.ColumnDecks[0], 1);
+
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints * 2));
+            Assert.That(game.Moves, Is.EqualTo(2));
+
+            game.UndoLastMove();
+
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints));
+            Assert.That(game.Moves, Is.EqualTo(3));
+
+            game.MoveCards(game.WasteDeck, game.ColumnDecks[0], 1);
+
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints * 2));
+            Assert.That(game.Moves, Is.EqualTo(4));
+        }
+
         private Game CreateTestableGame(out TestCommandInvoker commandInvoker)
         {
             commandInvoker = new TestCommandInvoker();
