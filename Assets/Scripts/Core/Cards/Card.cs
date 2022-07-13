@@ -8,7 +8,7 @@ namespace Solitary.Core
         public const int MinValue = (int)CardRank.Ace;
         public const int MaxValue = (int)CardRank.King;
 
-        public Card(CardRank rank, CardSuit suit)
+        private Card(CardRank rank, CardSuit suit)
         {
             Rank = rank;
             Suit = suit;
@@ -22,19 +22,30 @@ namespace Solitary.Core
 
         public CardColor Color => (Suit == CardSuit.Hearts || Suit == CardSuit.Diamonds) ? CardColor.Red : CardColor.Black;
 
-        public static bool operator ==(Card lhs, Card rhs)
+        public static bool operator ==(Card c1, Card c2)
         {
-            if (lhs is null || rhs is null) return lhs is null && rhs is null;
-            return lhs.Rank == rhs.Rank && lhs.Suit == rhs.Suit;
+            if (c1 is null) return c2 is null;
+            return c1.Equals(c2);
         }
 
-        public static bool operator !=(Card lhs, Card rhs)
+        public static bool operator !=(Card c1, Card c2) => !(c1 == c2);
+
+        public override int GetHashCode() => Rank.GetHashCode() ^ Suit.GetHashCode();
+
+        public override bool Equals(object obj)
         {
-            if ((lhs is null && !(rhs is null)) || (!(lhs is null) && rhs is null)) return true;
-            return lhs.Rank != rhs.Rank || lhs.Suit != rhs.Suit;
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+            Card card = obj as Card;
+            return Rank == card.Rank && Suit == card.Suit;
         }
 
         public override string ToString() => $"Card: {Rank} of {Suit}";
+
+        public class Factory : ICardFactory
+        {
+            public Card Create(CardRank rank, CardSuit suit) => new Card(rank, suit);
+        }
     }
 
 }

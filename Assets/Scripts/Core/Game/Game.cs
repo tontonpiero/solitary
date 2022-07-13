@@ -27,7 +27,7 @@ namespace Solitary.Core
 
         private void InitializeDecks()
         {
-            StockDeck = new StockDeck(new CardFactory());
+            StockDeck = new StockDeck(new Card.Factory());
             StockDeck.Fill();
             StockDeck.Shuffle();
 

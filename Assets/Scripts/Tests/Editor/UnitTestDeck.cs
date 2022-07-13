@@ -6,10 +6,12 @@ namespace Solitary.Tests
 {
     class UnitTestDeck
     {
+        private Card.Factory testCardFactory = new Card.Factory();
+
         [Test]
         public void Test_Fill_StockDeck()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
+            StockDeck deck = new StockDeck(testCardFactory);
 
             Assert.That(deck.Count, Is.EqualTo(0));
             deck.Fill();
@@ -19,7 +21,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_Shuffle_StockDeck()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
+            StockDeck deck = new StockDeck(testCardFactory);
             deck.Fill();
             Card previousTopCard = deck.TopCard;
             deck.Shuffle();
@@ -32,7 +34,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_Shuffle_EmptyStockDeck()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
+            StockDeck deck = new StockDeck(testCardFactory);
             deck.Shuffle();
 
             Assert.That(deck.Count, Is.EqualTo(0));
@@ -41,8 +43,8 @@ namespace Solitary.Tests
         [Test]
         public void Test_Push_To_StockDeck()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
-            Card card = new Card(CardRank.King, CardSuit.Hearts);
+            StockDeck deck = new StockDeck(testCardFactory);
+            Card card = testCardFactory.Create(CardRank.King, CardSuit.Hearts);
 
             deck.Push(card);
 
@@ -53,8 +55,8 @@ namespace Solitary.Tests
         [Test]
         public void Test_StockDeck_Dispatch_OnChangedEvent_AfterPush()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
-            Card card = new Card(CardRank.King, CardSuit.Hearts);
+            StockDeck deck = new StockDeck(testCardFactory);
+            Card card = testCardFactory.Create(CardRank.King, CardSuit.Hearts);
             bool hasChanged = false;
             deck.OnChanged += () => hasChanged = true;
 
@@ -66,11 +68,11 @@ namespace Solitary.Tests
         [Test]
         public void Test_StockDeck_Dispatch_OnChangedEvent_AfterPushSeveral()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
+            StockDeck deck = new StockDeck(testCardFactory);
             IEnumerable<Card> cards = new List<Card>()
             {
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Two, CardSuit.Hearts)
+                testCardFactory.Create(CardRank.Ace, CardSuit.Hearts),
+                testCardFactory.Create(CardRank.Two, CardSuit.Hearts)
             };
             bool hasChanged = false;
             deck.OnChanged += () => hasChanged = true;
@@ -83,7 +85,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_StockDeck_Dispatch_OnChangedEvent_AfterPick()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
+            StockDeck deck = new StockDeck(testCardFactory);
             deck.Fill();
             bool hasChanged = false;
             deck.OnChanged += () => hasChanged = true;
@@ -96,7 +98,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_StockDeck_Dispatch_OnChangedEvent_AfterPickSeveral()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
+            StockDeck deck = new StockDeck(testCardFactory);
             deck.Fill();
             bool hasChanged = false;
             deck.OnChanged += () => hasChanged = true;
@@ -109,7 +111,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_Pick_From_StockDeck()
         {
-            StockDeck deck = new StockDeck(new CardFactory());
+            StockDeck deck = new StockDeck(testCardFactory);
             deck.Fill();
 
             Assert.That(deck.Count, Is.EqualTo(52));
@@ -129,9 +131,9 @@ namespace Solitary.Tests
         public void Test_Push_To_FoundationDeck()
         {
             FoundationDeck deck = new FoundationDeck(CardSuit.Hearts);
-            Card heartsAceCard = new Card(CardRank.Ace, CardSuit.Hearts);
-            Card heartsTwoCard = new Card(CardRank.Two, CardSuit.Hearts);
-            Card spadesAceCard = new Card(CardRank.Ace, CardSuit.Spades);
+            Card heartsAceCard = testCardFactory.Create(CardRank.Ace, CardSuit.Hearts);
+            Card heartsTwoCard = testCardFactory.Create(CardRank.Two, CardSuit.Hearts);
+            Card spadesAceCard = testCardFactory.Create(CardRank.Ace, CardSuit.Spades);
             Card nullCard = null;
 
             Assert.That(deck.CanPush(nullCard), Is.False);
@@ -159,8 +161,8 @@ namespace Solitary.Tests
             FoundationDeck deck = new FoundationDeck(CardSuit.Hearts);
             IEnumerable<Card> cards = new List<Card>()
             {
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Two, CardSuit.Hearts)
+                testCardFactory.Create(CardRank.Ace, CardSuit.Hearts),
+                testCardFactory.Create(CardRank.Two, CardSuit.Hearts)
             };
 
             Assert.That(deck.CanPush(cards), Is.False);
@@ -170,9 +172,9 @@ namespace Solitary.Tests
         public void Test_Push_To_ColumnDeck()
         {
             ColumnDeck deck = new ColumnDeck();
-            Card card1 = new Card(CardRank.King, CardSuit.Hearts);
-            Card card2 = new Card(CardRank.Queen, CardSuit.Spades);
-            Card card3 = new Card(CardRank.Jack, CardSuit.Diamonds);
+            Card card1 = testCardFactory.Create(CardRank.King, CardSuit.Hearts);
+            Card card2 = testCardFactory.Create(CardRank.Queen, CardSuit.Spades);
+            Card card3 = testCardFactory.Create(CardRank.Jack, CardSuit.Diamonds);
             Card nullCard = null;
 
             Assert.That(deck.CanPush(nullCard), Is.False);
@@ -206,9 +208,9 @@ namespace Solitary.Tests
             ColumnDeck deck = new ColumnDeck();
             IEnumerable<Card> cards = new List<Card>()
             {
-                new Card(CardRank.King, CardSuit.Hearts),   // Red
-                new Card(CardRank.Queen, CardSuit.Spades),  // Black
-                new Card(CardRank.Jack, CardSuit.Diamonds)  // Red
+                testCardFactory.Create(CardRank.King, CardSuit.Hearts),   // Red
+                testCardFactory.Create(CardRank.Queen, CardSuit.Spades),  // Black
+                testCardFactory.Create(CardRank.Jack, CardSuit.Diamonds)  // Red
             };
 
             Assert.That(deck.CanPush(cards), Is.True);
@@ -220,9 +222,9 @@ namespace Solitary.Tests
             ColumnDeck deck = new ColumnDeck();
             IEnumerable<Card> cards = new List<Card>()
             {
-                new Card(CardRank.King, CardSuit.Hearts),   // Red
-                new Card(CardRank.Queen, CardSuit.Spades),  // Black
-                new Card(CardRank.Jack, CardSuit.Clubs)     // Black
+                testCardFactory.Create(CardRank.King, CardSuit.Hearts),   // Red
+                testCardFactory.Create(CardRank.Queen, CardSuit.Spades),  // Black
+                testCardFactory.Create(CardRank.Jack, CardSuit.Clubs)     // Black
             };
 
             Assert.That(deck.CanPush(cards), Is.False);
@@ -232,7 +234,7 @@ namespace Solitary.Tests
         public void Test_Push_To_WasteDeck()
         {
             WasteDeck deck = new WasteDeck();
-            Card card = new Card(CardRank.Ten, CardSuit.Hearts);
+            Card card = testCardFactory.Create(CardRank.Ten, CardSuit.Hearts);
 
             Assert.That(deck.CanPush(card), Is.True);
         }
@@ -243,8 +245,8 @@ namespace Solitary.Tests
             WasteDeck deck = new WasteDeck();
             IEnumerable<Card> cards = new List<Card>()
             {
-                new Card(CardRank.Nine, CardSuit.Hearts),
-                new Card(CardRank.Two, CardSuit.Spades)
+                testCardFactory.Create(CardRank.Nine, CardSuit.Hearts),
+                testCardFactory.Create(CardRank.Two, CardSuit.Spades)
             };
 
             Assert.That(deck.CanPush(cards), Is.True);
