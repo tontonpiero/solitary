@@ -25,6 +25,13 @@ namespace Solitary.Core
             if (previous == null) return next.Rank == Card.MaxRank;
             return previous.Value == next.Value + 1 && previous.Color != next.Color;
         }
+
+        public override bool CanMoveCardsTo(Deck destination, int amount = 1)
+        {
+            if (destination is StockDeck) return false;
+            if (destination is WasteDeck) return false;
+            return base.CanMoveCardsTo(destination, amount);
+        }
     }
 
 }

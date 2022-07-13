@@ -16,48 +16,91 @@ namespace Solitary.Core
         public ColumnDeck[] ColumnDecks { get; private set; }
         public FoundationDeck[] FoundationDecks { get; private set; }
 
+        private ICommandInvoker commandInvoker;
+        private IDeckFactory deckFactory;
+
+        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory)
+        {
+            this.commandInvoker = commandInvoker;
+            this.deckFactory = deckFactory;
+        }
+
         public void Start()
         {
             if (State != GameState.NotStarted) return;
 
-            InitializeDecks();
+            CreateDecks();
 
             State = GameState.Started;
         }
 
-        private void InitializeDecks()
+        private void CreateDecks()
         {
-            StockDeck = new StockDeck(new Card.Factory());
+            StockDeck = deckFactory.CreateStockDeck();
             StockDeck.Fill();
             StockDeck.Shuffle();
 
-            WasteDeck = new WasteDeck();
+            WasteDeck = deckFactory.CreateWasteDeck();
 
             ColumnDecks = new ColumnDeck[ColumnsCount];
             for (int i = 0; i < ColumnDecks.Length; i++)
             {
-                ColumnDecks[i] = new ColumnDeck();
-                ColumnDecks[i].Push(StockDeck.Pick(i + 1));
+                ColumnDecks[i] = deckFactory.CreateColumnDeck();
             }
 
             FoundationDecks = new FoundationDeck[FoundationsCount];
             for (int i = 0; i < FoundationDecks.Length; i++)
             {
-                FoundationDecks[i] = new FoundationDeck((CardSuit)i);
+                FoundationDecks[i] = deckFactory.CreateFoundationDeck((CardSuit)i);
             }
         }
 
-        public bool CanMoveCards(Deck source, Deck destination, int amount = 1)
+        public void InitializeColumns()
         {
-            if( source == null|| destination == null) return false;
-            if( !source.CanPick(amount)) return false;
-            IEnumerable<Card> cards = source.GetCards(amount);
-            return destination.CanPush(cards);
+            for (int i = 0; i < ColumnDecks.Length; i++)
+            {
+                ColumnDecks[i].Push(StockDeck.Pick(i + 1));
+            }
         }
+
+        public bool CanMoveCards(Deck source, Deck destination, int amount = 1) => source != null && source.CanMoveCardsTo(destination, amount);
 
         public void MoveCards(Deck source, Deck destination, int amount = 1)
         {
+            if (source == null || destination == null || amount < 1) return;
 
+            commandInvoker.AddCommand(new MoveCommand(source, destination, amount));
+        }
+
+        public void UndoLastMove()
+        {
+            commandInvoker.UndoCommand();
+        }
+
+        public class Builder
+        {
+            private ICommandInvoker commandInvoker;
+            private IDeckFactory deckFactory;
+
+            public Builder WithCommandInvoker(ICommandInvoker commandInvoker)
+            {
+                this.commandInvoker = commandInvoker;
+                return this;
+            }
+
+            public Builder WithDeckFactory(IDeckFactory deckFactory)
+            {
+                this.deckFactory = deckFactory;
+                return this;
+            }
+
+            public Game Build()
+            {
+                return new Game(
+                    commandInvoker ?? new CommandInvoker(),
+                    deckFactory ?? new Deck.Factory()
+                );
+            }
         }
     }
 

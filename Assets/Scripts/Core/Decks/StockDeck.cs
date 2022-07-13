@@ -14,7 +14,13 @@ namespace Solitary.Core
             this.cardFactory = cardFactory;
         }
 
-        public void Fill()
+        public override bool CanMoveCardsTo(Deck destination, int amount = 1)
+        {
+            if (!(destination is WasteDeck)) return false;
+            return base.CanMoveCardsTo(destination, amount);
+        }
+
+        virtual public void Fill()
         {
             IEnumerable<CardSuit> suits = Enum.GetValues(typeof(CardSuit)).Cast<CardSuit>();
             IEnumerable<CardRank> ranks = Enum.GetValues(typeof(CardRank)).Cast<CardRank>();
@@ -30,7 +36,7 @@ namespace Solitary.Core
             Push(cards);
         }
 
-        public void Shuffle()
+        virtual public void Shuffle()
         {
             cards.Shuffle();
         }

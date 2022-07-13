@@ -15,6 +15,8 @@ namespace Solitary.Core
         public bool IsEmpty => cards.Count == 0;
         public int Count => cards.Count;
 
+        protected Deck() { }
+
         /// <summary>
         /// Get card at specified index (the card stays in the deck)
         /// </summary>
@@ -25,15 +27,23 @@ namespace Solitary.Core
         /// </summary>
         public IEnumerable<Card> GetCards(int amount) => cards.Skip(Math.Max(0, cards.Count - amount));
 
-        virtual public bool CanPick(int amount = 1) => cards.Count >= amount;
+        virtual public bool CanMoveCardsTo(Deck destination, int amount = 1)
+        {
+            if (amount <= 0 || amount > cards.Count) return false;
+            if (destination == null || destination == this) return false;
+            IEnumerable<Card> cardsToMove = GetCards(amount);
+            return destination.CanPush(cardsToMove);
+        }
 
         public Card Pick() => Pick(1).FirstOrDefault();
 
-        public IEnumerable<Card> Pick(int maxAmount)
+        /// <summary>
+        /// Pick the first N cards (the cards are removed from the deck)
+        /// </summary>
+        public IEnumerable<Card> Pick(int amount)
         {
-            if (cards.Count == 0) return null;
-            maxAmount = Math.Min(maxAmount, cards.Count);
-            IEnumerable<Card> pickedCards = cards.PopRange(maxAmount);
+            if (amount > cards.Count) return null;
+            IEnumerable<Card> pickedCards = cards.PopRange(amount);
             OnChanged?.Invoke();
             return pickedCards;
         }
@@ -52,6 +62,17 @@ namespace Solitary.Core
         {
             cards.PushRange(newCards);
             OnChanged?.Invoke();
+        }
+
+        public class Factory : IDeckFactory
+        {
+            public ColumnDeck CreateColumnDeck() => new ColumnDeck();
+
+            public FoundationDeck CreateFoundationDeck(CardSuit suit) => new FoundationDeck(suit);
+
+            public StockDeck CreateStockDeck() => new StockDeck(new Card.Factory());
+
+            public WasteDeck CreateWasteDeck() => new WasteDeck();
         }
     }
 

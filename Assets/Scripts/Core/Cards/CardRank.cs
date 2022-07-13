@@ -13,7 +13,7 @@ namespace Solitary.Core
         Five,
         Six,
         Seven,
-        Height,
+        Eight,
         Nine,
         Ten,
         Jack,
