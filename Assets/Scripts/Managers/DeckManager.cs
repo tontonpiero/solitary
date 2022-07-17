@@ -76,5 +76,18 @@ namespace Solitary.Manager
             }
             return false;
         }
+
+        public bool TryMoveToFoundation(CardView cardView)
+        {
+            foreach (DeckView deckView in foundationDeckViews)
+            {
+                if (deckView.Deck.CanPush(cardView.Card))
+                {
+                    gameManager.Game.MoveCards(cardView.DeckView.Deck, deckView.Deck, 1);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

@@ -680,7 +680,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
   m_PrefabInstance: {fileID: 6452604802016377185}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2083319567}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb358015b5829da42ab120c5af56ce43, type: 3}
@@ -855,6 +855,10 @@ PrefabInstance:
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: revealTopCard
@@ -1247,6 +1251,10 @@ PrefabInstance:
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
@@ -1758,6 +1766,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: revealTopCard
       value: 1
       objectReference: {fileID: 0}
@@ -1804,7 +1816,7 @@ GameObject:
   - component: {fileID: 1055450854}
   - component: {fileID: 1055450853}
   m_Layer: 5
-  m_Name: GameUI
+  m_Name: CanvasGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2063,6 +2075,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
 --- !u!224 &1360061067 stripped
@@ -2235,6 +2251,10 @@ PrefabInstance:
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
@@ -2457,6 +2477,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: revealTopCard
       value: 1
       objectReference: {fileID: 0}
@@ -2665,6 +2689,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
 --- !u!224 &1571557650 stripped
@@ -2855,6 +2883,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: revealTopCard
       value: 1
       objectReference: {fileID: 0}
@@ -2982,6 +3014,10 @@ PrefabInstance:
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: revealTopCard
@@ -3537,6 +3573,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: revealTopCard
       value: 1
       objectReference: {fileID: 0}
@@ -3664,6 +3704,10 @@ PrefabInstance:
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
@@ -4181,6 +4225,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049521560}
   m_CullTransparentMesh: 1
+--- !u!1 &2083319567 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2348158080617512468, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+  m_PrefabInstance: {fileID: 6452604802016377185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2083319568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083319567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2083319569
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083319567}
+  m_CullTransparentMesh: 1
 --- !u!1 &2111941497
 GameObject:
   m_ObjectHideFlags: 0
@@ -4376,6 +4463,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: revealTopCard
       value: 1
       objectReference: {fileID: 0}
@@ -4507,6 +4598,10 @@ PrefabInstance:
     - target: {fileID: 5215427759212499827, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: behaviour
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: AllowDragCards

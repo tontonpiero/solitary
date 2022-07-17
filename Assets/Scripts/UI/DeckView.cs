@@ -3,15 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Solitary.UI
 {
-    public class DeckView : MonoBehaviour
+    public class DeckView : MonoBehaviour, IPointerDownHandler
     {
-        [SerializeField] protected bool revealTopCard = false;
+        [Header("Deck special behaviours")]
+        [SerializeField] protected DeckViewBehaviour behaviour = DeckViewBehaviour.None;
+        [SerializeField] protected Transform dropZone;
+
+        [Header("Cards Layout")]
         [SerializeField] protected Vector2 revealedOffset = Vector2.zero;
         [SerializeField] protected Vector2 hiddenOffset = Vector2.zero;
-        [SerializeField] protected Transform dropZone;
 
         public List<CardView> CardViews { get; private set; } = new List<CardView>();
         public Deck Deck { get; set; }
@@ -35,13 +39,22 @@ namespace Solitary.UI
 
         private void CheckTopCard()
         {
-            if (revealTopCard && CardViews.Count > 0)
+            if (CardViews.Count == 0) return;
+            CardView cardView = CardViews.Last();
+            switch (behaviour)
             {
-                CardView cardView = CardViews.Last();
-                if (cardView.Card == Deck.TopCard)
-                {
+                case DeckViewBehaviour.AllCardsHidden:
+                    cardView.Hide();
+                    break;
+                case DeckViewBehaviour.AllCardsRevealed:
                     cardView.Reveal();
-                }
+                    break;
+                case DeckViewBehaviour.TopCardRevealed:
+                    if (cardView.Card == Deck.TopCard)
+                    {
+                        cardView.Reveal();
+                    }
+                    break;
             }
         }
 
@@ -83,6 +96,11 @@ namespace Solitary.UI
         public int GetCardIndexFromTop(CardView cardView)
         {
             return CardViews.Count - CardViews.IndexOf(cardView) - 1;
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            Debug.Log(this);
         }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Solitary.UI
 {
-    public class CardView : MonoBehaviour
+    public class CardView : MonoBehaviour, IPointerClickHandler
     {
         [Header("Sprites")]
         [SerializeField] private CardSpriteData spriteData;
@@ -30,7 +30,9 @@ namespace Solitary.UI
 
         public event Action<CardView> OnCardDragStarted;
         public event Action<CardView> OnCardDragComplete;
+        public event Action<CardView> OnCardDoubleClicked;
 
+        private Image image;
         private Transform target;
         private Vector2 offset;
         private Vector2 velocity;
@@ -39,6 +41,7 @@ namespace Solitary.UI
         private void Awake()
         {
             dragBehaviour = GetComponent<IDragBehaviour>();
+            image = GetComponent<Image>();
             dragBehaviour.OnDragStarted += DragBehaviour_OnDragStarted;
             dragBehaviour.OnDragComplete += DragBehaviour_OnDragComplete;
         }
@@ -79,6 +82,7 @@ namespace Solitary.UI
             IsRevealed = true;
             frontFace.SetActive(true);
             backFace.SetActive(false);
+            image.enabled = true;
             dragBehaviour.Enabled = IsDraggable();
         }
 
@@ -88,6 +92,7 @@ namespace Solitary.UI
             IsRevealed = false;
             frontFace.SetActive(false);
             backFace.SetActive(true);
+            image.enabled = false;
             dragBehaviour.Enabled = IsDraggable();
         }
 
@@ -132,10 +137,19 @@ namespace Solitary.UI
             transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, 0.02f);
         }
 
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.clickCount == 2)
+            {
+                OnCardDoubleClicked?.Invoke(this);
+            }
+        }
+
         private void OnDestroy()
         {
             OnCardDragStarted = null;
             OnCardDragComplete = null;
+            OnCardDoubleClicked = null;
         }
     }
 }

@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb358015b5829da42ab120c5af56ce43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  revealTopCard: 0
+  behaviour: 0
+  dropZone: {fileID: 6878609076924185853}
   revealedOffset: {x: 0, y: 0}
   hiddenOffset: {x: 0, y: 0}
-  dropZone: {fileID: 6878609076924185853}
 --- !u!1 &5215427759212499827
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 1, b: 0.083200455, a: 0.30588236}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

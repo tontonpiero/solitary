@@ -30,9 +30,15 @@ namespace Solitary.Manager
                 cardView.SetCard(card);
                 cardView.OnCardDragStarted += OnCardDragStarted;
                 cardView.OnCardDragComplete += OnCardDragComplete;
+                cardView.OnCardDoubleClicked += OnCardDoubleClicked;
                 cardViewByCard.Add(card, cardView);
                 deckView.AddCardView(cardView);
             }
+        }
+
+        private void OnCardDoubleClicked(CardView cardView)
+        {
+            deckManager.TryMoveToFoundation(cardView);
         }
 
         private void OnCardDragStarted(CardView cardView)
