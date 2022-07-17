@@ -12,6 +12,14 @@ namespace Solitary.Manager
 
         public Game Game { get; private set; }
 
+        private void Awake()
+        {
+            Game = new Game.Builder()
+                .WithDeckFactory(new Deck.Factory())
+                .WithCommandInvoker(new CommandInvoker())
+                .Build();
+        }
+
         private void Start()
         {
             StartCoroutine(InitializeGame());
@@ -19,12 +27,6 @@ namespace Solitary.Manager
 
         private IEnumerator InitializeGame()
         {
-
-            Game = new Game.Builder()
-                .WithDeckFactory(new Deck.Factory())
-                .WithCommandInvoker(new CommandInvoker())
-                .Build();
-
             Game.Start();
 
             deckManager.InitializeDecks(Game);

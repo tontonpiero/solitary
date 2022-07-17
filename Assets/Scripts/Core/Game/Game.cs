@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Solitary.Core
 {
 
-    public class Game
+    public class Game : IDisposable
     {
         public const int ColumnsCount = 7;
         public const int FoundationsCount = 4;
@@ -18,6 +18,9 @@ namespace Solitary.Core
         public WasteDeck WasteDeck { get; private set; }
         public ColumnDeck[] ColumnDecks { get; private set; }
         public FoundationDeck[] FoundationDecks { get; private set; }
+
+        public event Action OnScoreChanged;
+        public event Action OnMovesChanged;
 
         private ICommandInvoker commandInvoker;
         private IDeckFactory deckFactory;
@@ -74,18 +77,32 @@ namespace Solitary.Core
 
             ICommand command = new MoveCommand(this, source, destination, amount);
             commandInvoker.AddCommand(command);
-            Moves++;
+            IncrementMoves();
         }
 
         public void UndoLastMove()
         {
             commandInvoker.UndoCommand();
-            Moves++;
+            IncrementMoves();
         }
 
         public void SetScore(int score)
         {
+            if (score < 0) score = 0;
             Score = score;
+            OnScoreChanged?.Invoke();
+        }
+
+        public void IncrementMoves()
+        {
+            Moves++;
+            OnMovesChanged?.Invoke();
+        }
+
+        public void Dispose()
+        {
+            OnMovesChanged = null;
+            OnScoreChanged = null;
         }
 
         public class Builder

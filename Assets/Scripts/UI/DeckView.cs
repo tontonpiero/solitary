@@ -7,28 +7,24 @@ namespace Solitary.UI
     public class DeckView : MonoBehaviour
     {
         [SerializeField] protected bool revealTopCard = false;
-        [SerializeField] protected Vector2 offsetIncrement = Vector2.zero;
+        [SerializeField] protected Vector2 revealedOffset = Vector2.zero;
+        [SerializeField] protected Vector2 hiddenOffset = Vector2.zero;
 
         public Stack<CardView> CardViews { get; private set; } = new Stack<CardView>();
         public Deck Deck { get; set; }
 
-        private Vector2 currentOffset = Vector2.zero;
-
         public void AddCardView(CardView cardView)
         {
+            cardView.SetTarget(GetNextTargetTransform(), GetNextOffset());
+            cardView.transform.SetAsLastSibling();
             CardViews.Push(cardView);
-            cardView.SetTarget(transform, currentOffset);
             CheckTopCard();
-
-            currentOffset += offsetIncrement;
         }
 
         public void RemoveCardView()
         {
             CardViews.Pop();
             CheckTopCard();
-
-            currentOffset -= offsetIncrement;
         }
 
         private void CheckTopCard()
@@ -41,6 +37,18 @@ namespace Solitary.UI
                     cardView.Reveal();
                 }
             }
+        }
+
+        private Transform GetNextTargetTransform()
+        {
+            if( CardViews.Count == 0 ) return transform;
+            return CardViews.Peek().transform;
+        }
+
+        private Vector2 GetNextOffset()
+        {
+            if( CardViews.Count == 0 ) return Vector2.zero;
+            return CardViews.Peek().IsRevealed ? revealedOffset : hiddenOffset;
         }
     }
 }

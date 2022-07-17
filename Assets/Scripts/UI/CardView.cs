@@ -77,7 +77,7 @@ namespace Solitary.UI
             if (target == null) return;
 
             Vector2 targetPosition = (Vector2)target.position + offset;
-            transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, 0.1f);
+            transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, 0.05f);
         }
     }
 }

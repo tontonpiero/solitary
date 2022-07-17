@@ -18,9 +18,6 @@ namespace Solitary.Manager
         [SerializeField] private DeckView[] columnDeckViews;
 
         private Dictionary<Deck, DeckView> deckViewByDeck = new Dictionary<Deck, DeckView>();
-        private Queue<MoveCardData> moveCardQueue = new Queue<MoveCardData>();
-        private const float moveInterval = 0.05f;
-        private float nextMoveTimeleft = 0f;
 
         public DeckView GetDeckView(Deck deck) => deckViewByDeck[deck];
 
@@ -52,12 +49,7 @@ namespace Solitary.Manager
             DeckView deckView = deckViewByDeck[deck];
             foreach (Card card in cards)
             {
-                CardView cardView = cardManager.GetCardView(card);
-                moveCardQueue.Enqueue(new MoveCardData()
-                {
-                    CardView = cardView,
-                    DeckView = deckView
-                });
+                cardManager.MoveCard(card, deckView);
             }
         }
 
@@ -65,29 +57,6 @@ namespace Solitary.Manager
         {
             //DeckView deckView = deckViewByDeck[deck];
             //cardManager.UpdatePositions(cards);
-        }
-
-        private void Update()
-        {
-            UpdateMoveCardQueue(Time.deltaTime);
-        }
-
-        private void UpdateMoveCardQueue(float deltaTime)
-        {
-            if (moveCardQueue.Count == 0) return;
-            nextMoveTimeleft -= deltaTime;
-            if(nextMoveTimeleft < 0f)
-            {
-                nextMoveTimeleft += moveInterval;
-                MoveCardData data = moveCardQueue.Dequeue();
-                data.DeckView.AddCardView(data.CardView);
-            }
-        }
-
-        private struct MoveCardData
-        {
-            public CardView CardView { get; set; }
-            public DeckView DeckView { get; set; }
         }
     }
 }
