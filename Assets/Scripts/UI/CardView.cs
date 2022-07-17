@@ -2,6 +2,7 @@ using Solitary.Core;
 using Solitary.Data;
 using Solitary.Utils;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -80,20 +81,46 @@ namespace Solitary.UI
         {
             if (IsRevealed) return;
             IsRevealed = true;
-            frontFace.SetActive(true);
-            backFace.SetActive(false);
             image.enabled = true;
             dragBehaviour.Enabled = IsDraggable();
+            StartCoroutine(RevealRoutine());
+        }
+
+        public IEnumerator RevealRoutine()
+        {
+            yield return ScaleTo(new Vector3(0f, 1f, 1f), 0.05f);
+            frontFace.SetActive(true);
+            backFace.SetActive(false);
+            yield return ScaleTo(Vector3.one, 0.1f);
         }
 
         public void Hide()
         {
             if (!IsRevealed) return;
             IsRevealed = false;
-            frontFace.SetActive(false);
-            backFace.SetActive(true);
             image.enabled = false;
             dragBehaviour.Enabled = IsDraggable();
+            StartCoroutine(HideRoutine());
+        }
+
+        public IEnumerator HideRoutine()
+        {
+            yield return ScaleTo(new Vector3(0f, 1f, 1f), 0.05f);
+            frontFace.SetActive(false);
+            backFace.SetActive(true);
+            yield return ScaleTo(Vector3.one, 0.1f);
+        }
+
+        private IEnumerator ScaleTo(Vector3 targetScale, float duration)
+        {
+            float timeleft = duration;
+            Vector3 initialScale = transform.localScale;
+            while(timeleft > 0f)
+            {
+                timeleft -= Time.deltaTime;
+                transform.localScale = Vector3.Lerp(initialScale, targetScale, 1f - (timeleft / duration));
+                yield return null;
+            }
         }
 
         private bool IsDraggable()

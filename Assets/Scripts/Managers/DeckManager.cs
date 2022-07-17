@@ -42,6 +42,7 @@ namespace Solitary.Manager
             cardManager.CreateDeckCards(deckView);
             deckView.Deck.OnCardsAdded += OnCardsAddedToDeck;
             deckView.Deck.OnCardsRemoved += OnCardsRemovedFromDeck;
+            deckView.OnDoubleClickDeck += OnDoubleClickDeck;
         }
 
         private void OnCardsAddedToDeck(Deck deck, IEnumerable<Card> cards)
@@ -53,10 +54,30 @@ namespace Solitary.Manager
             }
         }
 
+        private void OnDoubleClickDeck(DeckView drawView)
+        {
+            if (drawView.Deck is StockDeck)
+            {
+                DrawNextWaste();
+            }
+        }
+
+        private void DrawNextWaste()
+        {
+            int stockCount = stockDeckView.Deck.Count;
+            int wasteCount = wasteDeckView.Deck.Count;
+            if (stockCount > 0)
+            {
+                gameManager.Game.MoveCards(stockDeckView.Deck, wasteDeckView.Deck, 1);
+            }
+            else
+            {
+                gameManager.Game.MoveCards(wasteDeckView.Deck, stockDeckView.Deck, wasteCount);
+            }
+        }
+
         private void OnCardsRemovedFromDeck(Deck deck, IEnumerable<Card> cards)
         {
-            //DeckView deckView = deckViewByDeck[deck];
-            //cardManager.UpdatePositions(cards);
         }
 
         public bool TryDropCardView(CardView cardView)

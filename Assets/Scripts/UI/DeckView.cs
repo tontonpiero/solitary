@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Solitary.UI
@@ -16,6 +17,8 @@ namespace Solitary.UI
         [Header("Cards Layout")]
         [SerializeField] protected Vector2 revealedOffset = Vector2.zero;
         [SerializeField] protected Vector2 hiddenOffset = Vector2.zero;
+
+        public event Action<DeckView> OnDoubleClickDeck; 
 
         public List<CardView> CardViews { get; private set; } = new List<CardView>();
         public Deck Deck { get; set; }
@@ -100,7 +103,12 @@ namespace Solitary.UI
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log(this);
+            OnDoubleClickDeck?.Invoke(this);
+        }
+
+        private void OnDestroy()
+        {
+            OnDoubleClickDeck = null;
         }
     }
 }

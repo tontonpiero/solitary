@@ -4607,6 +4607,34 @@ PrefabInstance:
       propertyPath: AllowDragCards
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: OnDoubleClickDeck.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: OnDoubleClickDeck.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: OnDoubleClickDeck.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1383369710}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: OnDoubleClickDeck.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: OnDoubleClickDeck.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DrawWaste
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: OnDoubleClickDeck.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Solitary.Manager.DeckManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: OnDoubleClickDeck.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
 --- !u!224 &6452604802016377186 stripped

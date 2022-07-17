@@ -18,6 +18,7 @@ namespace Solitary.Core
             {
                 if (destination is FoundationDeck) points = WasteToFoundationPoints;
                 else if (destination is ColumnDeck) points = WasteToColumnPoints;
+                else if (destination is StockDeck) points = RecycleWaste1Points;
             }
             else if (source is ColumnDeck)
             {
