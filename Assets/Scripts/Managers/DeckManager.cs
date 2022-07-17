@@ -58,5 +58,23 @@ namespace Solitary.Manager
             //DeckView deckView = deckViewByDeck[deck];
             //cardManager.UpdatePositions(cards);
         }
+
+        public bool TryDropCardView(CardView cardView)
+        {
+            int amount = cardView.DeckView.GetCardIndexFromTop(cardView) + 1;
+
+            foreach (DeckView deckView in deckViewByDeck.Values)
+            {
+                if (deckView.IsCardOverDropZone(cardView))
+                {
+                    if (deckView.Deck.CanPush(cardView.Card))
+                    {
+                        gameManager.Game.MoveCards(cardView.DeckView.Deck, deckView.Deck, amount);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

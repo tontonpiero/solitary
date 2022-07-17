@@ -29,12 +29,10 @@ namespace Solitary.Core
         /// </summary>
         public IEnumerable<Card> GetCards(int amount) => cards.Skip(Math.Max(0, cards.Count - amount));
 
-        virtual public bool CanMoveCardsTo(Deck destination, int amount = 1)
+        virtual public bool CanMoveCardTo(Deck destination, Card card)
         {
-            if (amount <= 0 || amount > cards.Count) return false;
             if (destination == null || destination == this) return false;
-            IEnumerable<Card> cardsToMove = GetCards(amount);
-            return destination.CanPush(cardsToMove);
+            return destination.CanPush(card);
         }
 
         public Card Pick() => Pick(1).FirstOrDefault();
@@ -51,8 +49,6 @@ namespace Solitary.Core
         }
 
         virtual public bool CanPush(Card card) => false;
-
-        virtual public bool CanPush(IEnumerable<Card> newCards) => false;
 
         public void Push(Card card)
         {

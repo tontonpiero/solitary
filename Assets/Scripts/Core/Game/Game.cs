@@ -69,7 +69,7 @@ namespace Solitary.Core
             }
         }
 
-        public bool CanMoveCards(Deck source, Deck destination, int amount = 1) => source != null && source.CanMoveCardsTo(destination, amount);
+        public bool CanMoveCard(Deck source, Deck destination, Card card) => source != null && source.CanMoveCardTo(destination, card);
 
         public void MoveCards(Deck source, Deck destination, int amount = 1)
         {

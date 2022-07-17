@@ -1,6 +1,9 @@
 using Solitary.Core;
 using Solitary.Data;
+using Solitary.Utils;
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Solitary.UI
@@ -21,12 +24,24 @@ namespace Solitary.UI
         [SerializeField] private GameObject frontFace;
         [SerializeField] private GameObject backFace;
 
-        public bool IsRevealed { get; set; }
+        public bool IsRevealed { get; private set; } = true;
         public Card Card { get; private set; }
+        public DeckView DeckView { get; private set; }
+
+        public event Action<CardView> OnCardDragStarted;
+        public event Action<CardView> OnCardDragComplete;
 
         private Transform target;
         private Vector2 offset;
         private Vector2 velocity;
+        private IDragBehaviour dragBehaviour;
+
+        private void Awake()
+        {
+            dragBehaviour = GetComponent<IDragBehaviour>();
+            dragBehaviour.OnDragStarted += DragBehaviour_OnDragStarted;
+            dragBehaviour.OnDragComplete += DragBehaviour_OnDragComplete;
+        }
 
         private void Start()
         {
@@ -37,6 +52,11 @@ namespace Solitary.UI
         {
             this.Card = card;
             DressUp();
+        }
+
+        public void SetDeckView(DeckView deckView)
+        {
+            DeckView = deckView;
         }
 
         public void SetTarget(Transform target, Vector2 offset)
@@ -56,15 +76,34 @@ namespace Solitary.UI
         public void Reveal()
         {
             if (IsRevealed) return;
+            IsRevealed = true;
             frontFace.SetActive(true);
             backFace.SetActive(false);
+            dragBehaviour.Enabled = IsDraggable();
         }
 
         public void Hide()
         {
             if (!IsRevealed) return;
+            IsRevealed = false;
             frontFace.SetActive(false);
             backFace.SetActive(true);
+            dragBehaviour.Enabled = IsDraggable();
+        }
+
+        private bool IsDraggable()
+        {
+            return IsRevealed;
+        }
+
+        private void DragBehaviour_OnDragStarted()
+        {
+            OnCardDragStarted?.Invoke(this);
+        }
+
+        private void DragBehaviour_OnDragComplete()
+        {
+            OnCardDragComplete?.Invoke(this);
         }
 
         private void Update()
@@ -74,10 +113,29 @@ namespace Solitary.UI
 
         private void UpdateMoveToTarget()
         {
-            if (target == null) return;
+            Vector2 targetPosition;
+            if (dragBehaviour.IsDragging)
+            {
+                targetPosition = dragBehaviour.DragPosition;
+            }
+            else
+            {
+                if (target == null) return;
+                targetPosition = (Vector2)target.position + offset;
+            }
 
-            Vector2 targetPosition = (Vector2)target.position + offset;
-            transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, 0.05f);
+            FollowTarget(targetPosition);
+        }
+
+        private void FollowTarget(Vector2 targetPosition)
+        {
+            transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, 0.02f);
+        }
+
+        private void OnDestroy()
+        {
+            OnCardDragStarted = null;
+            OnCardDragComplete = null;
         }
     }
 }

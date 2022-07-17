@@ -21,16 +21,10 @@ namespace Solitary.Core
             return TopCard.Value == card.Value - 1;
         }
 
-        public override bool CanPush(IEnumerable<Card> newCards)
-        {
-            if (newCards.Count() == 1) return CanPush(newCards.First());
-            return false;
-        }
-
-        public override bool CanMoveCardsTo(Deck destination, int amount = 1)
+        public override bool CanMoveCardTo(Deck destination, Card card)
         {
             if (!(destination is ColumnDeck)) return false;
-            return base.CanMoveCardsTo(destination, amount);
+            return base.CanMoveCardTo(destination, card);
         }
     }
 

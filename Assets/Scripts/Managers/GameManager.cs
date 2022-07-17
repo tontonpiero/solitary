@@ -31,7 +31,7 @@ namespace Solitary.Manager
 
             deckManager.InitializeDecks(Game);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             Game.InitializeColumns();
         }

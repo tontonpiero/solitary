@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Solitary.Core
 {
@@ -7,18 +8,6 @@ namespace Solitary.Core
     {
         public override bool CanPush(Card card) => CanStack(TopCard, card);
 
-        public override bool CanPush(IEnumerable<Card> newCards)
-        {
-            if (newCards == null) return false;
-            Card previous = TopCard;
-            foreach (Card next in newCards)
-            {
-                if (!CanStack(previous, next)) return false;
-                previous = next;
-            }
-            return true;
-        }
-
         private bool CanStack(Card previous, Card next)
         {
             if (next == null) return false;
@@ -26,11 +15,11 @@ namespace Solitary.Core
             return previous.Value == next.Value + 1 && previous.Color != next.Color;
         }
 
-        public override bool CanMoveCardsTo(Deck destination, int amount = 1)
+        public override bool CanMoveCardTo(Deck destination, Card card)
         {
             if (destination is StockDeck) return false;
             if (destination is WasteDeck) return false;
-            return base.CanMoveCardsTo(destination, amount);
+            return base.CanMoveCardTo(destination, card);
         }
     }
 

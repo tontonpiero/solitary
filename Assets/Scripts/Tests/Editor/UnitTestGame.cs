@@ -56,14 +56,14 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_CanMoveCards()
+        public void Test_CanMoveCard()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCards(game.StockDeck, game.WasteDeck, 3), Is.True);
-            Assert.That(game.CanMoveCards(game.StockDeck, game.FoundationDecks[0], 3), Is.False);
-            Assert.That(game.CanMoveCards(game.StockDeck, game.ColumnDecks[0], 3), Is.False);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.WasteDeck, game.StockDeck.TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.FoundationDecks[0], game.StockDeck.TopCard), Is.False);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.ColumnDecks[0], game.StockDeck.TopCard), Is.False);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCards(game.StockDeck, game.WasteDeck, 1), Is.True);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.WasteDeck, game.StockDeck.TopCard), Is.True);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCards(game.StockDeck, game.FoundationDecks[0], 1), Is.False);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.FoundationDecks[0], game.StockDeck.TopCard), Is.False);
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCards(game.StockDeck, game.ColumnDecks[0], 1), Is.False);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.ColumnDecks[0], game.StockDeck.TopCard), Is.False);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCards(game.StockDeck, game.StockDeck, 1), Is.False);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.StockDeck, game.StockDeck.TopCard), Is.False);
         }
 
         [Test]
@@ -143,7 +143,7 @@ namespace Solitary.Tests
             game.Start();
             game.MoveCards(game.StockDeck, game.WasteDeck, 1);
 
-            Assert.That(game.CanMoveCards(game.WasteDeck, game.StockDeck, 1), Is.False);
+            Assert.That(game.CanMoveCard(game.WasteDeck, game.StockDeck, game.WasteDeck.TopCard), Is.False);
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace Solitary.Tests
             game.Start();
             game.MoveCards(game.StockDeck, game.WasteDeck, 1);
 
-            Assert.That(game.CanMoveCards(game.WasteDeck, game.WasteDeck, 1), Is.False);
+            Assert.That(game.CanMoveCard(game.WasteDeck, game.WasteDeck, game.WasteDeck.TopCard), Is.False);
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace Solitary.Tests
             game.StockDeck.Push(cardFactory.Create(CardRank.Ace, CardSuit.Hearts));
             game.MoveCards(game.StockDeck, game.WasteDeck, 1);
 
-            Assert.That(game.CanMoveCards(game.WasteDeck, game.FoundationDecks[0], 1), Is.True);
+            Assert.That(game.CanMoveCard(game.WasteDeck, game.FoundationDecks[0], game.WasteDeck.TopCard), Is.True);
         }
 
         [Test]
@@ -175,7 +175,7 @@ namespace Solitary.Tests
             game.StockDeck.Push(cardFactory.Create(CardRank.King, CardSuit.Hearts));
             game.MoveCards(game.StockDeck, game.WasteDeck, 1);
 
-            Assert.That(game.CanMoveCards(game.WasteDeck, game.ColumnDecks[0], 1), Is.True);
+            Assert.That(game.CanMoveCard(game.WasteDeck, game.ColumnDecks[0], game.WasteDeck.TopCard), Is.True);
         }
 
         [Test]
@@ -186,8 +186,8 @@ namespace Solitary.Tests
             game.ColumnDecks[0].Push(cardFactory.Create(CardRank.Eight, CardSuit.Hearts));
             game.ColumnDecks[1].Push(cardFactory.Create(CardRank.Nine, CardSuit.Spades));
 
-            Assert.That(game.CanMoveCards(game.ColumnDecks[0], game.ColumnDecks[1], 1), Is.True);
-            Assert.That(game.CanMoveCards(game.ColumnDecks[1], game.ColumnDecks[0], 1), Is.False);
+            Assert.That(game.CanMoveCard(game.ColumnDecks[0], game.ColumnDecks[1], game.ColumnDecks[0].TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.ColumnDecks[1], game.ColumnDecks[0], game.ColumnDecks[1].TopCard), Is.False);
         }
 
         [Test]
@@ -196,7 +196,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCards(game.ColumnDecks[0], game.WasteDeck, 1), Is.False);
+            Assert.That(game.CanMoveCard(game.ColumnDecks[0], game.WasteDeck, game.ColumnDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -205,7 +205,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCards(game.ColumnDecks[0], game.StockDeck, 1), Is.False);
+            Assert.That(game.CanMoveCard(game.ColumnDecks[0], game.StockDeck, game.ColumnDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -215,8 +215,8 @@ namespace Solitary.Tests
             game.Start();
             game.ColumnDecks[0].Push(cardFactory.Create(CardRank.Ace, CardSuit.Hearts));
 
-            Assert.That(game.CanMoveCards(game.ColumnDecks[0], game.FoundationDecks[0], 1), Is.True);
-            Assert.That(game.CanMoveCards(game.ColumnDecks[0], game.FoundationDecks[1], 1), Is.False);
+            Assert.That(game.CanMoveCard(game.ColumnDecks[0], game.FoundationDecks[0], game.ColumnDecks[0].TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.ColumnDecks[0], game.FoundationDecks[1], game.ColumnDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -226,7 +226,7 @@ namespace Solitary.Tests
             game.Start();
             game.FoundationDecks[0].Push(cardFactory.Create(CardRank.Ace, CardSuit.Hearts));
 
-            Assert.That(game.CanMoveCards(game.FoundationDecks[0], game.FoundationDecks[1], 1), Is.False);
+            Assert.That(game.CanMoveCard(game.FoundationDecks[0], game.FoundationDecks[1], game.FoundationDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -236,7 +236,7 @@ namespace Solitary.Tests
             game.Start();
             game.FoundationDecks[0].Push(cardFactory.Create(CardRank.Ace, CardSuit.Hearts));
 
-            Assert.That(game.CanMoveCards(game.FoundationDecks[0], game.WasteDeck, 1), Is.False);
+            Assert.That(game.CanMoveCard(game.FoundationDecks[0], game.WasteDeck, game.FoundationDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace Solitary.Tests
             game.Start();
             game.FoundationDecks[0].Push(cardFactory.Create(CardRank.Ace, CardSuit.Hearts));
 
-            Assert.That(game.CanMoveCards(game.FoundationDecks[0], game.StockDeck, 1), Is.False);
+            Assert.That(game.CanMoveCard(game.FoundationDecks[0], game.StockDeck, game.FoundationDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -258,8 +258,8 @@ namespace Solitary.Tests
             game.ColumnDecks[0].Push(cardFactory.Create(CardRank.Two, CardSuit.Spades));
             game.ColumnDecks[1].Push(cardFactory.Create(CardRank.Five, CardSuit.Spades));
 
-            Assert.That(game.CanMoveCards(game.FoundationDecks[0], game.ColumnDecks[0], 1), Is.True);
-            Assert.That(game.CanMoveCards(game.FoundationDecks[0], game.ColumnDecks[1], 1), Is.False);
+            Assert.That(game.CanMoveCard(game.FoundationDecks[0], game.ColumnDecks[0], game.FoundationDecks[0].TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.FoundationDecks[0], game.ColumnDecks[1], game.FoundationDecks[0].TopCard), Is.False);
         }
 
         [Test]

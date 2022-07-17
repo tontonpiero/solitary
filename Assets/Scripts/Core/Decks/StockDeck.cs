@@ -14,10 +14,10 @@ namespace Solitary.Core
             this.cardFactory = cardFactory;
         }
 
-        public override bool CanMoveCardsTo(Deck destination, int amount = 1)
+        public override bool CanMoveCardTo(Deck destination, Card card)
         {
             if (!(destination is WasteDeck)) return false;
-            return base.CanMoveCardsTo(destination, amount);
+            return base.CanMoveCardTo(destination, card);
         }
 
         virtual public void Fill()

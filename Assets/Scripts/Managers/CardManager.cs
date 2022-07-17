@@ -28,9 +28,21 @@ namespace Solitary.Manager
                 CardView cardView = Instantiate(cardViewPrefab, cardsContainer, false);
                 cardView.transform.position = deckView.transform.position;
                 cardView.SetCard(card);
+                cardView.OnCardDragStarted += OnCardDragStarted;
+                cardView.OnCardDragComplete += OnCardDragComplete;
                 cardViewByCard.Add(card, cardView);
                 deckView.AddCardView(cardView);
             }
+        }
+
+        private void OnCardDragStarted(CardView cardView)
+        {
+
+        }
+
+        private void OnCardDragComplete(CardView cardView)
+        {
+            deckManager.TryDropCardView(cardView);
         }
 
         private void Update()
@@ -46,6 +58,7 @@ namespace Solitary.Manager
             {
                 nextMoveTimeleft += moveInterval;
                 MoveCardData data = moveCardQueue.Dequeue();
+                data.CardView.DeckView.RemoveCardView(data.CardView);
                 data.DeckView.AddCardView(data.CardView);
             }
         }

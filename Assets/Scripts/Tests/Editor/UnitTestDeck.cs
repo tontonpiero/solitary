@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Solitary.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Solitary.Tests
 {
@@ -128,7 +129,7 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Push_To_FoundationDeck()
+        public void Test_CanPush_To_FoundationDeck()
         {
             FoundationDeck deck = new FoundationDeck(CardSuit.Hearts);
             Card heartsAceCard = testCardFactory.Create(CardRank.Ace, CardSuit.Hearts);
@@ -156,20 +157,7 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Push_SeveralCards_To_FoundationDeck()
-        {
-            FoundationDeck deck = new FoundationDeck(CardSuit.Hearts);
-            IEnumerable<Card> cards = new List<Card>()
-            {
-                testCardFactory.Create(CardRank.Ace, CardSuit.Hearts),
-                testCardFactory.Create(CardRank.Two, CardSuit.Hearts)
-            };
-
-            Assert.That(deck.CanPush(cards), Is.False);
-        }
-
-        [Test]
-        public void Test_Push_To_ColumnDeck()
+        public void Test_CanPush_To_ColumnDeck()
         {
             ColumnDeck deck = new ColumnDeck();
             Card card1 = testCardFactory.Create(CardRank.King, CardSuit.Hearts);
@@ -203,53 +191,12 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Push_SeveralCards_To_ColumnDeck_Success()
-        {
-            ColumnDeck deck = new ColumnDeck();
-            IEnumerable<Card> cards = new List<Card>()
-            {
-                testCardFactory.Create(CardRank.King, CardSuit.Hearts),   // Red
-                testCardFactory.Create(CardRank.Queen, CardSuit.Spades),  // Black
-                testCardFactory.Create(CardRank.Jack, CardSuit.Diamonds)  // Red
-            };
-
-            Assert.That(deck.CanPush(cards), Is.True);
-        }
-
-        [Test]
-        public void Test_Push_SeveralCards_To_ColumnDeck_Failure()
-        {
-            ColumnDeck deck = new ColumnDeck();
-            IEnumerable<Card> cards = new List<Card>()
-            {
-                testCardFactory.Create(CardRank.King, CardSuit.Hearts),   // Red
-                testCardFactory.Create(CardRank.Queen, CardSuit.Spades),  // Black
-                testCardFactory.Create(CardRank.Jack, CardSuit.Clubs)     // Black
-            };
-
-            Assert.That(deck.CanPush(cards), Is.False);
-        }
-
-        [Test]
-        public void Test_Push_To_WasteDeck()
+        public void Test_CanPush_To_WasteDeck()
         {
             WasteDeck deck = new WasteDeck();
             Card card = testCardFactory.Create(CardRank.Ten, CardSuit.Hearts);
 
             Assert.That(deck.CanPush(card), Is.True);
-        }
-
-        [Test]
-        public void Test_Push_SeveralCards_To_WasteDeck()
-        {
-            WasteDeck deck = new WasteDeck();
-            IEnumerable<Card> cards = new List<Card>()
-            {
-                testCardFactory.Create(CardRank.Nine, CardSuit.Hearts),
-                testCardFactory.Create(CardRank.Two, CardSuit.Spades)
-            };
-
-            Assert.That(deck.CanPush(cards), Is.True);
         }
     }
 }
