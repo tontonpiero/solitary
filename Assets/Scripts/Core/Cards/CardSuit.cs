@@ -7,8 +7,8 @@ namespace Solitary.Core
     public enum CardSuit
     {
         Hearts,
-        Diamonds,
         Clubs,
+        Diamonds,
         Spades
     }
 

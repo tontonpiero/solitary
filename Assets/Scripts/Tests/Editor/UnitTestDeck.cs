@@ -58,7 +58,7 @@ namespace Solitary.Tests
             StockDeck deck = new StockDeck(testCardFactory);
             Card card = testCardFactory.Create(CardRank.King, CardSuit.Hearts);
             bool hasChanged = false;
-            deck.OnChanged += () => hasChanged = true;
+            deck.OnCardsAdded += (deck, cards) => hasChanged = true;
 
             Assert.That(hasChanged, Is.False);
             deck.Push(card);
@@ -75,7 +75,7 @@ namespace Solitary.Tests
                 testCardFactory.Create(CardRank.Two, CardSuit.Hearts)
             };
             bool hasChanged = false;
-            deck.OnChanged += () => hasChanged = true;
+            deck.OnCardsAdded += (deck, cards) => hasChanged = true;
 
             Assert.That(hasChanged, Is.False);
             deck.Push(cards);
@@ -83,12 +83,12 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_StockDeck_Dispatch_OnChangedEvent_AfterPick()
+        public void Test_StockDeck_Dispatch_OnChangedEvent_AfterPickOne()
         {
             StockDeck deck = new StockDeck(testCardFactory);
             deck.Fill();
             bool hasChanged = false;
-            deck.OnChanged += () => hasChanged = true;
+            deck.OnCardsRemoved += (deck, cards) => hasChanged = true;
 
             Assert.That(hasChanged, Is.False);
             deck.Pick();
@@ -101,7 +101,7 @@ namespace Solitary.Tests
             StockDeck deck = new StockDeck(testCardFactory);
             deck.Fill();
             bool hasChanged = false;
-            deck.OnChanged += () => hasChanged = true;
+            deck.OnCardsRemoved += (deck, cards) => hasChanged = true;
 
             Assert.That(hasChanged, Is.False);
             deck.Pick(10);

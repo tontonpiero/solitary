@@ -4,10 +4,12 @@ using System.Linq;
 
 namespace Solitary.Core
 {
+    public delegate void CardsMovedEventHandler(Deck deck, IEnumerable<Card> cards);
 
-    public abstract class Deck
+    public abstract class Deck : IDisposable
     {
-        public event Action OnChanged;
+        public event CardsMovedEventHandler OnCardsAdded;
+        public event CardsMovedEventHandler OnCardsRemoved;
 
         protected Stack<Card> cards = new Stack<Card>();
 
@@ -44,7 +46,7 @@ namespace Solitary.Core
         {
             if (amount > cards.Count) return null;
             IEnumerable<Card> pickedCards = cards.PopRange(amount);
-            OnChanged?.Invoke();
+            OnCardsRemoved?.Invoke(this, pickedCards);
             return pickedCards;
         }
 
@@ -54,14 +56,19 @@ namespace Solitary.Core
 
         public void Push(Card card)
         {
-            cards.Push(card);
-            OnChanged?.Invoke();
+            Push(new List<Card>() { card });
         }
 
         public void Push(IEnumerable<Card> newCards)
         {
             cards.PushRange(newCards);
-            OnChanged?.Invoke();
+            OnCardsAdded?.Invoke(this, newCards);
+        }
+
+        public void Dispose()
+        {
+            OnCardsAdded = null;
+            OnCardsRemoved = null;
         }
 
         public class Factory : IDeckFactory
