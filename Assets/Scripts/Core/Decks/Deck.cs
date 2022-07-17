@@ -44,6 +44,7 @@ namespace Solitary.Core
         {
             if (amount > cards.Count) return null;
             IEnumerable<Card> pickedCards = cards.PopRange(amount);
+            pickedCards = pickedCards.Reverse();
             OnCardsRemoved?.Invoke(this, pickedCards);
             return pickedCards;
         }

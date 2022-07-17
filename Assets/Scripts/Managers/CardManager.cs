@@ -37,7 +37,12 @@ namespace Solitary.Manager
 
         private void OnCardDragStarted(CardView cardView)
         {
-
+            int index = cardView.DeckView.GetCardIndexFromTop(cardView);
+            IEnumerable<CardView> draggedCards = cardView.DeckView.GetTopCards(index + 1);
+            foreach (CardView draggedCard in draggedCards)
+            {
+                draggedCard.transform.SetAsLastSibling();
+            }
         }
 
         private void OnCardDragComplete(CardView cardView)
@@ -66,6 +71,7 @@ namespace Solitary.Manager
         public void MoveCard(Card card, DeckView deckView)
         {
             CardView cardView = GetCardView(card);
+            cardView.SetTarget(null, Vector2.zero);
             moveCardQueue.Enqueue(new MoveCardData()
             {
                 CardView = cardView,

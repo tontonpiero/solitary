@@ -67,7 +67,7 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_AddCommand()
+        public void Test_MoveCommand()
         {
             Game game = CreateTestableGame(out TestCommandInvoker commandInvoker);
             game.Start();
@@ -75,10 +75,12 @@ namespace Solitary.Tests
             int moveAmount = 3;
             int initialStockCount = game.StockDeck.Count;
             int initialWasteCount = game.WasteDeck.Count;
+            Card initialStockTopCard = game.StockDeck.TopCard;
             game.MoveCards(game.StockDeck, game.WasteDeck, moveAmount);
 
             Assert.That(game.StockDeck.Count, Is.EqualTo(initialStockCount - moveAmount));
             Assert.That(game.WasteDeck.Count, Is.EqualTo(initialWasteCount + moveAmount));
+            Assert.That(game.WasteDeck.TopCard, Is.EqualTo(initialStockTopCard));
             Assert.That(commandInvoker.Count, Is.EqualTo(1));
         }
 
@@ -91,12 +93,14 @@ namespace Solitary.Tests
             int moveAmount = 3;
             int initialStockCount = game.StockDeck.Count;
             int initialWasteCount = game.WasteDeck.Count;
+            Card initialStockTopCard = game.StockDeck.TopCard;
 
             game.MoveCards(game.StockDeck, game.WasteDeck, moveAmount);
             game.UndoLastMove();
 
             Assert.That(game.StockDeck.Count, Is.EqualTo(initialStockCount));
             Assert.That(game.WasteDeck.Count, Is.EqualTo(initialWasteCount));
+            Assert.That(game.StockDeck.TopCard, Is.EqualTo(initialStockTopCard));
             Assert.That(commandInvoker.Count, Is.EqualTo(0));
         }
 
@@ -179,7 +183,7 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Move_From_Column_To_Column()
+        public void Test_Can_Move_From_Column_To_Column()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
@@ -209,7 +213,7 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Move_From_Column_To_Foundation()
+        public void Test_Can_Move_From_Column_To_Foundation()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
@@ -250,7 +254,7 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Move_From_Foundation_To_Column()
+        public void Test_Can_Move_From_Foundation_To_Column()
         {
             Game game = CreateTestableGame(out _);
             game.Start();

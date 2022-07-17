@@ -51,6 +51,12 @@ namespace Solitary.UI
             return CardViews.Last().transform;
         }
 
+        public IEnumerable<CardView> GetTopCards(int amount)
+        {
+            if (amount > CardViews.Count) return null;
+            return CardViews.GetRange(CardViews.Count - amount, amount);
+        }
+
         private Vector2 GetNextOffset()
         {
             if (CardViews.Count == 0) return Vector2.zero;
