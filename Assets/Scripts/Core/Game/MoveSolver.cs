@@ -107,7 +107,7 @@ namespace Solitary.Core
             }
             if (destination.CanPush(currentCard))
             {
-                Card previousCard = source.GetCard(amount + 1);
+                Card previousCard = source.GetCard(amount);
                 if (destination.Count == 0 && previousCard == null) return false;
                 if (destination.Count == 0 && previousCard != null) return true;
                 if (previousCard == null) return true;

@@ -75,15 +75,30 @@ namespace Solitary.Core
 
         public void MoveCards(Deck source, Deck destination, int amount = 1)
         {
+            if (State != GameState.Started) return;
+
             if (source == null || destination == null || amount < 1) return;
 
             ICommand command = new MoveCommand(this, source, destination, amount);
             commandInvoker.AddCommand(command);
             IncrementMoves();
+
+            CheckGameOver();
+        }
+
+        private void CheckGameOver()
+        {
+            for (int i = 0; i < FoundationsCount; i++)
+            {
+                if (FoundationDecks[i].Count < 13) return;
+            }
+            State = GameState.Over;
         }
 
         public void UndoLastMove()
         {
+            if (State != GameState.Started) return;
+
             if (commandInvoker.Count > 0)
             {
                 commandInvoker.UndoCommand();
@@ -93,6 +108,8 @@ namespace Solitary.Core
 
         public void SetScore(int score)
         {
+            if (State != GameState.Started) return;
+
             if (score < 0) score = 0;
             Score = score;
             OnScoreChanged?.Invoke();
@@ -100,16 +117,22 @@ namespace Solitary.Core
 
         public void IncrementMoves()
         {
+            if (State != GameState.Started) return;
+
             Moves++;
             OnMovesChanged?.Invoke();
         }
 
-        public void ResolveNextMove()
+        public bool ResolveNextMove()
         {
+            if (State != GameState.Started) return false;
+
             if (moveSolver.TrySolve(this, out Deck source, out Deck destination, out int amount))
             {
                 MoveCards(source, destination, amount);
+                return true;
             }
+            return false;
         }
 
         public void Dispose()

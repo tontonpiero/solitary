@@ -68,11 +68,11 @@ namespace Solitary.Manager
             int wasteCount = wasteDeckView.Deck.Count;
             if (stockCount > 0)
             {
-                gameManager.Game.MoveCards(stockDeckView.Deck, wasteDeckView.Deck, 1);
+                gameManager.MoveCards(stockDeckView.Deck, wasteDeckView.Deck, 1);
             }
             else
             {
-                gameManager.Game.MoveCards(wasteDeckView.Deck, stockDeckView.Deck, wasteCount);
+                gameManager.MoveCards(wasteDeckView.Deck, stockDeckView.Deck, wasteCount);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Solitary.Manager
                 {
                     if (deckView.Deck.CanPush(cardView.Card))
                     {
-                        gameManager.Game.MoveCards(cardView.DeckView.Deck, deckView.Deck, amount);
+                        gameManager.MoveCards(cardView.DeckView.Deck, deckView.Deck, amount);
                         return true;
                     }
                 }
@@ -104,7 +104,7 @@ namespace Solitary.Manager
             {
                 if (deckView.Deck.CanPush(cardView.Card))
                 {
-                    gameManager.Game.MoveCards(cardView.DeckView.Deck, deckView.Deck, 1);
+                    gameManager.MoveCards(cardView.DeckView.Deck, deckView.Deck, 1);
                     return true;
                 }
             }

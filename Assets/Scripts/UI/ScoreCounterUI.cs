@@ -11,7 +11,7 @@ namespace Solitary.UI
 
         private void Start()
         {
-            gameManager.Game.OnScoreChanged += OnGameScoreChanged;
+            gameManager.OnScoreChanged += OnGameScoreChanged;
             UpdateCounterText();
         }
 
@@ -22,7 +22,7 @@ namespace Solitary.UI
 
         private void UpdateCounterText()
         {
-            textCounter.text = gameManager.Game.Score.ToString();
+            textCounter.text = gameManager.GetScore().ToString();
         }
     }
 }

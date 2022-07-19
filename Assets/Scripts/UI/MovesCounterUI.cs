@@ -11,7 +11,7 @@ namespace Solitary.UI
 
         private void Start()
         {
-            gameManager.Game.OnMovesChanged += OnGameMovesChanged;
+            gameManager.OnMovesChanged += OnGameMovesChanged;
             UpdateCounterText();
         }
 
@@ -22,7 +22,7 @@ namespace Solitary.UI
 
         private void UpdateCounterText()
         {
-            textCounter.text = gameManager.Game.Moves.ToString();
+            textCounter.text = gameManager.GetMoves().ToString();
         }
     }
 }

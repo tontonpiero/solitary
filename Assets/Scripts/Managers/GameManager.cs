@@ -1,5 +1,6 @@
 using Solitary.Core;
 using Solitary.UI;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,12 +11,23 @@ namespace Solitary.Manager
         [SerializeField] private DeckManager deckManager;
         [SerializeField] private CardManager cardManager;
 
-        public Game Game { get; private set; }
+        public event Action OnScoreChanged;
+        public event Action OnMovesChanged;
+
+        private Game game;
+        private bool isEnding = false;
 
         private void Awake()
         {
-            Game = new Game.Builder().Build();
+            game = new Game.Builder().Build();
+
+            game.OnScoreChanged += OnGameScoreChanged;
+            game.OnMovesChanged += OnGameMovesChanged;
         }
+
+        private void OnGameScoreChanged() => OnScoreChanged?.Invoke();
+
+        private void OnGameMovesChanged() => OnMovesChanged?.Invoke();
 
         private void Start()
         {
@@ -24,23 +36,72 @@ namespace Solitary.Manager
 
         private IEnumerator InitializeGame()
         {
-            Game.Start();
+            game.Start();
 
-            deckManager.InitializeDecks(Game);
+            deckManager.InitializeDecks(game);
 
             yield return new WaitForSeconds(0.5f);
 
-            Game.InitializeColumns();
+            game.InitializeColumns();
+        }
+
+        public void MoveCards(Deck source, Deck destination, int amount = 1)
+        {
+            if (isEnding) return;
+
+            game.MoveCards(source, destination, amount);
+
+            CheckEndGame();
+        }
+
+        private void CheckEndGame()
+        {
+            if (game.StockDeck.Count == 0 && game.WasteDeck.Count == 0)
+            {
+                StartCoroutine(EndGame());
+            }
+        }
+
+        private IEnumerator EndGame()
+        {
+            isEnding = true;
+            while (game.ResolveNextMove())
+            {
+                yield return null;
+            }
+            isEnding = false;
+
+            if (game.State == GameState.Over)
+            {
+                Debug.Log("You win!");
+            }
         }
 
         public void UndoLastMove()
         {
-            Game.UndoLastMove();
+            if (isEnding) return;
+
+            game.UndoLastMove();
         }
 
         public void ResolveNextMove()
         {
-            Game.ResolveNextMove();
+            if (isEnding) return;
+
+            game.ResolveNextMove();
+
+            CheckEndGame();
+        }
+
+        public int GetScore() => game.Score;
+
+        public int GetMoves() => game.Moves;
+
+        private void OnDestroy()
+        {
+            game.Dispose();
+            OnScoreChanged = null;
+            OnMovesChanged = null;
         }
     }
 }
