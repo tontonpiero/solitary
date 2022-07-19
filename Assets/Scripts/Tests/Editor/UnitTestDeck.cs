@@ -10,6 +10,15 @@ namespace Solitary.Tests
         private Card.Factory testCardFactory = new Card.Factory();
 
         [Test]
+        public void Test_Get_Card()
+        {
+            StockDeck deck = new StockDeck(testCardFactory);
+
+            deck.Fill();
+            Assert.That(deck.GetCard(0), Is.EqualTo(deck.TopCard));
+        }
+
+        [Test]
         public void Test_Fill_StockDeck()
         {
             StockDeck deck = new StockDeck(testCardFactory);

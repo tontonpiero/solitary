@@ -20,7 +20,7 @@ namespace Solitary.Core
         protected Deck() { }
 
         /// <summary>
-        /// Get card at specified index (the card stays in the deck)
+        /// Get card at specified index from top (the card stays in the deck)
         /// </summary>
         public Card GetCard(int index) => cards.ElementAtOrDefault(index);
 

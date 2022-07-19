@@ -14,10 +14,7 @@ namespace Solitary.Manager
 
         private void Awake()
         {
-            Game = new Game.Builder()
-                .WithDeckFactory(new Deck.Factory())
-                .WithCommandInvoker(new CommandInvoker())
-                .Build();
+            Game = new Game.Builder().Build();
         }
 
         private void Start()
@@ -39,6 +36,11 @@ namespace Solitary.Manager
         public void UndoLastMove()
         {
             Game.UndoLastMove();
+        }
+
+        public void ResolveNextMove()
+        {
+            Game.ResolveNextMove();
         }
     }
 }

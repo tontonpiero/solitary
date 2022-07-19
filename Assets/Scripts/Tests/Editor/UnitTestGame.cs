@@ -69,7 +69,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_MoveCommand()
         {
-            Game game = CreateTestableGame(out TestCommandInvoker commandInvoker);
+            Game game = CreateTestableGame(out CommandInvoker commandInvoker);
             game.Start();
 
             int moveAmount = 3;
@@ -87,7 +87,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_UndoCommand()
         {
-            Game game = CreateTestableGame(out TestCommandInvoker commandInvoker);
+            Game game = CreateTestableGame(out CommandInvoker commandInvoker);
             game.Start();
 
             int moveAmount = 3;
@@ -300,17 +300,12 @@ namespace Solitary.Tests
             Assert.That(game.Moves, Is.EqualTo(4));
         }
 
-        private Game CreateTestableGame(out TestCommandInvoker commandInvoker)
+        private Game CreateTestableGame(out CommandInvoker commandInvoker)
         {
-            commandInvoker = new TestCommandInvoker();
+            commandInvoker = new CommandInvoker();
             return new Game.Builder()
                 .WithCommandInvoker(commandInvoker)
                 .Build();
-        }
-
-        public class TestCommandInvoker : CommandInvoker
-        {
-            public int Count => commands.Count;
         }
     }
 }

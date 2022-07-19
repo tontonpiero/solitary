@@ -24,11 +24,13 @@ namespace Solitary.Core
 
         private ICommandInvoker commandInvoker;
         private IDeckFactory deckFactory;
+        private IMoveSolver moveSolver;
 
-        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory)
+        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IMoveSolver moveSolver)
         {
             this.commandInvoker = commandInvoker;
             this.deckFactory = deckFactory;
+            this.moveSolver = moveSolver;
         }
 
         public void Start()
@@ -102,6 +104,14 @@ namespace Solitary.Core
             OnMovesChanged?.Invoke();
         }
 
+        public void ResolveNextMove()
+        {
+            if (moveSolver.TrySolve(this, out Deck source, out Deck destination, out int amount))
+            {
+                MoveCards(source, destination, amount);
+            }
+        }
+
         public void Dispose()
         {
             OnMovesChanged = null;
@@ -112,6 +122,7 @@ namespace Solitary.Core
         {
             private ICommandInvoker commandInvoker;
             private IDeckFactory deckFactory;
+            private IMoveSolver moveSolver;
 
             public Builder WithCommandInvoker(ICommandInvoker commandInvoker)
             {
@@ -125,11 +136,18 @@ namespace Solitary.Core
                 return this;
             }
 
+            public Builder WithMoveSolver(IMoveSolver moveSolver)
+            {
+                this.moveSolver = moveSolver;
+                return this;
+            }
+
             public Game Build()
             {
                 return new Game(
                     commandInvoker ?? new CommandInvoker(),
-                    deckFactory ?? new Deck.Factory()
+                    deckFactory ?? new Deck.Factory(),
+                    moveSolver ?? new MoveSolver()
                 );
             }
         }
