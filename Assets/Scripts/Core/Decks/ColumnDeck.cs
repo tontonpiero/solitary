@@ -8,7 +8,7 @@ namespace Solitary.Core
     {
         public override bool CanPush(Card card) => CanStack(TopCard, card);
 
-        private bool CanStack(Card previous, Card next)
+        public bool CanStack(Card previous, Card next)
         {
             if (next == null) return false;
             if (previous == null) return next.Rank == Card.MaxRank;

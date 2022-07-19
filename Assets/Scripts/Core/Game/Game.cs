@@ -82,8 +82,11 @@ namespace Solitary.Core
 
         public void UndoLastMove()
         {
-            commandInvoker.UndoCommand();
-            IncrementMoves();
+            if (commandInvoker.Count > 0)
+            {
+                commandInvoker.UndoCommand();
+                IncrementMoves();
+            }
         }
 
         public void SetScore(int score)

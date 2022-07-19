@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Solitary.UI
@@ -18,12 +17,12 @@ namespace Solitary.UI
         [SerializeField] protected Vector2 revealedOffset = Vector2.zero;
         [SerializeField] protected Vector2 hiddenOffset = Vector2.zero;
 
-        public event Action<DeckView> OnDoubleClickDeck; 
+        public event Action<DeckView> OnDoubleClickDeck;
 
         public List<CardView> CardViews { get; private set; } = new List<CardView>();
         public Deck Deck { get; set; }
 
-        public void AddCardView(CardView cardView)
+        virtual public void AddCardView(CardView cardView)
         {
             cardView.SetDeckView(this);
             cardView.SetTarget(GetNextTargetTransform(), GetNextOffset());
@@ -81,12 +80,16 @@ namespace Solitary.UI
 
         private void UpdateDropZonePosition()
         {
-            Vector2 position = Vector2.zero;
-            foreach (CardView cardView in CardViews)
+            if (CardViews.Count > 0)
             {
-                position += cardView.IsRevealed ? revealedOffset : hiddenOffset;
+                dropZone.transform.SetParent(CardViews.Last().transform);
             }
-            dropZone.localPosition = position;
+            else
+            {
+                dropZone.transform.SetParent(transform);
+            }
+            dropZone.localPosition = Vector3.zero;
+            dropZone.localScale = Vector3.one;
         }
 
         public bool IsCardOverDropZone(CardView cardView)

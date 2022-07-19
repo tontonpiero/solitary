@@ -35,5 +35,10 @@ namespace Solitary.Manager
 
             Game.InitializeColumns();
         }
+
+        public void UndoLastMove()
+        {
+            Game.UndoLastMove();
+        }
     }
 }

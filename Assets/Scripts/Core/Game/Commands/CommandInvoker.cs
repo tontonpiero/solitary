@@ -4,6 +4,8 @@ namespace Solitary.Core
 {
     public class CommandInvoker : ICommandInvoker
     {
+        public int Count => commands.Count;
+
         protected Stack<ICommand> commands;
 
         public CommandInvoker()
