@@ -9,9 +9,11 @@ namespace Solitary.Manager
 {
     public class DeckManager : MonoBehaviour
     {
+        [Header("Managers")]
         [SerializeField] private GameManager gameManager;
         [SerializeField] private CardManager cardManager;
 
+        [Header("Decks")]
         [SerializeField] private DeckView stockDeckView;
         [SerializeField] private DeckView wasteDeckView;
         [SerializeField] private DeckView[] foundationDeckViews;

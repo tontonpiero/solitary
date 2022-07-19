@@ -9,9 +9,11 @@ namespace Solitary.Core
         public const int ColumnsCount = 7;
         public const int FoundationsCount = 4;
 
+        // Game State
         public GameState State { get; private set; } = GameState.NotStarted;
         public int Moves { get; private set; } = 0;
         public int Score { get; private set; } = 0;
+        public float TotalTime { get; private set; } = 0f;
 
         // Decks
         public StockDeck StockDeck { get; private set; }
@@ -19,12 +21,15 @@ namespace Solitary.Core
         public ColumnDeck[] ColumnDecks { get; private set; }
         public FoundationDeck[] FoundationDecks { get; private set; }
 
+        // Events
         public event Action OnScoreChanged;
         public event Action OnMovesChanged;
+        public event Action<GameState> OnStateChanged;
 
-        private ICommandInvoker commandInvoker;
-        private IDeckFactory deckFactory;
-        private IMoveSolver moveSolver;
+        // Systems
+        private readonly ICommandInvoker commandInvoker;
+        private readonly IDeckFactory deckFactory;
+        private readonly IMoveSolver moveSolver;
 
         private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IMoveSolver moveSolver)
         {
@@ -39,7 +44,16 @@ namespace Solitary.Core
 
             CreateDecks();
 
-            State = GameState.Started;
+            SetState(GameState.Started);
+        }
+
+        private void SetState(GameState newState)
+        {
+            if (newState != State)
+            {
+                State = newState;
+                OnStateChanged?.Invoke(newState);
+            }
         }
 
         private void CreateDecks()
@@ -71,6 +85,27 @@ namespace Solitary.Core
             }
         }
 
+        public void Update(float deltaTime)
+        {
+            if (State != GameState.Started) return;
+
+            TotalTime += deltaTime;
+        }
+
+        public void Pause()
+        {
+            if (State != GameState.Started) return;
+
+            SetState(GameState.Paused);
+        }
+
+        public void Resume()
+        {
+            if (State != GameState.Paused) return;
+
+            SetState(GameState.Started);
+        }
+
         public bool CanMoveCard(Deck source, Deck destination, Card card) => source != null && source.CanMoveCardTo(destination, card);
 
         public void MoveCards(Deck source, Deck destination, int amount = 1)
@@ -92,7 +127,7 @@ namespace Solitary.Core
             {
                 if (FoundationDecks[i].Count < 13) return;
             }
-            State = GameState.Over;
+            SetState(GameState.Over);
         }
 
         public void UndoLastMove()

@@ -8,6 +8,7 @@ namespace Solitary.Core
     {
         NotStarted,
         Started,
+        Paused,
         Over
     }
 

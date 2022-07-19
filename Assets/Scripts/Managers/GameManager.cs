@@ -1,5 +1,4 @@
 using Solitary.Core;
-using Solitary.UI;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -8,11 +7,13 @@ namespace Solitary.Manager
 {
     public class GameManager : MonoBehaviour
     {
+        [Header("Managers")]
         [SerializeField] private DeckManager deckManager;
         [SerializeField] private CardManager cardManager;
 
         public event Action OnScoreChanged;
         public event Action OnMovesChanged;
+        public event Action<GameState> OnStateChanged;
 
         private Game game;
         private bool isEnding = false;
@@ -23,18 +24,10 @@ namespace Solitary.Manager
 
             game.OnScoreChanged += OnGameScoreChanged;
             game.OnMovesChanged += OnGameMovesChanged;
+            game.OnStateChanged += OnGameStateChanged;
         }
 
-        private void OnGameScoreChanged() => OnScoreChanged?.Invoke();
-
-        private void OnGameMovesChanged() => OnMovesChanged?.Invoke();
-
-        private void Start()
-        {
-            StartCoroutine(InitializeGame());
-        }
-
-        private IEnumerator InitializeGame()
+        private IEnumerator Start()
         {
             game.Start();
 
@@ -44,6 +37,17 @@ namespace Solitary.Manager
 
             game.InitializeColumns();
         }
+
+        private void Update()
+        {
+            game?.Update(Time.unscaledDeltaTime);
+        }
+
+        private void OnGameScoreChanged() => OnScoreChanged?.Invoke();
+
+        private void OnGameMovesChanged() => OnMovesChanged?.Invoke();
+
+        private void OnGameStateChanged(GameState newState) => OnStateChanged?.Invoke(newState);
 
         public void MoveCards(Deck source, Deck destination, int amount = 1)
         {
@@ -93,15 +97,35 @@ namespace Solitary.Manager
             CheckEndGame();
         }
 
+        public void PauseGame()
+        {
+            if (isEnding) return;
+
+            game.Pause();
+        }
+
+        public void ResumeGame()
+        {
+            game.Resume();
+        }
+
+        public void StartNewGame()
+        {
+            // TODO
+        }
+
         public int GetScore() => game.Score;
 
         public int GetMoves() => game.Moves;
+
+        public float GetTotalTime() => game.TotalTime;
 
         private void OnDestroy()
         {
             game.Dispose();
             OnScoreChanged = null;
             OnMovesChanged = null;
+            OnStateChanged = null;
         }
     }
 }
