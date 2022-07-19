@@ -55,7 +55,14 @@ namespace Solitary.UI
         public void SetCard(Card card)
         {
             this.Card = card;
+            card.OnVisibilityChanged += OnVisibilityChanged;
             DressUp();
+        }
+
+        private void OnVisibilityChanged()
+        {
+            if (Card.IsVisible) Reveal();
+            else Hide();
         }
 
         public void SetDeckView(DeckView deckView)

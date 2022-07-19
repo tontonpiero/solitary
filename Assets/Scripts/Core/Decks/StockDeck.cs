@@ -14,6 +14,14 @@ namespace Solitary.Core
             this.cardFactory = cardFactory;
         }
 
+        protected override void OnChanged()
+        {
+            foreach (Card card in cards)
+            {
+                card.Hide();
+            }
+        }
+
         public override bool CanMoveCardTo(Deck destination, Card card)
         {
             if (!(destination is WasteDeck)) return false;

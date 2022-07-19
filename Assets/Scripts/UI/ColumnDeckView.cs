@@ -22,7 +22,8 @@ namespace Solitary
 
                 if (!legitMove)
                 {
-                    previousCardView.Hide();
+                    previousCardView.Card.Reveal();
+                    previousCardView.Card.Hide();
                 }
             }
 

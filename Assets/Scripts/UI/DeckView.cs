@@ -9,8 +9,7 @@ namespace Solitary.UI
 {
     public class DeckView : MonoBehaviour, IPointerDownHandler
     {
-        [Header("Deck special behaviours")]
-        [SerializeField] protected DeckViewBehaviour behaviour = DeckViewBehaviour.None;
+        [Header("Drop zone")]
         [SerializeField] protected Transform dropZone;
 
         [Header("Cards Layout")]
@@ -28,36 +27,13 @@ namespace Solitary.UI
             cardView.SetTarget(GetNextTargetTransform(), GetNextOffset());
             cardView.transform.SetAsLastSibling();
             CardViews.Add(cardView);
-            CheckTopCard();
             UpdateDropZonePosition();
         }
 
         public void RemoveCardView(CardView cardView)
         {
             CardViews.Remove(cardView);
-            CheckTopCard();
             UpdateDropZonePosition();
-        }
-
-        private void CheckTopCard()
-        {
-            if (CardViews.Count == 0) return;
-            CardView cardView = CardViews.Last();
-            switch (behaviour)
-            {
-                case DeckViewBehaviour.AllCardsHidden:
-                    cardView.Hide();
-                    break;
-                case DeckViewBehaviour.AllCardsRevealed:
-                    cardView.Reveal();
-                    break;
-                case DeckViewBehaviour.TopCardRevealed:
-                    if (cardView.Card == Deck.TopCard)
-                    {
-                        cardView.Reveal();
-                    }
-                    break;
-            }
         }
 
         private Transform GetNextTargetTransform()

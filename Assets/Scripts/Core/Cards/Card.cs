@@ -1,3 +1,5 @@
+using System;
+
 namespace Solitary.Core
 {
 
@@ -8,11 +10,15 @@ namespace Solitary.Core
         public const int MinValue = (int)CardRank.Ace;
         public const int MaxValue = (int)CardRank.King;
 
+        public event Action OnVisibilityChanged;
+
         private Card(CardRank rank, CardSuit suit)
         {
             Rank = rank;
             Suit = suit;
         }
+
+        public bool IsVisible { get; private set; } = false;
 
         public CardRank Rank { get; private set; }
 
@@ -21,6 +27,24 @@ namespace Solitary.Core
         public int Value => (int)Rank;
 
         public CardColor Color => (Suit == CardSuit.Hearts || Suit == CardSuit.Diamonds) ? CardColor.Red : CardColor.Black;
+
+        public void Reveal()
+        {
+            if (IsVisible == false)
+            {
+                IsVisible = true;
+                OnVisibilityChanged?.Invoke();
+            }
+        }
+
+        public void Hide()
+        {
+            if (IsVisible == true)
+            {
+                IsVisible = false;
+                OnVisibilityChanged?.Invoke();
+            }
+        }
 
         public static bool operator ==(Card c1, Card c2)
         {

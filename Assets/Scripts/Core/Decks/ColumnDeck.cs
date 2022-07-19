@@ -6,6 +6,11 @@ namespace Solitary.Core
 
     public class ColumnDeck : Deck
     {
+        protected override void OnChanged()
+        {
+            TopCard?.Reveal();
+        }
+
         public override bool CanPush(Card card) => CanStack(TopCard, card);
 
         public bool CanStack(Card previous, Card next)
