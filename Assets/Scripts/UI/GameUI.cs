@@ -1,21 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Solitary
+namespace Solitary.UI
 {
     public class GameUI : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        [Header("Managers")]
+        [SerializeField] private LevelManager levelManager;
 
-        // Update is called once per frame
-        void Update()
+        public async void ExitGame()
         {
-        
+            await levelManager.LoadAsync("home");
         }
     }
 }

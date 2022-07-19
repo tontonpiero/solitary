@@ -11,11 +11,8 @@ namespace Solitary.UI
         [Header("Managers")]
         [SerializeField] GameManager gameManager;
 
-        private Canvas canvas;
-
         private void Awake()
         {
-            canvas = GetComponent<Canvas>();
             Hide();
             gameManager.OnStateChanged += OnGameStateChanged;
         }
@@ -34,12 +31,12 @@ namespace Solitary.UI
 
         public void Show()
         {
-            canvas.enabled = true;
+            gameObject.SetActive(true);
         }
 
         public void Hide()
         {
-            canvas.enabled = false;
+            gameObject.SetActive(false);
         }
 
         public void OnClickNewGame()

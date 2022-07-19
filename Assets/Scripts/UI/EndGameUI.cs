@@ -16,11 +16,8 @@ namespace Solitary.UI
         [SerializeField] private TMP_Text textTime;
         [SerializeField] private TMP_Text textScore;
 
-        private Canvas canvas;
-
         private void Awake()
         {
-            canvas = GetComponent<Canvas>();
             Hide();
             gameManager.OnStateChanged += OnGameStateChanged;
         }
@@ -35,7 +32,7 @@ namespace Solitary.UI
 
         public void Show()
         {
-            canvas.enabled = true;
+            gameObject.SetActive(true);
 
             textMoves.text = gameManager.GetMoves().ToString();
             TimeSpan time = TimeSpan.FromSeconds(gameManager.GetTotalTime());
@@ -45,7 +42,7 @@ namespace Solitary.UI
 
         public void Hide()
         {
-            canvas.enabled = false;
+            gameObject.SetActive(false);
         }
 
         public void OnClickNewGame()
