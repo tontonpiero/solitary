@@ -73,7 +73,10 @@ namespace Solitary.Manager
 
         private IEnumerator EndGame()
         {
-            AudioManager.Instance.PlaySound("move_cards");
+            if (game.ResolveNextMove())
+            {
+                AudioManager.Instance.PlaySound("move_cards");
+            }
             isEnding = true;
             while (game.ResolveNextMove())
             {

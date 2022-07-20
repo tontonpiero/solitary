@@ -57,7 +57,10 @@ namespace Solitary.Manager
 
         private void OnCardDragComplete(CardView cardView)
         {
-            deckManager.TryDropCardView(cardView);
+            if (!deckManager.TryDropCardView(cardView))
+            {
+                AudioManager.Instance.PlaySound("move_card_wrong");
+            }
         }
 
         private void Update()

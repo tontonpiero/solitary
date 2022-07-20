@@ -21,6 +21,8 @@ namespace Solitary.UI
         public List<CardView> CardViews { get; private set; } = new List<CardView>();
         public Deck Deck { get; set; }
 
+        private Vector2 screenScale = new Vector2(Screen.width / 600f, Screen.height / 900f);
+
         virtual public void AddCardView(CardView cardView)
         {
             cardView.SetDeckView(this);
@@ -51,7 +53,11 @@ namespace Solitary.UI
         private Vector2 GetNextOffset()
         {
             if (CardViews.Count == 0) return Vector2.zero;
-            return CardViews.Last().IsRevealed ? revealedOffset : hiddenOffset;
+            Vector2 offset = CardViews.Last().IsRevealed ? revealedOffset : hiddenOffset;
+
+            offset *= screenScale;
+
+            return offset;
         }
 
         private void UpdateDropZonePosition()
