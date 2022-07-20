@@ -44,6 +44,8 @@ namespace Solitary.Core
         {
             if (State != GameState.NotStarted) return;
 
+            SetState(GameState.Started);
+
             CreateDecks();
 
             if (gameSaver.HasData())
@@ -55,8 +57,6 @@ namespace Solitary.Core
                 StockDeck.Fill();
                 StockDeck.Shuffle();
             }
-
-            SetState(GameState.Started);
         }
 
         private void SetState(GameState newState)
@@ -87,7 +87,7 @@ namespace Solitary.Core
             }
         }
 
-        public void InitializeColumns()
+        public void Deal()
         {
             for (int i = 0; i < ColumnDecks.Length; i++)
             {

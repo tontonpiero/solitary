@@ -37,7 +37,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            game.InitializeColumns();
+            game.Deal();
 
             int columnCardsCount = 0;
             for (int i = 0; i < Game.ColumnsCount; i++)

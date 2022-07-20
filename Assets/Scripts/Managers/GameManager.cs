@@ -36,7 +36,7 @@ namespace Solitary.Manager
             if (game.IsNew)
             {
                 yield return new WaitForSeconds(0.5f);
-                game.InitializeColumns();
+                game.Deal();
                 AudioManager.Instance.PlaySound("move_cards");
             }
         }
