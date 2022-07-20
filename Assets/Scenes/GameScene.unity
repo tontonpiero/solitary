@@ -3709,7 +3709,7 @@ MonoBehaviour:
   gameManager: {fileID: 1824285033}
   cardManager: {fileID: 861669819}
   stockDeckView: {fileID: 414033115}
-  wasteDeckView: {fileID: 1619627449}
+  ReserveDeckView: {fileID: 1619627449}
   foundationDeckViews:
   - {fileID: 1360061068}
   - {fileID: 1384861043}
@@ -4224,7 +4224,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2348158080617512468, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_Name
-      value: WasteDeckView
+      value: ReserveDeckView
       objectReference: {fileID: 0}
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_Pivot.x
@@ -4337,7 +4337,7 @@ GameObject:
   - component: {fileID: 1602524750}
   - component: {fileID: 1602524749}
   m_Layer: 5
-  m_Name: Waste
+  m_Name: Reserve
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

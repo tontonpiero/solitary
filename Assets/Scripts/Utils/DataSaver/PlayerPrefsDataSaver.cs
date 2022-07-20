@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
 
-namespace Solitary.Core
+namespace Solitary.Utils
 {
-    public class PlayerPrefsDataSource<T> : IDataSource<T> where T : new()
+    public class PlayerPrefsDataSaver<T> : IDataSaver<T> where T : new()
     {
         private readonly string key;
 
-        public PlayerPrefsDataSource(string key)
+        public PlayerPrefsDataSaver(string key)
         {
             this.key = key;
         }

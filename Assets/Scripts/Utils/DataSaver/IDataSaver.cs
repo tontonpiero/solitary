@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
-
-namespace Solitary.Core
+namespace Solitary.Utils
 {
-    public interface IDataSource<T> where T : new()
+    public interface IDataSaver<T> where T : new()
     {
         T LoadData();
         void SaveData(T data);

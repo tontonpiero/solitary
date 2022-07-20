@@ -1,15 +1,17 @@
+using Solitary.Utils;
+
 namespace Solitary.Core
 {
     public partial class Game
     {
         public class Saver : IGameSaver
         {
-            //public const string 
-            private readonly IDataSource<GameSaveData> dataSource;
+            public const string SaveGamePrefKey = "last_saved_game";
+            private readonly IDataSaver<GameSaveData> dataSource;
 
             public Saver()
             {
-                dataSource = new PlayerPrefsDataSource<GameSaveData>("last_saved_game");
+                dataSource = new PlayerPrefsDataSaver<GameSaveData>(SaveGamePrefKey);
             }
 
             public void Save(Game game)
@@ -38,6 +40,9 @@ namespace Solitary.Core
                 {
                     data.cData[i] = game.ColumnDecks[i].Save();
                 }
+
+                // TODO : save commands history
+
                 return data;
             }
 
@@ -63,6 +68,8 @@ namespace Solitary.Core
                     game.ColumnDecks[i].Load(data.cData[i]);
                 }
                 game.IsNew = false;
+
+                // TODO : load commands history
             }
 
             public void ClearData() => dataSource.ClearData();

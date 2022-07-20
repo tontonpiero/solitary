@@ -6,7 +6,7 @@ namespace Solitary.Core
         {
             private ICommandInvoker commandInvoker;
             private IDeckFactory deckFactory;
-            private IMoveSolver moveSolver;
+            private IGameSolver gameSolver;
             private IGameSaver gameSaver;
 
             public Builder WithCommandInvoker(ICommandInvoker commandInvoker)
@@ -21,9 +21,9 @@ namespace Solitary.Core
                 return this;
             }
 
-            public Builder WithMoveSolver(IMoveSolver moveSolver)
+            public Builder WithGameSolver(IGameSolver gameSolver)
             {
-                this.moveSolver = moveSolver;
+                this.gameSolver = gameSolver;
                 return this;
             }
 
@@ -38,7 +38,7 @@ namespace Solitary.Core
                 return new Game(
                     commandInvoker ?? new CommandInvoker(),
                     deckFactory ?? new Deck.Factory(),
-                    moveSolver ?? new MoveSolver(),
+                    gameSolver ?? new GameSolver(),
                     gameSaver ?? new Game.Saver()
                 );
             }

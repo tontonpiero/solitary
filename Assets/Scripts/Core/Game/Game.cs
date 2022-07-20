@@ -29,14 +29,14 @@ namespace Solitary.Core
         // Systems
         private readonly ICommandInvoker commandInvoker;
         private readonly IDeckFactory deckFactory;
-        private readonly IMoveSolver moveSolver;
+        private readonly IGameSolver gameSolver;
         private readonly IGameSaver gameSaver;
 
-        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IMoveSolver moveSolver, IGameSaver gameSaver)
+        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IGameSolver gameSolver, IGameSaver gameSaver)
         {
             this.commandInvoker = commandInvoker;
             this.deckFactory = deckFactory;
-            this.moveSolver = moveSolver;
+            this.gameSolver = gameSolver;
             this.gameSaver = gameSaver;
         }
 
@@ -181,7 +181,7 @@ namespace Solitary.Core
         {
             if (State != GameState.Started) return false;
 
-            if (moveSolver.TrySolve(this, out Deck source, out Deck destination, out int amount))
+            if (gameSolver.TrySolve(this, out Deck source, out Deck destination, out int amount))
             {
                 MoveCards(source, destination, amount);
                 return true;

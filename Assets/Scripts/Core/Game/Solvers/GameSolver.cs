@@ -1,6 +1,6 @@
 namespace Solitary.Core
 {
-    public class MoveSolver : IMoveSolver
+    public class GameSolver : IGameSolver
     {
 
         public bool TrySolve(Game game, out Deck source, out Deck destination, out int amount)
