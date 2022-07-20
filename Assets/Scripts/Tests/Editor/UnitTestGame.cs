@@ -325,10 +325,23 @@ namespace Solitary.Tests
         }
 
         [Test]
+        public void Test_Game_Timer_NoMove()
+        {
+            Game game = CreateTestableGame(out _);
+            game.Start();
+
+            game.Update(1f);
+
+            Assert.That(game.TotalTime, Is.EqualTo(0f));
+        }
+
+        [Test]
         public void Test_Game_Timer()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
+
+            game.SetMoves(1);
 
             game.Update(1f);
 
@@ -340,6 +353,8 @@ namespace Solitary.Tests
         {
             Game game = CreateTestableGame(out _);
             game.Start();
+
+            game.SetMoves(1);
 
             game.Update(1f);
 
