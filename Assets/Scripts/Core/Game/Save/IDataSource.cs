@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Solitaire.Core
+namespace Solitary.Core
 {
     public interface IDataSource<T> where T : new()
     {

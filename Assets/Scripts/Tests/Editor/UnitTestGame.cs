@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Solitary.Core;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace Solitary.Tests
@@ -298,6 +299,57 @@ namespace Solitary.Tests
 
             Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints * 2));
             Assert.That(game.Moves, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Test_Pause_Game()
+        {
+            Game game = CreateTestableGame(out _);
+            game.Start();
+
+            Assert.That(game.State, Is.EqualTo(GameState.Started));
+            game.Pause();
+            Assert.That(game.State, Is.EqualTo(GameState.Paused));
+        }
+
+        [Test]
+        public void Test_Resume_Game()
+        {
+            Game game = CreateTestableGame(out _);
+            game.Start();
+
+            game.Pause();
+            Assert.That(game.State, Is.EqualTo(GameState.Paused));
+            game.Resume();
+            Assert.That(game.State, Is.EqualTo(GameState.Started));
+        }
+
+        [Test]
+        public void Test_Game_Timer()
+        {
+            Game game = CreateTestableGame(out _);
+            game.Start();
+
+            game.Update(1f);
+
+            Assert.That(game.TotalTime, Is.EqualTo(1f));
+        }
+
+        [Test]
+        public void Test_Game_Pause_Timer()
+        {
+            Game game = CreateTestableGame(out _);
+            game.Start();
+
+            game.Update(1f);
+
+            Assert.That(game.TotalTime, Is.EqualTo(1f));
+
+            game.Pause();
+
+            game.Update(1f);
+
+            Assert.That(game.TotalTime, Is.EqualTo(1f));
         }
 
         private Game CreateTestableGame(out CommandInvoker commandInvoker)

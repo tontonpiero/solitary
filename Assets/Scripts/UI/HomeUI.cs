@@ -18,7 +18,7 @@ namespace Solitary.UI
 
         public async void OnClickNewGame()
         {
-            GameSaver gameSaver = new GameSaver();
+            IGameSaver gameSaver = new Game.Saver();
             gameSaver.ClearData();
             await levelManager.LoadAsync("game");
         }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Solitaire.Core
+namespace Solitary.Core
 {
     public class PlayerPrefsDataSource<T> : IDataSource<T> where T : new()
     {

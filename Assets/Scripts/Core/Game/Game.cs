@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 
 namespace Solitary.Core
 {
 
-    public class Game : IDisposable
+    public partial class Game : IDisposable
     {
         public const int ColumnsCount = 7;
         public const int FoundationsCount = 4;
@@ -190,93 +189,10 @@ namespace Solitary.Core
             return false;
         }
 
-        public GameSaveData GetSaveData()
-        {
-            GameSaveData data = new GameSaveData()
-            {
-                Moves = Moves,
-                Score = Score,
-                TotalTime = TotalTime,
-                sData = StockDeck.Save(),
-                wData = WasteDeck.Save(),
-                fData = new DeckData[FoundationsCount],
-                cData = new DeckData[ColumnsCount]
-            };
-            for (int i = 0; i < FoundationsCount; i++)
-            {
-                data.fData[i] = FoundationDecks[i].Save();
-            }
-            for (int i = 0; i < ColumnsCount; i++)
-            {
-                data.cData[i] = ColumnDecks[i].Save();
-            }
-            return data;
-        }
-
-        public void LoadSaveData(GameSaveData data)
-        {
-            SetMoves(data.Moves);
-            SetScore(data.Score);
-            TotalTime = data.TotalTime;
-            StockDeck.Load(data.sData);
-            WasteDeck.Load(data.wData);
-            for (int i = 0; i < FoundationsCount; i++)
-            {
-                FoundationDecks[i].Load(data.fData[i]);
-            }
-            for (int i = 0; i < ColumnsCount; i++)
-            {
-                ColumnDecks[i].Load(data.cData[i]);
-            }
-            IsNew = false;
-        }
-
         public void Dispose()
         {
             OnMovesChanged = null;
             OnScoreChanged = null;
-        }
-
-        public class Builder
-        {
-            private ICommandInvoker commandInvoker;
-            private IDeckFactory deckFactory;
-            private IMoveSolver moveSolver;
-            private IGameSaver gameSaver;
-
-            public Builder WithCommandInvoker(ICommandInvoker commandInvoker)
-            {
-                this.commandInvoker = commandInvoker;
-                return this;
-            }
-
-            public Builder WithDeckFactory(IDeckFactory deckFactory)
-            {
-                this.deckFactory = deckFactory;
-                return this;
-            }
-
-            public Builder WithMoveSolver(IMoveSolver moveSolver)
-            {
-                this.moveSolver = moveSolver;
-                return this;
-            }
-
-            public Builder WithGameSaver(IGameSaver gameSaver)
-            {
-                this.gameSaver = gameSaver;
-                return this;
-            }
-
-            public Game Build()
-            {
-                return new Game(
-                    commandInvoker ?? new CommandInvoker(),
-                    deckFactory ?? new Deck.Factory(),
-                    moveSolver ?? new MoveSolver(),
-                    gameSaver ?? new GameSaver()
-                );
-            }
         }
     }
 
