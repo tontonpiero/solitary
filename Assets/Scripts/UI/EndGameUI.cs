@@ -37,7 +37,7 @@ namespace Solitary.UI
 
             textMoves.text = gameManager.GetMoves().ToString();
             TimeSpan time = TimeSpan.FromSeconds(gameManager.GetTotalTime());
-            textTime.text = $"{time.TotalMinutes:00}:{time.TotalSeconds:00}";
+            textTime.text = time.ToString(@"mm\:ss");
             textScore.text = gameManager.GetScore().ToString();
             
             StartCoroutine(DelayPlayVictorySound());

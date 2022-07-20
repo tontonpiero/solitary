@@ -98,6 +98,7 @@ namespace Solitary.Core
         public void Update(float deltaTime)
         {
             if (State != GameState.Started) return;
+            if (Moves == 0) return;
 
             TotalTime += deltaTime;
         }
@@ -107,6 +108,8 @@ namespace Solitary.Core
             if (State != GameState.Started) return;
 
             SetState(GameState.Paused);
+
+            Save();
         }
 
         public void Resume()
@@ -114,6 +117,14 @@ namespace Solitary.Core
             if (State != GameState.Paused) return;
 
             SetState(GameState.Started);
+        }
+
+        public void Save()
+        {
+            if (State != GameState.Started && State != GameState.Paused) return;
+            if (Moves == 0) return;
+
+            gameSaver.Save(this);
         }
 
         public bool CanMoveCard(Deck source, Deck destination, Card card) => source != null && source.CanMoveCardTo(destination, card);
@@ -129,7 +140,7 @@ namespace Solitary.Core
 
             SetMoves(Moves + 1);
 
-            gameSaver.Save(this);
+            Save();
 
             CheckGameOver();
         }
@@ -141,6 +152,8 @@ namespace Solitary.Core
                 if (FoundationDecks[i].Count < 13) return;
             }
             SetState(GameState.Over);
+
+            gameSaver.ClearData();
         }
 
         public bool UndoLastMove()
@@ -153,7 +166,7 @@ namespace Solitary.Core
 
                 SetMoves(Moves + 1);
 
-                gameSaver.Save(this);
+                Save();
 
                 return true;
             }
@@ -193,6 +206,7 @@ namespace Solitary.Core
         {
             OnMovesChanged = null;
             OnScoreChanged = null;
+            OnStateChanged = null;
         }
     }
 

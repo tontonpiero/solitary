@@ -16,7 +16,7 @@ namespace Solitary.Manager
         public event Action<GameState> OnStateChanged;
 
         private Game game;
-        private bool isEnding = false;
+        private bool preventMove = false;
 
         private void Awake()
         {
@@ -35,15 +35,26 @@ namespace Solitary.Manager
 
             if (game.IsNew)
             {
+                preventMove = true;
                 yield return new WaitForSeconds(0.5f);
                 game.Deal();
                 AudioManager.Instance.PlaySound("move_cards");
+                yield return new WaitForSeconds(1f);
+                preventMove = false;
             }
         }
 
         private void Update()
         {
             game?.Update(Time.unscaledDeltaTime);
+        }
+
+        private void OnApplicationPause(bool pause)
+        {
+            if (pause)
+            {
+                SaveGame();
+            }
         }
 
         private void OnGameScoreChanged() => OnScoreChanged?.Invoke();
@@ -54,7 +65,7 @@ namespace Solitary.Manager
 
         public void MoveCards(Deck source, Deck destination, int amount = 1)
         {
-            if (isEnding) return;
+            if (preventMove) return;
 
             game.MoveCards(source, destination, amount);
 
@@ -77,22 +88,17 @@ namespace Solitary.Manager
             {
                 AudioManager.Instance.PlaySound("move_cards");
             }
-            isEnding = true;
+            preventMove = true;
             while (game.ResolveNextMove())
             {
                 yield return null;
             }
-            isEnding = false;
-
-            if (game.State == GameState.Over)
-            {
-                Debug.Log("You win!");
-            }
+            preventMove = false;
         }
 
         public void UndoLastMove()
         {
-            if (isEnding) return;
+            if (preventMove) return;
 
             if (game.UndoLastMove())
             {
@@ -103,7 +109,7 @@ namespace Solitary.Manager
 
         public void ResolveNextMove()
         {
-            if (isEnding) return;
+            if (preventMove) return;
 
             if (game.ResolveNextMove())
             {
@@ -115,7 +121,7 @@ namespace Solitary.Manager
 
         public void PauseGame()
         {
-            if (isEnding) return;
+            if (preventMove) return;
 
             game.Pause();
         }
@@ -123,6 +129,11 @@ namespace Solitary.Manager
         public void ResumeGame()
         {
             game.Resume();
+        }
+
+        public void SaveGame()
+        {
+            game.Save();
         }
 
         public int GetScore() => game.Score;
