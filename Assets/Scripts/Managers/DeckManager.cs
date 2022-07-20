@@ -15,7 +15,7 @@ namespace Solitary.Manager
 
         [Header("Decks")]
         [SerializeField] private DeckView stockDeckView;
-        [SerializeField] private DeckView wasteDeckView;
+        [SerializeField] private DeckView ReserveDeckView;
         [SerializeField] private DeckView[] foundationDeckViews;
         [SerializeField] private DeckView[] columnDeckViews;
 
@@ -26,7 +26,7 @@ namespace Solitary.Manager
         public void InitializeDecks(Game game)
         {
             SetupDeckView(stockDeckView, game.StockDeck);
-            SetupDeckView(wasteDeckView, game.WasteDeck);
+            SetupDeckView(ReserveDeckView, game.ReserveDeck);
             for (int i = 0; i < Game.FoundationsCount; i++)
             {
                 SetupDeckView(foundationDeckViews[i], game.FoundationDecks[i]);
@@ -60,21 +60,21 @@ namespace Solitary.Manager
         {
             if (drawView.Deck is StockDeck)
             {
-                DrawNextWaste();
+                DrawNextReserve();
             }
         }
 
-        private void DrawNextWaste()
+        private void DrawNextReserve()
         {
             int stockCount = stockDeckView.Deck.Count;
-            int wasteCount = wasteDeckView.Deck.Count;
+            int ReserveCount = ReserveDeckView.Deck.Count;
             if (stockCount > 0)
             {
-                gameManager.MoveCards(stockDeckView.Deck, wasteDeckView.Deck, 1);
+                gameManager.MoveCards(stockDeckView.Deck, ReserveDeckView.Deck, 1);
             }
             else
             {
-                gameManager.MoveCards(wasteDeckView.Deck, stockDeckView.Deck, wasteCount);
+                gameManager.MoveCards(ReserveDeckView.Deck, stockDeckView.Deck, ReserveCount);
             }
         }
 

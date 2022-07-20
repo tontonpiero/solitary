@@ -11,7 +11,7 @@ namespace Solitary.Core
         public float TotalTime;
 
         public DeckData sData; // stock deck
-        public DeckData wData; // waste deck
+        public DeckData wData; // Reserve deck
         public DeckData[] fData; // foundation decks
         public DeckData[] cData; // column decks
     }

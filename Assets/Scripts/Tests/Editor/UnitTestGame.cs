@@ -23,8 +23,8 @@ namespace Solitary.Tests
             Assert.That(game.State, Is.EqualTo(GameState.Started));
             Assert.That(game.StockDeck, Is.Not.Null);
             Assert.That(game.StockDeck.Count, Is.EqualTo(52));
-            Assert.That(game.WasteDeck, Is.Not.Null);
-            Assert.That(game.WasteDeck.Count, Is.EqualTo(0));
+            Assert.That(game.ReserveDeck, Is.Not.Null);
+            Assert.That(game.ReserveDeck.Count, Is.EqualTo(0));
             Assert.That(game.ColumnDecks, Is.Not.Null);
             Assert.That(game.ColumnDecks.Length, Is.EqualTo(Game.ColumnsCount));
             Assert.That(game.FoundationDecks, Is.Not.Null);
@@ -62,7 +62,7 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCard(game.StockDeck, game.WasteDeck, game.StockDeck.TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.ReserveDeck, game.StockDeck.TopCard), Is.True);
             Assert.That(game.CanMoveCard(game.StockDeck, game.FoundationDecks[0], game.StockDeck.TopCard), Is.False);
             Assert.That(game.CanMoveCard(game.StockDeck, game.ColumnDecks[0], game.StockDeck.TopCard), Is.False);
         }
@@ -75,13 +75,13 @@ namespace Solitary.Tests
 
             int moveAmount = 3;
             int initialStockCount = game.StockDeck.Count;
-            int initialWasteCount = game.WasteDeck.Count;
+            int initialReserveCount = game.ReserveDeck.Count;
             Card initialStockTopCard = game.StockDeck.TopCard;
-            game.MoveCards(game.StockDeck, game.WasteDeck, moveAmount);
+            game.MoveCards(game.StockDeck, game.ReserveDeck, moveAmount);
 
             Assert.That(game.StockDeck.Count, Is.EqualTo(initialStockCount - moveAmount));
-            Assert.That(game.WasteDeck.Count, Is.EqualTo(initialWasteCount + moveAmount));
-            Assert.That(game.WasteDeck.TopCard, Is.EqualTo(initialStockTopCard));
+            Assert.That(game.ReserveDeck.Count, Is.EqualTo(initialReserveCount + moveAmount));
+            Assert.That(game.ReserveDeck.TopCard, Is.EqualTo(initialStockTopCard));
             Assert.That(commandInvoker.Count, Is.EqualTo(1));
         }
 
@@ -93,25 +93,25 @@ namespace Solitary.Tests
 
             int moveAmount = 3;
             int initialStockCount = game.StockDeck.Count;
-            int initialWasteCount = game.WasteDeck.Count;
+            int initialReserveCount = game.ReserveDeck.Count;
             Card initialStockTopCard = game.StockDeck.TopCard;
 
-            game.MoveCards(game.StockDeck, game.WasteDeck, moveAmount);
+            game.MoveCards(game.StockDeck, game.ReserveDeck, moveAmount);
             game.UndoLastMove();
 
             Assert.That(game.StockDeck.Count, Is.EqualTo(initialStockCount));
-            Assert.That(game.WasteDeck.Count, Is.EqualTo(initialWasteCount));
+            Assert.That(game.ReserveDeck.Count, Is.EqualTo(initialReserveCount));
             Assert.That(game.StockDeck.TopCard, Is.EqualTo(initialStockTopCard));
             Assert.That(commandInvoker.Count, Is.EqualTo(0));
         }
 
         [Test]
-        public void Test_Can_Move_From_Stock_To_Waste()
+        public void Test_Can_Move_From_Stock_To_Reserve()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCard(game.StockDeck, game.WasteDeck, game.StockDeck.TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.StockDeck, game.ReserveDeck, game.StockDeck.TopCard), Is.True);
         }
 
         [Test]
@@ -142,45 +142,45 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Cant_Move_From_Waste_To_Stock()
+        public void Test_Cant_Move_From_Reserve_To_Stock()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
-            game.MoveCards(game.StockDeck, game.WasteDeck, 1);
+            game.MoveCards(game.StockDeck, game.ReserveDeck, 1);
 
-            Assert.That(game.CanMoveCard(game.WasteDeck, game.StockDeck, game.WasteDeck.TopCard), Is.False);
+            Assert.That(game.CanMoveCard(game.ReserveDeck, game.StockDeck, game.ReserveDeck.TopCard), Is.False);
         }
 
         [Test]
-        public void Test_Cant_Move_From_Waste_To_Waste()
+        public void Test_Cant_Move_From_Reserve_To_Reserve()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
-            game.MoveCards(game.StockDeck, game.WasteDeck, 1);
+            game.MoveCards(game.StockDeck, game.ReserveDeck, 1);
 
-            Assert.That(game.CanMoveCard(game.WasteDeck, game.WasteDeck, game.WasteDeck.TopCard), Is.False);
+            Assert.That(game.CanMoveCard(game.ReserveDeck, game.ReserveDeck, game.ReserveDeck.TopCard), Is.False);
         }
 
         [Test]
-        public void Test_Can_Move_From_Waste_To_Foundation()
+        public void Test_Can_Move_From_Reserve_To_Foundation()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
             game.StockDeck.Push(cardFactory.Create(CardRank.Ace, CardSuit.Hearts));
-            game.MoveCards(game.StockDeck, game.WasteDeck, 1);
+            game.MoveCards(game.StockDeck, game.ReserveDeck, 1);
 
-            Assert.That(game.CanMoveCard(game.WasteDeck, game.FoundationDecks[0], game.WasteDeck.TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.ReserveDeck, game.FoundationDecks[0], game.ReserveDeck.TopCard), Is.True);
         }
 
         [Test]
-        public void Test_Can_Move_From_Waste_To_Column()
+        public void Test_Can_Move_From_Reserve_To_Column()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
-            game.WasteDeck.Push(cardFactory.Create(CardRank.King, CardSuit.Hearts));
+            game.ReserveDeck.Push(cardFactory.Create(CardRank.King, CardSuit.Hearts));
             game.ColumnDecks[0].Pick(game.ColumnDecks[0].Count);
 
-            Assert.That(game.CanMoveCard(game.WasteDeck, game.ColumnDecks[0], game.WasteDeck.TopCard), Is.True);
+            Assert.That(game.CanMoveCard(game.ReserveDeck, game.ColumnDecks[0], game.ReserveDeck.TopCard), Is.True);
         }
 
         [Test]
@@ -196,12 +196,12 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Cant_Move_From_Column_To_Waste()
+        public void Test_Cant_Move_From_Column_To_Reserve()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
 
-            Assert.That(game.CanMoveCard(game.ColumnDecks[0], game.WasteDeck, game.ColumnDecks[0].TopCard), Is.False);
+            Assert.That(game.CanMoveCard(game.ColumnDecks[0], game.ReserveDeck, game.ColumnDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -235,13 +235,13 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_Cant_Move_From_Foundation_To_Waste()
+        public void Test_Cant_Move_From_Foundation_To_Reserve()
         {
             Game game = CreateTestableGame(out _);
             game.Start();
             game.FoundationDecks[0].Push(cardFactory.Create(CardRank.Ace, CardSuit.Hearts));
 
-            Assert.That(game.CanMoveCard(game.FoundationDecks[0], game.WasteDeck, game.FoundationDecks[0].TopCard), Is.False);
+            Assert.That(game.CanMoveCard(game.FoundationDecks[0], game.ReserveDeck, game.FoundationDecks[0].TopCard), Is.False);
         }
 
         [Test]
@@ -274,30 +274,30 @@ namespace Solitary.Tests
             game.Start();
 
             game.ColumnDecks[0].Push(cardFactory.Create(CardRank.Seven, CardSuit.Hearts));
-            game.WasteDeck.Push(cardFactory.Create(CardRank.Five, CardSuit.Diamonds));
-            game.WasteDeck.Push(cardFactory.Create(CardRank.Six, CardSuit.Spades));
+            game.ReserveDeck.Push(cardFactory.Create(CardRank.Five, CardSuit.Diamonds));
+            game.ReserveDeck.Push(cardFactory.Create(CardRank.Six, CardSuit.Spades));
 
             Assert.That(game.Score, Is.EqualTo(0));
             Assert.That(game.Moves, Is.EqualTo(0));
 
-            game.MoveCards(game.WasteDeck, game.ColumnDecks[0], 1);
+            game.MoveCards(game.ReserveDeck, game.ColumnDecks[0], 1);
 
-            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints));
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints));
             Assert.That(game.Moves, Is.EqualTo(1));
 
-            game.MoveCards(game.WasteDeck, game.ColumnDecks[0], 1);
+            game.MoveCards(game.ReserveDeck, game.ColumnDecks[0], 1);
 
-            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints * 2));
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints * 2));
             Assert.That(game.Moves, Is.EqualTo(2));
 
             game.UndoLastMove();
 
-            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints));
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints));
             Assert.That(game.Moves, Is.EqualTo(3));
 
-            game.MoveCards(game.WasteDeck, game.ColumnDecks[0], 1);
+            game.MoveCards(game.ReserveDeck, game.ColumnDecks[0], 1);
 
-            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.WasteToColumnPoints * 2));
+            Assert.That(game.Score, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints * 2));
             Assert.That(game.Moves, Is.EqualTo(4));
         }
 

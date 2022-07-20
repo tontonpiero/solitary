@@ -104,7 +104,7 @@ namespace Solitary.Core
 
             public StockDeck CreateStockDeck() => new StockDeck(new Card.Factory());
 
-            public WasteDeck CreateWasteDeck() => new WasteDeck();
+            public ReserveDeck CreateReserveDeck() => new ReserveDeck();
         }
     }
 

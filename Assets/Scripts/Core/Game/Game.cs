@@ -17,7 +17,7 @@ namespace Solitary.Core
 
         // Decks
         public StockDeck StockDeck { get; private set; }
-        public WasteDeck WasteDeck { get; private set; }
+        public ReserveDeck ReserveDeck { get; private set; }
         public ColumnDeck[] ColumnDecks { get; private set; }
         public FoundationDeck[] FoundationDecks { get; private set; }
 
@@ -72,7 +72,7 @@ namespace Solitary.Core
         {
             StockDeck = deckFactory.CreateStockDeck();
 
-            WasteDeck = deckFactory.CreateWasteDeck();
+            ReserveDeck = deckFactory.CreateReserveDeck();
 
             ColumnDecks = new ColumnDeck[ColumnsCount];
             for (int i = 0; i < ColumnDecks.Length; i++)

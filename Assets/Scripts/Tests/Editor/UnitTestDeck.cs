@@ -200,9 +200,9 @@ namespace Solitary.Tests
         }
 
         [Test]
-        public void Test_CanPush_To_WasteDeck()
+        public void Test_CanPush_To_ReserveDeck()
         {
-            WasteDeck deck = new WasteDeck();
+            ReserveDeck deck = new ReserveDeck();
             Card card = testCardFactory.Create(CardRank.Ten, CardSuit.Hearts);
 
             Assert.That(deck.CanPush(card), Is.True);

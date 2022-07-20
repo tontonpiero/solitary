@@ -38,26 +38,26 @@ namespace Solitary.Core
                 }
             }
 
-            // try waste to columns
+            // try Reserve to columns
             for (int columnDestIndex = 0; columnDestIndex < Game.ColumnsCount; columnDestIndex++)
             {
                 ColumnDeck columnDestDeck = game.ColumnDecks[columnDestIndex];
-                if (CanSolve(game.WasteDeck, columnDestDeck))
+                if (CanSolve(game.ReserveDeck, columnDestDeck))
                 {
-                    source = game.WasteDeck;
+                    source = game.ReserveDeck;
                     destination = columnDestDeck;
                     amount = 1;
                     return true;
                 }
             }
 
-            // try waste to foundations
+            // try Reserve to foundations
             for (int foundationIndex = 0; foundationIndex < Game.FoundationsCount; foundationIndex++)
             {
                 FoundationDeck foundationDeck = game.FoundationDecks[foundationIndex];
-                if (CanSolve(game.WasteDeck, foundationDeck))
+                if (CanSolve(game.ReserveDeck, foundationDeck))
                 {
-                    source = game.WasteDeck;
+                    source = game.ReserveDeck;
                     destination = foundationDeck;
                     amount = 1;
                     return true;
@@ -67,15 +67,15 @@ namespace Solitary.Core
             if (game.StockDeck.Count > 0)
             {
                 source = game.StockDeck;
-                destination = game.WasteDeck;
+                destination = game.ReserveDeck;
                 amount = 1;
                 return true;
             }
-            else if (game.WasteDeck.Count > 0)
+            else if (game.ReserveDeck.Count > 0)
             {
-                source = game.WasteDeck;
+                source = game.ReserveDeck;
                 destination = game.StockDeck;
-                amount = game.WasteDeck.Count;
+                amount = game.ReserveDeck.Count;
                 return true;
             }
 

@@ -26,7 +26,7 @@ namespace Solitary.Core
                     Score = game.Score,
                     TotalTime = game.TotalTime,
                     sData = game.StockDeck.Save(),
-                    wData = game.WasteDeck.Save(),
+                    wData = game.ReserveDeck.Save(),
                     fData = new DeckData[FoundationsCount],
                     cData = new DeckData[ColumnsCount]
                 };
@@ -53,7 +53,7 @@ namespace Solitary.Core
                 game.SetScore(data.Score);
                 game.TotalTime = data.TotalTime;
                 game.StockDeck.Load(data.sData);
-                game.WasteDeck.Load(data.wData);
+                game.ReserveDeck.Load(data.wData);
                 for (int i = 0; i < FoundationsCount; i++)
                 {
                     game.FoundationDecks[i].Load(data.fData[i]);

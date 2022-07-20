@@ -8,23 +8,23 @@ namespace Solitary.Tests
         private IDeckFactory deckFactory = new Deck.Factory();
 
         [Test]
-        public void Test_Waste_To_Foundation()
+        public void Test_Reserve_To_Foundation()
         {
-            WasteDeck wasteDeck = deckFactory.CreateWasteDeck();
+            ReserveDeck ReserveDeck = deckFactory.CreateReserveDeck();
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
 
-            int points = ScoreCalculator.GetMovePoints(wasteDeck, foundationDeck);
-            Assert.That(points, Is.EqualTo(ScoreCalculator.WasteToFoundationPoints));
+            int points = ScoreCalculator.GetMovePoints(ReserveDeck, foundationDeck);
+            Assert.That(points, Is.EqualTo(ScoreCalculator.ReserveToFoundationPoints));
         }
 
         [Test]
-        public void Test_Waste_To_Column()
+        public void Test_Reserve_To_Column()
         {
-            WasteDeck wasteDeck = deckFactory.CreateWasteDeck();
+            ReserveDeck ReserveDeck = deckFactory.CreateReserveDeck();
             ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
 
-            int points = ScoreCalculator.GetMovePoints(wasteDeck, columnDeck);
-            Assert.That(points, Is.EqualTo(ScoreCalculator.WasteToColumnPoints));
+            int points = ScoreCalculator.GetMovePoints(ReserveDeck, columnDeck);
+            Assert.That(points, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints));
         }
 
         [Test]

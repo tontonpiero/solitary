@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Solitary.Core
 {
 
-    public class WasteDeck : Deck
+    public class ReserveDeck : Deck
     {
         protected override void OnChanged()
         {

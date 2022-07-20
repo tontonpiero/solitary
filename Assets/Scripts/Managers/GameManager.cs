@@ -65,7 +65,7 @@ namespace Solitary.Manager
 
         private void CheckEndGame()
         {
-            if (game.StockDeck.Count == 0 && game.WasteDeck.Count == 0)
+            if (game.StockDeck.Count == 0 && game.ReserveDeck.Count == 0)
             {
                 StartCoroutine(EndGame());
             }

@@ -3,7 +3,7 @@
     public interface IDeckFactory
     {
         StockDeck CreateStockDeck();
-        WasteDeck CreateWasteDeck();
+        ReserveDeck CreateReserveDeck();
         ColumnDeck CreateColumnDeck();
         FoundationDeck CreateFoundationDeck(CardSuit suit);
     }

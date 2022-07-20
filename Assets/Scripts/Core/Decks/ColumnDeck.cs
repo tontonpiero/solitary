@@ -49,7 +49,7 @@ namespace Solitary.Core
         public override bool CanMoveCardTo(Deck destination, Card card)
         {
             if (destination is StockDeck) return false;
-            if (destination is WasteDeck) return false;
+            if (destination is ReserveDeck) return false;
             return base.CanMoveCardTo(destination, card);
         }
     }
