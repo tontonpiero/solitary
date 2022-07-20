@@ -177,12 +177,16 @@ namespace Solitary.UI
             transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, 0.02f);
         }
 
+        private float lastTimeClick = 0f;
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (eventData.clickCount == 2)
+            float currentTimeClick = eventData.clickTime;
+            if (Mathf.Abs(currentTimeClick - lastTimeClick) < 0.5f)
             {
+                //do something
                 OnCardDoubleClicked?.Invoke(this);
             }
+            lastTimeClick = currentTimeClick;
         }
 
         private void OnDestroy()
