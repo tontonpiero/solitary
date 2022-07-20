@@ -9,6 +9,13 @@ namespace Solitary.UI
         [Header("Managers")]
         [SerializeField] private LevelManager levelManager;
 
+        private void Start()
+        {
+            AudioManager.Instance.MusicGlobalVolume = 0.2f;
+            AudioManager.Instance.SFXGlobalVolume = 1f;
+            AudioManager.Instance.PlayMusic("main_music");
+        }
+
         public async void OnClickNewGame()
         {
             GameSaver gameSaver = new GameSaver();

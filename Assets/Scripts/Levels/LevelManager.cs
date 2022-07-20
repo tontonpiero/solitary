@@ -61,7 +61,7 @@ namespace Solitary
                 await Task.Delay((int)(delay * 1000));
             }
 
-            Debug.Log($"LevelManager - LoadSceneAsync() sceneName={sceneName} additive={additive}");
+            //Debug.Log($"LevelManager - LoadSceneAsync() sceneName={sceneName} additive={additive}");
 
             // Load scene
             AsyncOperation op = SceneManager.LoadSceneAsync(sceneName, additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
@@ -73,13 +73,13 @@ namespace Solitary
 
         public void Restart()
         {
-            Debug.Log($"LevelManager - Restart()");
+            //Debug.Log($"LevelManager - Restart()");
             _ = RestartAsync();
         }
 
         public async Task RestartAsync()
         {
-            Debug.Log($"LevelManager - RestartAsync() {SceneManager.GetActiveScene().name}");
+            //Debug.Log($"LevelManager - RestartAsync() {SceneManager.GetActiveScene().name}");
             await LoadSceneAsync(SceneManager.GetActiveScene().name, false);
         }
     }

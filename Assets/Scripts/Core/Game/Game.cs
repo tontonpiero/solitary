@@ -144,9 +144,9 @@ namespace Solitary.Core
             SetState(GameState.Over);
         }
 
-        public void UndoLastMove()
+        public bool UndoLastMove()
         {
-            if (State != GameState.Started) return;
+            if (State != GameState.Started) return false;
 
             if (commandInvoker.Count > 0)
             {
@@ -155,7 +155,10 @@ namespace Solitary.Core
                 SetMoves(Moves + 1);
 
                 gameSaver.Save(this);
+
+                return true;
             }
+            return false;
         }
 
         public void SetScore(int score)

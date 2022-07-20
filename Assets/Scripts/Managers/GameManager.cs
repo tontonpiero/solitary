@@ -38,6 +38,7 @@ namespace Solitary.Manager
             {
                 yield return new WaitForSeconds(0.5f);
                 game.InitializeColumns();
+                AudioManager.Instance.PlaySound("move_cards");
             }
         }
 
@@ -58,6 +59,8 @@ namespace Solitary.Manager
 
             game.MoveCards(source, destination, amount);
 
+            AudioManager.Instance.PlaySound("move_card");
+
             CheckEndGame();
         }
 
@@ -71,6 +74,7 @@ namespace Solitary.Manager
 
         private IEnumerator EndGame()
         {
+            AudioManager.Instance.PlaySound("move_cards");
             isEnding = true;
             while (game.ResolveNextMove())
             {
@@ -88,14 +92,21 @@ namespace Solitary.Manager
         {
             if (isEnding) return;
 
-            game.UndoLastMove();
+            if (game.UndoLastMove())
+            {
+                AudioManager.Instance.PlaySound("move_card");
+            }
+
         }
 
         public void ResolveNextMove()
         {
             if (isEnding) return;
 
-            game.ResolveNextMove();
+            if (game.ResolveNextMove())
+            {
+                AudioManager.Instance.PlaySound("move_card");
+            }
 
             CheckEndGame();
         }

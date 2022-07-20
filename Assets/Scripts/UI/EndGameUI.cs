@@ -1,6 +1,7 @@
 using Solitary.Core;
 using Solitary.Manager;
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -38,6 +39,14 @@ namespace Solitary.UI
             TimeSpan time = TimeSpan.FromSeconds(gameManager.GetTotalTime());
             textTime.text = $"{time.TotalMinutes:00}:{time.TotalSeconds:00}";
             textScore.text = gameManager.GetScore().ToString();
+            
+            StartCoroutine(DelayPlayVictorySound());
+        }
+
+        private IEnumerator DelayPlayVictorySound()
+        {
+            yield return new WaitForSeconds(1f);
+            AudioManager.Instance.PlaySound("victory");
         }
 
         public void Hide()

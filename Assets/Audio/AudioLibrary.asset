@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6afccf47825da41b5fce5432be7ebc, type: 3}
+  m_Name: AudioLibrary
+  m_EditorClassIdentifier: 
+  Items:
+  - Name: main_music
+    Clip: {fileID: 8300000, guid: 33a9a076b3aecf04f9658831cb952caa, type: 3}
+  - Name: click
+    Clip: {fileID: 8300000, guid: 3ae63d7b6805fe24b8d22809d7e70a4b, type: 3}
+  - Name: move_card
+    Clip: {fileID: 8300000, guid: 586bcaa8be06a8140b432e10be455154, type: 3}
+  - Name: move_card_wrong
+    Clip: {fileID: 8300000, guid: c2d1da93aede7d84eba4a197192edd59, type: 3}
+  - Name: move_cards
+    Clip: {fileID: 8300000, guid: 208055e96489a7e4cad3e3385f40fd20, type: 3}
+  - Name: victory
+    Clip: {fileID: 8300000, guid: 03db550413085fd409d11eb473813c95, type: 3}
