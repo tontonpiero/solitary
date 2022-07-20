@@ -66,6 +66,30 @@ namespace Solitary.Core
 
         virtual protected void OnChanged() { }
 
+        public void Load(DeckData data)
+        {
+            cards.Clear();
+            ICardFactory cardFactory = new Card.Factory();
+            foreach (CardData cardData in data.Cards)
+            {
+                Card card = cardFactory.Create(cardData.r, cardData.s);
+                if (cardData.v)
+                {
+                    card.Hide();
+                    card.Reveal();
+                }
+                cards.Push(card);
+            }
+        }
+
+        public DeckData Save()
+        {
+            return new DeckData()
+            {
+                Cards = cards.Select(c => new CardData(c.Rank, c.Suit, c.IsVisible)).Reverse().ToList()
+            };
+        }
+
         public void Dispose()
         {
             OnCardsAdded = null;

@@ -47,16 +47,22 @@ namespace Solitary.UI
             dragBehaviour.OnDragComplete += DragBehaviour_OnDragComplete;
         }
 
-        private void Start()
-        {
-            Hide();
-        }
-
         public void SetCard(Card card)
         {
             this.Card = card;
             card.OnVisibilityChanged += OnVisibilityChanged;
             DressUp();
+
+            if (Card.IsVisible)
+            {
+                IsRevealed = false;
+                Reveal();
+            }
+            else
+            {
+                IsRevealed = true;
+                Hide();
+            }
         }
 
         private void OnVisibilityChanged()
@@ -122,7 +128,7 @@ namespace Solitary.UI
         {
             float timeleft = duration;
             Vector3 initialScale = transform.localScale;
-            while(timeleft > 0f)
+            while (timeleft > 0f)
             {
                 timeleft -= Time.deltaTime;
                 transform.localScale = Vector3.Lerp(initialScale, targetScale, 1f - (timeleft / duration));

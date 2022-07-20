@@ -1,3 +1,4 @@
+using Solitary.Core;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace Solitary.UI
 
         public async void OnClickNewGame()
         {
+            GameSaver gameSaver = new GameSaver();
+            gameSaver.ClearData();
             await levelManager.LoadAsync("game");
         }
 

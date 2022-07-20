@@ -26,7 +26,8 @@ namespace Solitary.Manager
 
         public void CreateDeckCards(DeckView deckView)
         {
-            foreach (Card card in deckView.Deck.GetCards(deckView.Deck.Count).Reverse())
+            IEnumerable<Card> cards = deckView.Deck.GetCards(deckView.Deck.Count).Reverse();
+            foreach (Card card in cards)
             {
                 CardView cardView = Instantiate(cardViewPrefab, cardsContainer, false);
                 cardView.transform.position = deckView.transform.position;

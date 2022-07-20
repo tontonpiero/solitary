@@ -1,3 +1,4 @@
+using Solitaire.Core;
 using Solitary.Core;
 using System;
 using System.Collections;
@@ -33,9 +34,11 @@ namespace Solitary.Manager
 
             deckManager.InitializeDecks(game);
 
-            yield return new WaitForSeconds(0.5f);
-
-            game.InitializeColumns();
+            if (game.IsNew)
+            {
+                yield return new WaitForSeconds(0.5f);
+                game.InitializeColumns();
+            }
         }
 
         private void Update()
@@ -107,11 +110,6 @@ namespace Solitary.Manager
         public void ResumeGame()
         {
             game.Resume();
-        }
-
-        public void StartNewGame()
-        {
-            // TODO
         }
 
         public int GetScore() => game.Score;

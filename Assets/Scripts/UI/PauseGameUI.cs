@@ -39,11 +39,6 @@ namespace Solitary.UI
             gameObject.SetActive(false);
         }
 
-        public void OnClickNewGame()
-        {
-            gameManager.StartNewGame();
-        }
-
         public void OnClickResumeGame()
         {
             gameManager.ResumeGame();

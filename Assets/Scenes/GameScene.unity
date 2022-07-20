@@ -6202,6 +6202,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4822692997105200577, guid: dfe9141f446c1d940bd1a97af37092c8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1055450857}
+    - target: {fileID: 4822692997105200577, guid: dfe9141f446c1d940bd1a97af37092c8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickNewGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822692997105200577, guid: dfe9141f446c1d940bd1a97af37092c8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Solitary.UI.GameUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfe9141f446c1d940bd1a97af37092c8, type: 3}
 --- !u!1001 &6452604802016377185
@@ -6353,6 +6365,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 346019005}
     m_Modifications:
+    - target: {fileID: 9098413153617493708, guid: bca449eac17ab1e46945d488e55e7831, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1055450857}
+    - target: {fileID: 9098413153617493708, guid: bca449eac17ab1e46945d488e55e7831, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickNewGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098413153617493708, guid: bca449eac17ab1e46945d488e55e7831, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Solitary.UI.GameUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 9098413153831151592, guid: bca449eac17ab1e46945d488e55e7831, type: 3}
       propertyPath: gameManager
       value: 

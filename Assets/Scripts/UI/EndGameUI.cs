@@ -44,10 +44,5 @@ namespace Solitary.UI
         {
             gameObject.SetActive(false);
         }
-
-        public void OnClickNewGame()
-        {
-
-        }
     }
 }

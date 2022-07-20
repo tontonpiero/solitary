@@ -14,6 +14,7 @@ namespace Solitary.Core
         public int Moves { get; private set; } = 0;
         public int Score { get; private set; } = 0;
         public float TotalTime { get; private set; } = 0f;
+        public bool IsNew { get; private set; } = true;
 
         // Decks
         public StockDeck StockDeck { get; private set; }
@@ -30,12 +31,14 @@ namespace Solitary.Core
         private readonly ICommandInvoker commandInvoker;
         private readonly IDeckFactory deckFactory;
         private readonly IMoveSolver moveSolver;
+        private readonly IGameSaver gameSaver;
 
-        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IMoveSolver moveSolver)
+        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IMoveSolver moveSolver, IGameSaver gameSaver)
         {
             this.commandInvoker = commandInvoker;
             this.deckFactory = deckFactory;
             this.moveSolver = moveSolver;
+            this.gameSaver = gameSaver;
         }
 
         public void Start()
@@ -43,6 +46,16 @@ namespace Solitary.Core
             if (State != GameState.NotStarted) return;
 
             CreateDecks();
+
+            if (gameSaver.HasData())
+            {
+                gameSaver.Load(this);
+            }
+            else
+            {
+                StockDeck.Fill();
+                StockDeck.Shuffle();
+            }
 
             SetState(GameState.Started);
         }
@@ -59,8 +72,6 @@ namespace Solitary.Core
         private void CreateDecks()
         {
             StockDeck = deckFactory.CreateStockDeck();
-            StockDeck.Fill();
-            StockDeck.Shuffle();
 
             WasteDeck = deckFactory.CreateWasteDeck();
 
@@ -116,7 +127,10 @@ namespace Solitary.Core
 
             ICommand command = new MoveCommand(this, source, destination, amount);
             commandInvoker.AddCommand(command);
-            IncrementMoves();
+
+            SetMoves(Moves + 1);
+
+            gameSaver.Save(this);
 
             CheckGameOver();
         }
@@ -137,7 +151,10 @@ namespace Solitary.Core
             if (commandInvoker.Count > 0)
             {
                 commandInvoker.UndoCommand();
-                IncrementMoves();
+
+                SetMoves(Moves + 1);
+
+                gameSaver.Save(this);
             }
         }
 
@@ -150,11 +167,11 @@ namespace Solitary.Core
             OnScoreChanged?.Invoke();
         }
 
-        public void IncrementMoves()
+        public void SetMoves(int moves)
         {
             if (State != GameState.Started) return;
 
-            Moves++;
+            Moves = moves;
             OnMovesChanged?.Invoke();
         }
 
@@ -170,6 +187,47 @@ namespace Solitary.Core
             return false;
         }
 
+        public GameSaveData GetSaveData()
+        {
+            GameSaveData data = new GameSaveData()
+            {
+                Moves = Moves,
+                Score = Score,
+                TotalTime = TotalTime,
+                sData = StockDeck.Save(),
+                wData = WasteDeck.Save(),
+                fData = new DeckData[FoundationsCount],
+                cData = new DeckData[ColumnsCount]
+            };
+            for (int i = 0; i < FoundationsCount; i++)
+            {
+                data.fData[i] = FoundationDecks[i].Save();
+            }
+            for (int i = 0; i < ColumnsCount; i++)
+            {
+                data.cData[i] = ColumnDecks[i].Save();
+            }
+            return data;
+        }
+
+        public void LoadSaveData(GameSaveData data)
+        {
+            SetMoves(data.Moves);
+            SetScore(data.Score);
+            TotalTime = data.TotalTime;
+            StockDeck.Load(data.sData);
+            WasteDeck.Load(data.wData);
+            for (int i = 0; i < FoundationsCount; i++)
+            {
+                FoundationDecks[i].Load(data.fData[i]);
+            }
+            for (int i = 0; i < ColumnsCount; i++)
+            {
+                ColumnDecks[i].Load(data.cData[i]);
+            }
+            IsNew = false;
+        }
+
         public void Dispose()
         {
             OnMovesChanged = null;
@@ -181,6 +239,7 @@ namespace Solitary.Core
             private ICommandInvoker commandInvoker;
             private IDeckFactory deckFactory;
             private IMoveSolver moveSolver;
+            private IGameSaver gameSaver;
 
             public Builder WithCommandInvoker(ICommandInvoker commandInvoker)
             {
@@ -200,12 +259,19 @@ namespace Solitary.Core
                 return this;
             }
 
+            public Builder WithGameSaver(IGameSaver gameSaver)
+            {
+                this.gameSaver = gameSaver;
+                return this;
+            }
+
             public Game Build()
             {
                 return new Game(
                     commandInvoker ?? new CommandInvoker(),
                     deckFactory ?? new Deck.Factory(),
-                    moveSolver ?? new MoveSolver()
+                    moveSolver ?? new MoveSolver(),
+                    gameSaver ?? new GameSaver()
                 );
             }
         }

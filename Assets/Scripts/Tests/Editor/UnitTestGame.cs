@@ -176,8 +176,8 @@ namespace Solitary.Tests
         {
             Game game = CreateTestableGame(out _);
             game.Start();
-            game.StockDeck.Push(cardFactory.Create(CardRank.King, CardSuit.Hearts));
-            game.MoveCards(game.StockDeck, game.WasteDeck, 1);
+            game.WasteDeck.Push(cardFactory.Create(CardRank.King, CardSuit.Hearts));
+            game.ColumnDecks[0].Pick(game.ColumnDecks[0].Count);
 
             Assert.That(game.CanMoveCard(game.WasteDeck, game.ColumnDecks[0], game.WasteDeck.TopCard), Is.True);
         }
@@ -303,9 +303,22 @@ namespace Solitary.Tests
         private Game CreateTestableGame(out CommandInvoker commandInvoker)
         {
             commandInvoker = new CommandInvoker();
+
             return new Game.Builder()
                 .WithCommandInvoker(commandInvoker)
+                .WithGameSaver(new TestGameSaver())
                 .Build();
+        }
+
+        private class TestGameSaver : IGameSaver
+        {
+            public void ClearData() { }
+
+            public bool HasData() => false;
+
+            public void Load(Game game) { }
+
+            public void Save(Game game) { }
         }
     }
 }
