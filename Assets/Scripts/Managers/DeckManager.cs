@@ -74,7 +74,7 @@ namespace Solitary.Manager
             }
             else
             {
-                gameManager.MoveCards(ReserveDeckView.Deck, stockDeckView.Deck, ReserveCount);
+                gameManager.Recycle();
             }
         }
 

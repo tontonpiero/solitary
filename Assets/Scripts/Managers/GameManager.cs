@@ -119,6 +119,14 @@ namespace Solitary.Manager
             CheckEndGame();
         }
 
+        public void Recycle()
+        {
+            if (preventMove) return;
+
+            AudioManager.Instance.PlaySound("move_cards");
+            game.Recycle();
+        }
+
         public void PauseGame()
         {
             if (preventMove) return;

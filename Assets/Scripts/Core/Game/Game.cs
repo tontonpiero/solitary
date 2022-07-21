@@ -129,13 +129,13 @@ namespace Solitary.Core
 
         public bool CanMoveCard(Deck source, Deck destination, Card card) => source != null && source.CanMoveCardTo(destination, card);
 
-        public void MoveCards(Deck source, Deck destination, int amount = 1)
+        public void MoveCards(Deck source, Deck destination, int amount = 1, bool reverse = false)
         {
             if (State != GameState.Started) return;
 
             if (source == null || destination == null || amount < 1) return;
 
-            ICommand command = new MoveCommand(this, source, destination, amount);
+            ICommand command = new MoveCommand(this, source, destination, amount, reverse);
             commandInvoker.AddCommand(command);
 
             SetMoves(Moves + 1);
@@ -154,6 +154,13 @@ namespace Solitary.Core
             SetState(GameState.Over);
 
             gameSaver.ClearData();
+        }
+
+        public void Recycle()
+        {
+            if (State != GameState.Started) return;
+
+            MoveCards(ReserveDeck, StockDeck, ReserveDeck.Count, true);
         }
 
         public bool UndoLastMove()

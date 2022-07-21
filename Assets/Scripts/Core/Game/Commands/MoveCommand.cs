@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Solitary.Core
 {
@@ -9,18 +10,21 @@ namespace Solitary.Core
         private int amount;
         private Game game;
         private int previousScore;
+        private bool reverse;
 
-        public MoveCommand(Game game, Deck source, Deck destination, int amount)
+        public MoveCommand(Game game, Deck source, Deck destination, int amount, bool reverse)
         {
             this.source = source;
             this.destination = destination;
             this.amount = amount;
             this.game = game;
+            this.reverse = reverse;
         }
 
         public void Execute()
         {
             IEnumerable<Card> cards = source.Pick(amount);
+            if (reverse) cards = cards.Reverse();
             destination.Push(cards);
             previousScore = game.Score;
 
@@ -31,6 +35,7 @@ namespace Solitary.Core
         public void Undo()
         {
             IEnumerable<Card> cards = destination.Pick(amount);
+            if (reverse) cards = cards.Reverse();
             source.Push(cards);
             game.SetScore(previousScore);
         }

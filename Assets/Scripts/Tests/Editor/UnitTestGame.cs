@@ -367,6 +367,25 @@ namespace Solitary.Tests
             Assert.That(game.TotalTime, Is.EqualTo(1f));
         }
 
+        [Test]
+        public void Test_Recycle_Reserve()
+        {
+            Game game = CreateTestableGame(out _);
+            game.Start();
+            game.MoveCards(game.StockDeck, game.ReserveDeck, game.StockDeck.Count);
+
+            Assert.That(game.StockDeck.Count, Is.EqualTo(0));
+            Assert.That(game.ReserveDeck.Count, Is.EqualTo(52));
+
+            Card previousReserveTopCard = game.ReserveDeck.TopCard;
+
+            game.Recycle();
+
+            Assert.That(game.StockDeck.Count, Is.EqualTo(52));
+            Assert.That(game.ReserveDeck.Count, Is.EqualTo(0));
+            Assert.That(game.StockDeck.TopCard, Is.Not.EqualTo(previousReserveTopCard));
+        }
+
         private Game CreateTestableGame(out CommandInvoker commandInvoker)
         {
             commandInvoker = new CommandInvoker();
