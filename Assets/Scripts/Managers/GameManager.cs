@@ -53,7 +53,7 @@ namespace Solitary.Manager
         {
             if (pause)
             {
-                SaveGame();
+                PauseGame();
             }
         }
 
