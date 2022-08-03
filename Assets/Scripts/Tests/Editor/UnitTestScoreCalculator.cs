@@ -65,8 +65,8 @@ namespace Solitary.Tests
             ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
 
             Card card = cardFactory.Create(CardRank.Queen, CardSuit.Clubs);
-            card.Hide();
             columnDeck1.Push(card);
+            card.Hide();
             columnDeck1.Push(cardFactory.Create(CardRank.Five, CardSuit.Hearts));
 
             int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2);
