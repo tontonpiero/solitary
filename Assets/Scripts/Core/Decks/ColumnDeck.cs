@@ -6,35 +6,9 @@ namespace Solitary.Core
 
     public class ColumnDeck : Deck
     {
-        int previousCount = 0;
-
         protected override void OnChanged()
         {
             TopCard?.Reveal();
-
-            int diffAmount = Count - previousCount;
-
-            if (diffAmount > 0) // card wad added
-            {
-                // hack to know if we have to hide previous card in case of undo
-                // this scenario could probably be managed better
-
-                Card firstNewCard = GetCard(diffAmount - 1);
-                Card previousCard = GetCard(diffAmount);
-
-                if (previousCard != null)
-                {
-                    bool legitMove = CanStack(previousCard, firstNewCard);
-
-                    if (!legitMove)
-                    {
-                        previousCard.Reveal();
-                        previousCard.Hide();
-                    }
-                }
-            }
-
-            previousCount = Count;
         }
 
         public override bool CanPush(Card card) => CanStack(TopCard, card);

@@ -23,6 +23,7 @@ namespace Solitary.Core
             else if (source is ColumnDeck)
             {
                 if (destination is FoundationDeck) points = ColumnToFoundationPoints;
+                if (source.Count > 1 && source.GetCard(1).IsVisible == false) points += TurnOverColumnCardPoints;
             }
             else if (source is FoundationDeck)
             {

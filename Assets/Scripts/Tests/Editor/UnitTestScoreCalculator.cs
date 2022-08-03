@@ -6,6 +6,7 @@ namespace Solitary.Tests
     class UnitTestScoreCalculator
     {
         private IDeckFactory deckFactory = new Deck.Factory();
+        private ICardFactory cardFactory = new Card.Factory();
 
         [Test]
         public void Test_Reserve_To_Foundation()
@@ -54,6 +55,24 @@ namespace Solitary.Tests
             ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
 
             int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2);
+            Assert.That(points, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Test_TurnOverCard()
+        {
+            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
+
+            Card card = cardFactory.Create(CardRank.Queen, CardSuit.Clubs);
+            card.Hide();
+            columnDeck1.Push(card);
+            columnDeck1.Push(cardFactory.Create(CardRank.Five, CardSuit.Hearts));
+
+            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2);
+            Assert.That(points, Is.EqualTo(ScoreCalculator.TurnOverColumnCardPoints));
+
+            points = ScoreCalculator.GetMovePoints(columnDeck2, columnDeck1);
             Assert.That(points, Is.EqualTo(0));
         }
     }

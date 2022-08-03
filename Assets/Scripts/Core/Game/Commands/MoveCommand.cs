@@ -11,6 +11,7 @@ namespace Solitary.Core
         private Game game;
         private int previousScore;
         private bool reverse;
+        private bool cardWasRevealed;
 
         public MoveCommand(Game game, Deck source, Deck destination, int amount, bool reverse)
         {
@@ -23,12 +24,19 @@ namespace Solitary.Core
 
         public void Execute()
         {
+            int points = ScoreCalculator.GetMovePoints(source, destination);
+
+            cardWasRevealed = false;
+            if (source is ColumnDeck && source.Count > 1 && source.GetCard(1).IsVisible == false)
+            {
+                cardWasRevealed = true;
+            }
+
             IEnumerable<Card> cards = source.Pick(amount);
             if (reverse) cards = cards.Reverse();
             destination.Push(cards);
             previousScore = game.Score;
 
-            int points = ScoreCalculator.GetMovePoints(source, destination);
             game.SetScore(game.Score + points);
         }
 
@@ -38,6 +46,8 @@ namespace Solitary.Core
             if (reverse) cards = cards.Reverse();
             source.Push(cards);
             game.SetScore(previousScore);
+
+            if (cardWasRevealed) source.GetCard(1).Hide();
         }
     }
 }
