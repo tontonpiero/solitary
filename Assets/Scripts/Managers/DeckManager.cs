@@ -100,13 +100,27 @@ namespace Solitary.Manager
             return false;
         }
 
-        public bool TryMoveToFoundation(CardView cardView)
+        public bool TryMove(CardView cardView)
         {
-            foreach (DeckView deckView in foundationDeckViews)
+            int cardIndex = cardView.DeckView.GetCardIndexFromTop(cardView);
+
+            if (cardIndex == 0)
+            {
+                foreach (DeckView deckView in foundationDeckViews)
+                {
+                    if (deckView.Deck.CanPush(cardView.Card))
+                    {
+                        gameManager.MoveCards(cardView.DeckView.Deck, deckView.Deck, 1);
+                        return true;
+                    }
+                }
+            }
+
+            foreach (DeckView deckView in columnDeckViews)
             {
                 if (deckView.Deck.CanPush(cardView.Card))
                 {
-                    gameManager.MoveCards(cardView.DeckView.Deck, deckView.Deck, 1);
+                    gameManager.MoveCards(cardView.DeckView.Deck, deckView.Deck, cardIndex + 1);
                     return true;
                 }
             }

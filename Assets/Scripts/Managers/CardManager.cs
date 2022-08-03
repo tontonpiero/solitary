@@ -42,7 +42,7 @@ namespace Solitary.Manager
 
         private void OnCardDoubleClicked(CardView cardView)
         {
-            deckManager.TryMoveToFoundation(cardView);
+            deckManager.TryMove(cardView);
         }
 
         private void OnCardDragStarted(CardView cardView)
