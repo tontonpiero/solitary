@@ -9,7 +9,7 @@ namespace Solitary.Core
         Ace,
         Two,
         Three,
-        For,
+        Four,
         Five,
         Six,
         Seven,

@@ -27,7 +27,7 @@ namespace Solitary.Core
             int points = ScoreCalculator.GetMovePoints(source, destination);
 
             cardWasRevealed = false;
-            if (source is ColumnDeck && source.Count > 1 && source.GetCard(1).IsVisible == false)
+            if (source is ColumnDeck && source.Count > amount && source.GetCard(amount).IsVisible == false)
             {
                 cardWasRevealed = true;
             }
@@ -47,7 +47,7 @@ namespace Solitary.Core
             source.Push(cards);
             game.SetScore(previousScore);
 
-            if (cardWasRevealed) source.GetCard(1).Hide();
+            if (cardWasRevealed) source.GetCard(amount).Hide();
         }
     }
 }
