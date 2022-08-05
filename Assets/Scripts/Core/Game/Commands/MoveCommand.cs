@@ -24,10 +24,10 @@ namespace Solitary.Core
 
         public void Execute()
         {
-            int points = ScoreCalculator.GetMovePoints(source, destination);
+            int points = ScoreCalculator.GetMovePoints(source, destination, amount);
 
             cardWasRevealed = false;
-            if (source is ColumnDeck && source.Count > amount && source.GetCard(amount).IsVisible == false)
+            if (source is ColumnDeck && source.Count > amount && source.GetCard(amount).IsRevealed == false)
             {
                 cardWasRevealed = true;
             }

@@ -10,7 +10,7 @@ namespace Solitary.Core
         public const int RecycleReserve1Points = -100;
         public const int RecycleReserve3Points = -20;
 
-        static public int GetMovePoints(Deck source, Deck destination)
+        static public int GetMovePoints(Deck source, Deck destination, int amount)
         {
             int points = 0;
 
@@ -23,7 +23,7 @@ namespace Solitary.Core
             else if (source is ColumnDeck)
             {
                 if (destination is FoundationDeck) points = ColumnToFoundationPoints;
-                if (source.Count > 1 && source.GetCard(1).IsVisible == false) points += TurnOverColumnCardPoints;
+                if (source.Count > amount && source.GetCard(amount).IsRevealed == false) points += TurnOverColumnCardPoints;
             }
             else if (source is FoundationDeck)
             {

@@ -86,7 +86,7 @@ namespace Solitary.Core
         {
             return new DeckData()
             {
-                Cards = cards.Select(c => new CardData(c.Rank, c.Suit, c.IsVisible)).Reverse().ToList()
+                Cards = cards.Select(c => new CardData(c.Rank, c.Suit, c.IsRevealed)).Reverse().ToList()
             };
         }
 

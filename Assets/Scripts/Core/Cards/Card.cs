@@ -18,7 +18,7 @@ namespace Solitary.Core
             Suit = suit;
         }
 
-        public bool IsVisible { get; private set; } = false;
+        public bool IsRevealed { get; private set; } = false;
 
         public CardRank Rank { get; private set; }
 
@@ -30,18 +30,18 @@ namespace Solitary.Core
 
         public void Reveal()
         {
-            if (IsVisible == false)
+            if (IsRevealed == false)
             {
-                IsVisible = true;
+                IsRevealed = true;
                 OnVisibilityChanged?.Invoke();
             }
         }
 
         public void Hide()
         {
-            if (IsVisible == true)
+            if (IsRevealed == true)
             {
-                IsVisible = false;
+                IsRevealed = false;
                 OnVisibilityChanged?.Invoke();
             }
         }

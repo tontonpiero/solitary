@@ -14,7 +14,7 @@ namespace Solitary.Tests
             ReserveDeck ReserveDeck = deckFactory.CreateReserveDeck();
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
 
-            int points = ScoreCalculator.GetMovePoints(ReserveDeck, foundationDeck);
+            int points = ScoreCalculator.GetMovePoints(ReserveDeck, foundationDeck, 1);
             Assert.That(points, Is.EqualTo(ScoreCalculator.ReserveToFoundationPoints));
         }
 
@@ -24,7 +24,7 @@ namespace Solitary.Tests
             ReserveDeck ReserveDeck = deckFactory.CreateReserveDeck();
             ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
 
-            int points = ScoreCalculator.GetMovePoints(ReserveDeck, columnDeck);
+            int points = ScoreCalculator.GetMovePoints(ReserveDeck, columnDeck, 1);
             Assert.That(points, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints));
         }
 
@@ -34,7 +34,7 @@ namespace Solitary.Tests
             ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
 
-            int points = ScoreCalculator.GetMovePoints(columnDeck, foundationDeck);
+            int points = ScoreCalculator.GetMovePoints(columnDeck, foundationDeck, 1);
             Assert.That(points, Is.EqualTo(ScoreCalculator.ColumnToFoundationPoints));
         }
 
@@ -44,7 +44,7 @@ namespace Solitary.Tests
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
             ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
 
-            int points = ScoreCalculator.GetMovePoints(foundationDeck, columnDeck);
+            int points = ScoreCalculator.GetMovePoints(foundationDeck, columnDeck, 1);
             Assert.That(points, Is.EqualTo(ScoreCalculator.FoundationToColumnPoints));
         }
 
@@ -54,7 +54,7 @@ namespace Solitary.Tests
             ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck();
             ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
 
-            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2);
+            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 1);
             Assert.That(points, Is.EqualTo(0));
         }
 
@@ -69,11 +69,27 @@ namespace Solitary.Tests
             card.Hide();
             columnDeck1.Push(cardFactory.Create(CardRank.Five, CardSuit.Hearts));
 
-            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2);
+            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 1);
             Assert.That(points, Is.EqualTo(ScoreCalculator.TurnOverColumnCardPoints));
 
-            points = ScoreCalculator.GetMovePoints(columnDeck2, columnDeck1);
+            points = ScoreCalculator.GetMovePoints(columnDeck2, columnDeck1, 1);
             Assert.That(points, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Test_TurnOverCard_WhileMovingSeveralCards()
+        {
+            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
+
+            Card card = cardFactory.Create(CardRank.Queen, CardSuit.Clubs);
+            columnDeck1.Push(card);
+            card.Hide();
+            columnDeck1.Push(cardFactory.Create(CardRank.Five, CardSuit.Hearts));
+            columnDeck1.Push(cardFactory.Create(CardRank.Four, CardSuit.Spades));
+
+            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 2);
+            Assert.That(points, Is.EqualTo(ScoreCalculator.TurnOverColumnCardPoints));
         }
     }
 }

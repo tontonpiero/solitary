@@ -98,7 +98,7 @@ namespace Solitary.Core
             {
                 Card nextCard = currentCard;
                 currentCard = source.GetCard(amount);
-                if (!source.CanStack(currentCard, nextCard) || !currentCard.IsVisible)
+                if (!source.CanStack(currentCard, nextCard) || !currentCard.IsRevealed)
                 {
                     currentCard = nextCard;
                     break;
@@ -111,7 +111,7 @@ namespace Solitary.Core
                 if (destination.Count == 0 && previousCard == null) return false;
                 if (destination.Count == 0 && previousCard != null) return true;
                 if (previousCard == null) return true;
-                if (previousCard.IsVisible)
+                if (previousCard.IsRevealed)
                 {
                     if (destination.TopCard.Color == previousCard.Color && destination.TopCard.Value == previousCard.Value) return false;
                 }

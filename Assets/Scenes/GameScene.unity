@@ -1457,7 +1457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4546360491116627212, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1909,6 +1909,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: behaviour
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: interactionMode
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3870,6 +3874,10 @@ PrefabInstance:
       propertyPath: behaviour
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: interactionMode
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
 --- !u!224 &1360061067 stripped
@@ -4045,6 +4053,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: behaviour
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: interactionMode
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4528,6 +4540,18 @@ PrefabInstance:
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: behaviour
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: layoutCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: interactionMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: revealedOffset.x
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
@@ -5405,6 +5429,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: behaviour
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: interactionMode
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6644,6 +6672,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
       propertyPath: AllowDragCards
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}
+      propertyPath: interactionMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209378657250951979, guid: 1b7ae0dd75ba9fe42b3bba33941e51e0, type: 3}

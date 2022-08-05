@@ -15,6 +15,9 @@ namespace Solitary.UI
         [Header("Cards Layout")]
         [SerializeField] protected Vector2 revealedOffset = Vector2.zero;
         [SerializeField] protected Vector2 hiddenOffset = Vector2.zero;
+        [Tooltip("Number of cards affected by layout, the others will be placed at deckview position.\n0 means all cards are affected by layout")]
+        [SerializeField] protected uint layoutCount = 0;
+        [SerializeField] protected InteractionMode interactionMode = InteractionMode.AllRevealedCards;
 
         public event Action<DeckView> OnDoubleClickDeck;
 
@@ -26,15 +29,57 @@ namespace Solitary.UI
         virtual public void AddCardView(CardView cardView)
         {
             cardView.SetDeckView(this);
-            cardView.SetTarget(GetNextTargetTransform(), GetNextOffset());
-            cardView.transform.SetAsLastSibling();
+
+            if (layoutCount == 0)
+            {
+                cardView.SetTarget(GetNextTargetTransform(), GetNextOffset());
+                cardView.transform.SetAsLastSibling();
+            }
+
             CardViews.Add(cardView);
+
+            if (layoutCount > 0)
+            {
+                UpdateAllCardsPosition();
+            }
+
+            UpdateInteractableCards();
+
             UpdateDropZonePosition();
+        }
+
+        private void UpdateInteractableCards()
+        {
+            for (int i = 0; i < CardViews.Count; i++)
+            {
+                CardView cardView = CardViews[i];
+
+                if (interactionMode == InteractionMode.None)
+                {
+                    cardView.SetInteractable(false);
+                }
+                else if (interactionMode == InteractionMode.AllRevealedCards)
+                {
+                    cardView.SetInteractable(cardView.IsRevealed);
+                }
+                else if (interactionMode == InteractionMode.OnlyTopRevealedCard)
+                {
+                    cardView.SetInteractable(cardView.IsRevealed && i == CardViews.Count - 1);
+                }
+            }
         }
 
         public void RemoveCardView(CardView cardView)
         {
             CardViews.Remove(cardView);
+
+            if (layoutCount > 0)
+            {
+                UpdateAllCardsPosition();
+            }
+
+            UpdateInteractableCards();
+
             UpdateDropZonePosition();
         }
 
@@ -58,6 +103,27 @@ namespace Solitary.UI
             offset *= screenScale;
 
             return offset;
+        }
+
+        private void UpdateAllCardsPosition()
+        {
+            CardView previousCardView = null;
+            for (int i = 0; i < CardViews.Count; i++)
+            {
+                CardView cardView = CardViews[i];
+                if (i >= CardViews.Count - layoutCount)
+                {
+                    Vector2 offset = i > 0 && previousCardView.IsRevealed ? revealedOffset : hiddenOffset;
+                    cardView.SetTarget(i > 0 ? previousCardView.transform : transform, offset * screenScale);
+                    cardView.transform.SetAsLastSibling();
+                }
+                else
+                {
+                    cardView.SetTarget(i > 0 ? previousCardView.transform : transform, Vector2.zero);
+                    cardView.transform.SetAsLastSibling();
+                }
+                previousCardView = cardView;
+            }
         }
 
         private void UpdateDropZonePosition()
@@ -94,6 +160,14 @@ namespace Solitary.UI
         private void OnDestroy()
         {
             OnDoubleClickDeck = null;
+        }
+
+        [Serializable]
+        public enum InteractionMode
+        {
+            None,
+            AllRevealedCards,
+            OnlyTopRevealedCard
         }
     }
 }

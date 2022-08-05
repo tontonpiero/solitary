@@ -25,7 +25,7 @@ namespace Solitary.UI
         [SerializeField] private GameObject frontFace;
         [SerializeField] private GameObject backFace;
 
-        public bool IsRevealed { get; private set; } = true;
+        public bool IsRevealed => Card.IsRevealed;
         public Card Card { get; private set; }
         public DeckView DeckView { get; private set; }
 
@@ -53,27 +53,24 @@ namespace Solitary.UI
             card.OnVisibilityChanged += OnVisibilityChanged;
             DressUp();
 
-            if (Card.IsVisible)
-            {
-                IsRevealed = false;
-                Reveal();
-            }
-            else
-            {
-                IsRevealed = true;
-                Hide();
-            }
+            OnVisibilityChanged();
         }
 
         private void OnVisibilityChanged()
         {
-            if (Card.IsVisible) Reveal();
+            if (Card.IsRevealed) Reveal();
             else Hide();
+        }
+
+        public void SetInteractable(bool value)
+        {
+            dragBehaviour.Enabled = value;
         }
 
         public void SetDeckView(DeckView deckView)
         {
             DeckView = deckView;
+            SetInteractable(IsRevealed);
         }
 
         public void SetTarget(Transform target, Vector2 offset)
@@ -92,10 +89,8 @@ namespace Solitary.UI
 
         public void Reveal()
         {
-            if (IsRevealed) return;
-            IsRevealed = true;
             image.enabled = true;
-            dragBehaviour.Enabled = IsDraggable();
+            SetInteractable(true);
             StartCoroutine(RevealRoutine());
         }
 
@@ -109,10 +104,8 @@ namespace Solitary.UI
 
         public void Hide()
         {
-            if (!IsRevealed) return;
-            IsRevealed = false;
             image.enabled = false;
-            dragBehaviour.Enabled = IsDraggable();
+            SetInteractable(false);
             StartCoroutine(HideRoutine());
         }
 
@@ -134,11 +127,6 @@ namespace Solitary.UI
                 transform.localScale = Vector3.Lerp(initialScale, targetScale, 1f - (timeleft / duration));
                 yield return null;
             }
-        }
-
-        private bool IsDraggable()
-        {
-            return IsRevealed;
         }
 
         private void DragBehaviour_OnDragStarted()
@@ -180,10 +168,10 @@ namespace Solitary.UI
         private float lastTimeClick = 0f;
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!dragBehaviour.Enabled) return;
             float currentTimeClick = eventData.clickTime;
             if (Mathf.Abs(currentTimeClick - lastTimeClick) < 0.5f)
             {
-                //do something
                 OnCardDoubleClicked?.Invoke(this);
             }
             lastTimeClick = currentTimeClick;
