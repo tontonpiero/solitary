@@ -3,92 +3,95 @@ using UnityEngine;
 namespace Solitary
 {
 
-    [RequireComponent(typeof(AudioSource))]
-    public class AudioManager : MonoBehaviour, IAudioManager
+    static public class AudioManager
     {
-        static private AudioManager instance;
-
-        [SerializeField] private AudioLibrary library;
-
         private const string SFXVolumeKey = "_sfx_volume_";
         private const string MusicVolumeKey = "_music_volume_";
-        private float musicGlobalVolume = 0.5f;
-        private float sfxGlobalVolume = 0.5f;
 
-        private AudioSource musicSource;
+        static private AudioPlayer musicPlayer;
+        static private AudioLibrary library;
 
-        public float SFXGlobalVolume
+        static private float musicGlobalVolume = 0.5f;
+        static private float sfxGlobalVolume = 0.5f;
+        static private bool isInitialized = false;
+
+        static public float SFXGlobalVolume
         {
             get => sfxGlobalVolume;
             set
             {
+                Initialize();
+                if (!isInitialized) return;
                 sfxGlobalVolume = value;
                 PlayerPrefs.SetFloat(SFXVolumeKey, value);
             }
         }
-        public float MusicGlobalVolume
+
+        static public float MusicGlobalVolume
         {
             get => musicGlobalVolume;
             set
             {
+                Initialize();
+                if (!isInitialized) return;
                 musicGlobalVolume = value;
-                musicSource.volume = musicGlobalVolume;
+                musicPlayer.SetVolume(musicGlobalVolume);
                 PlayerPrefs.SetFloat(MusicVolumeKey, musicGlobalVolume);
             }
         }
 
-        static public AudioManager Instance => instance;
-
-        private void Awake()
+        static private void Initialize()
         {
-            if (instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            musicSource = GetComponent<AudioSource>();
+            if (isInitialized) return;
+            if (!Application.isPlaying) return;
             sfxGlobalVolume = PlayerPrefs.GetFloat(SFXVolumeKey, musicGlobalVolume);
             musicGlobalVolume = PlayerPrefs.GetFloat(MusicVolumeKey, sfxGlobalVolume);
+
+            library = Resources.Load<AudioLibrary>("AudioLibrary");
+            if(library == null) return;
+
+            musicPlayer = new GameObject("MusicPlayer").AddComponent<AudioPlayer>();
+            GameObject.DontDestroyOnLoad(musicPlayer.gameObject);
+
+            isInitialized = true;
         }
 
-
-
-        public void PlaySound(string name, Vector3 position, float volume = 1f)
+        static public void PlaySound(string name, Vector3 position, float volume = 1f)
         {
+            Initialize();
+            if (!isInitialized) return;
             AudioClip clip = library.GetSound(name);
             if (clip != null)
-                AudioSource.PlayClipAtPoint(clip, position, volume * SFXGlobalVolume);
+                AudioSource.PlayClipAtPoint(clip, position, volume * sfxGlobalVolume);
         }
 
-        public void PlaySound(string name, float volume)
+        static public void PlaySound(string name, float volume)
         {
             PlaySound(name, Camera.main.transform.position, volume);
         }
 
-        public void PlaySound(string name)
+        static public void PlaySound(string name)
         {
             PlaySound(name, Camera.main.transform.position, 1f);
         }
 
-        public void PlayMusic(string name)
+        static public void PlayMusic(string name)
         {
+            Initialize();
+            if (!isInitialized) return;
             AudioClip clip = library.GetSound(name);
             if (clip != null)
             {
-                musicSource.volume = musicGlobalVolume;
-                if (clip != musicSource.clip)
-                {
-                    musicSource.clip = library.GetSound(name);
-                    musicSource.Play();
-                }
+                musicPlayer.Play(clip);
+                musicPlayer.SetVolume(musicGlobalVolume);
             }
         }
 
-        public void StopMusic()
+        static public void StopMusic()
         {
-            musicSource.Stop();
+            Initialize();
+            if (!isInitialized) return;
+            musicPlayer.Stop();
         }
     }
 

@@ -59,7 +59,7 @@ namespace Solitary.Manager
         {
             if (!deckManager.TryDropCardView(cardView))
             {
-                AudioManager.Instance.PlaySound("move_card_wrong");
+                AudioManager.PlaySound("move_card_wrong");
             }
         }
 

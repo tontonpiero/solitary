@@ -19,9 +19,9 @@ namespace Solitary.UI
 
         private void Start()
         {
-            AudioManager.Instance.MusicGlobalVolume = 0.2f;
-            AudioManager.Instance.SFXGlobalVolume = 1f;
-            AudioManager.Instance.PlayMusic("main_music");
+            AudioManager.MusicGlobalVolume = 0.2f;
+            AudioManager.SFXGlobalVolume = 1f;
+            AudioManager.PlayMusic("main_music");
 
             IGameSaver gameSaver = new Game.Saver();
             resumeButton.interactable = gameSaver.HasData();

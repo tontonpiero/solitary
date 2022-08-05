@@ -38,7 +38,7 @@ namespace Solitary.Manager
                 preventMove = true;
                 yield return new WaitForSeconds(0.5f);
                 game.Deal();
-                AudioManager.Instance.PlaySound("move_cards");
+                AudioManager.PlaySound("move_cards");
                 yield return new WaitForSeconds(1f);
                 preventMove = false;
             }
@@ -69,7 +69,7 @@ namespace Solitary.Manager
 
             game.MoveCards(source, destination, amount);
 
-            AudioManager.Instance.PlaySound("move_card");
+            AudioManager.PlaySound("move_card");
 
             CheckEndGame();
         }
@@ -86,7 +86,7 @@ namespace Solitary.Manager
         {
             if (game.ResolveNextMove())
             {
-                AudioManager.Instance.PlaySound("move_cards");
+                AudioManager.PlaySound("move_cards");
             }
             preventMove = true;
             while (game.ResolveNextMove())
@@ -102,7 +102,7 @@ namespace Solitary.Manager
 
             if (game.UndoLastMove())
             {
-                AudioManager.Instance.PlaySound("move_card");
+                AudioManager.PlaySound("move_card");
             }
 
         }
@@ -113,7 +113,7 @@ namespace Solitary.Manager
 
             if (game.ResolveNextMove())
             {
-                AudioManager.Instance.PlaySound("move_card");
+                AudioManager.PlaySound("move_card");
             }
 
             CheckEndGame();
@@ -123,7 +123,7 @@ namespace Solitary.Manager
         {
             if (preventMove) return;
 
-            AudioManager.Instance.PlaySound("move_cards");
+            AudioManager.PlaySound("move_cards");
             game.Recycle();
         }
 

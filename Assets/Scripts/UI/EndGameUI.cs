@@ -46,7 +46,7 @@ namespace Solitary.UI
         private IEnumerator DelayPlayVictorySound()
         {
             yield return new WaitForSeconds(1f);
-            AudioManager.Instance.PlaySound("victory");
+            AudioManager.PlaySound("victory");
         }
 
         public void Hide()

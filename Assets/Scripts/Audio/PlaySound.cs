@@ -19,11 +19,11 @@ namespace Solitary
             if (string.IsNullOrEmpty(soundName)) return;
             if (playAtPosition)
             {
-                AudioManager.Instance.PlaySound(soundName, transform.position, volume);
+                AudioManager.PlaySound(soundName, transform.position, volume);
             }
             else
             {
-                AudioManager.Instance.PlaySound(soundName, volume);
+                AudioManager.PlaySound(soundName, volume);
             }
         }
     }

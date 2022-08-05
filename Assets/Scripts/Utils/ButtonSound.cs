@@ -25,7 +25,7 @@ namespace Solitary
         {
             if (!string.IsNullOrEmpty(soundName))
             {
-                AudioManager.Instance.PlaySound(soundName);
+                AudioManager.PlaySound(soundName);
             }
         }
 
