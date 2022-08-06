@@ -6,6 +6,7 @@ namespace Solitary.Core
     [Serializable]
     public struct GameSaveData
     {
+        public int Id;
         public int Score;
         public int Moves;
         public float TotalTime;

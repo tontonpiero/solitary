@@ -14,6 +14,7 @@ namespace Solitary.Core
         public int Score { get; private set; } = 0;
         public float TotalTime { get; private set; } = 0f;
         public bool IsNew { get; private set; } = true;
+        public int Id { get; private set; }
 
         // Decks
         public StockDeck StockDeck { get; private set; }
@@ -40,9 +41,19 @@ namespace Solitary.Core
             this.gameSaver = gameSaver;
         }
 
-        public void Start()
+        public void Start(int id = 0)
         {
             if (State != GameState.NotStarted) return;
+
+            if (id == 0)
+            {
+                Random rnd = new Random();
+                Id = rnd.Next(1, int.MaxValue);
+            }
+            else
+            {
+                Id = id;
+            }
 
             SetState(GameState.Started);
 
@@ -55,7 +66,7 @@ namespace Solitary.Core
             else
             {
                 StockDeck.Fill();
-                StockDeck.Shuffle();
+                StockDeck.Shuffle(Id);
             }
         }
 

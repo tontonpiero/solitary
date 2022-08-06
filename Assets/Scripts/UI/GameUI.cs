@@ -17,6 +17,14 @@ namespace Solitary.UI
             await levelManager.RestartAsync();
         }
 
+        public async void OnClickRestartGame()
+        {
+            IGameSaver gameSaver = new Game.Saver();
+            gameSaver.ClearData();
+            gameManager.RestartGame();
+            await levelManager.RestartAsync();
+        }
+
         public async void ExitGame()
         {
             gameManager.SaveGame();

@@ -24,6 +24,7 @@ namespace Solitary.Core
             {
                 GameSaveData data = new GameSaveData()
                 {
+                    Id = game.Id,
                     Moves = game.Moves,
                     Score = game.Score,
                     TotalTime = game.TotalTime,
@@ -54,6 +55,7 @@ namespace Solitary.Core
 
             private void LoadSaveData(Game game, GameSaveData data)
             {
+                game.Id = data.Id;
                 game.SetMoves(data.Moves);
                 game.SetScore(data.Score);
                 game.TotalTime = data.TotalTime;

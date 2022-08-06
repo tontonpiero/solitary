@@ -44,9 +44,13 @@ namespace Solitary.Core
             Push(cards);
         }
 
-        virtual public void Shuffle()
+        virtual public void Shuffle(int seed)
         {
-            cards.Shuffle();
+            Random rnd = new Random(seed);
+            var values = cards.ToArray();
+            cards.Clear();
+            foreach (var value in values.OrderBy(x => rnd.Next()))
+                cards.Push(value);
         }
     }
 

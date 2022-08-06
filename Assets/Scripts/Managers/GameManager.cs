@@ -7,6 +7,8 @@ namespace Solitary.Manager
 {
     public class GameManager : MonoBehaviour
     {
+        private static int nextGameId = 0;
+
         [Header("Managers")]
         [SerializeField] private DeckManager deckManager;
         [SerializeField] private CardManager cardManager;
@@ -27,9 +29,15 @@ namespace Solitary.Manager
             game.OnStateChanged += OnGameStateChanged;
         }
 
+        public void RestartGame()
+        {
+            nextGameId = game.Id;
+        }
+
         private IEnumerator Start()
         {
-            game.Start();
+            game.Start(nextGameId);
+            nextGameId = 0;
 
             deckManager.InitializeDecks(game);
 

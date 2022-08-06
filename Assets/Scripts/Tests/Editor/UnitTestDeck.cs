@@ -34,7 +34,7 @@ namespace Solitary.Tests
             StockDeck deck = new StockDeck(testCardFactory);
             deck.Fill();
             Card previousTopCard = deck.TopCard;
-            deck.Shuffle();
+            deck.Shuffle(0);
 
             Assert.That(deck.Count, Is.EqualTo(52));
             // To improve: it can fail 1 time out of 52 if shuffle set the same top card
@@ -45,7 +45,7 @@ namespace Solitary.Tests
         public void Test_Shuffle_EmptyStockDeck()
         {
             StockDeck deck = new StockDeck(testCardFactory);
-            deck.Shuffle();
+            deck.Shuffle(0);
 
             Assert.That(deck.Count, Is.EqualTo(0));
         }
