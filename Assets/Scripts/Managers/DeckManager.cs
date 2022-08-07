@@ -70,7 +70,7 @@ namespace Solitary.Manager
             int ReserveCount = ReserveDeckView.Deck.Count;
             if (stockCount > 0)
             {
-                gameManager.MoveCards(stockDeckView.Deck, ReserveDeckView.Deck, 1);
+                gameManager.Draw();
             }
             else
             {
@@ -102,20 +102,38 @@ namespace Solitary.Manager
 
         public bool TryMove(CardView cardView)
         {
-            int cardIndex = cardView.DeckView.GetCardIndexFromTop(cardView);
-
-            if (cardIndex == 0)
+            if (cardView.DeckView.Deck is ColumnDeck)
             {
-                foreach (DeckView deckView in foundationDeckViews)
-                {
-                    if (deckView.Deck.CanPush(cardView.Card))
-                    {
-                        gameManager.MoveCards(cardView.DeckView.Deck, deckView.Deck, 1);
-                        return true;
-                    }
-                }
+                if (TryMoveToFoundation(cardView)) return true;
+                if (TryMoveToColumn(cardView)) return true;
+            }
+            else
+            {
+                if (TryMoveToColumn(cardView)) return true;
+                if (TryMoveToFoundation(cardView)) return true;
             }
 
+            return false;
+        }
+
+        private bool TryMoveToFoundation(CardView cardView)
+        {
+            int cardIndex = cardView.DeckView.GetCardIndexFromTop(cardView);
+            if (cardIndex > 0) return false;
+            foreach (DeckView deckView in foundationDeckViews)
+            {
+                if (deckView.Deck.CanPush(cardView.Card))
+                {
+                    gameManager.MoveCards(cardView.DeckView.Deck, deckView.Deck, 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool TryMoveToColumn(CardView cardView)
+        {
+            int cardIndex = cardView.DeckView.GetCardIndexFromTop(cardView);
             foreach (DeckView deckView in columnDeckViews)
             {
                 if (deckView.Deck.CanPush(cardView.Card))

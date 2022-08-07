@@ -14,7 +14,7 @@ namespace Solitary.Tests
             ReserveDeck ReserveDeck = deckFactory.CreateReserveDeck();
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
 
-            int points = ScoreCalculator.GetMovePoints(ReserveDeck, foundationDeck, 1);
+            int points = ScoreCalculator.GetMovePoints(ReserveDeck, foundationDeck, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.ReserveToFoundationPoints));
         }
 
@@ -24,7 +24,7 @@ namespace Solitary.Tests
             ReserveDeck ReserveDeck = deckFactory.CreateReserveDeck();
             ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
 
-            int points = ScoreCalculator.GetMovePoints(ReserveDeck, columnDeck, 1);
+            int points = ScoreCalculator.GetMovePoints(ReserveDeck, columnDeck, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints));
         }
 
@@ -34,7 +34,7 @@ namespace Solitary.Tests
             ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
 
-            int points = ScoreCalculator.GetMovePoints(columnDeck, foundationDeck, 1);
+            int points = ScoreCalculator.GetMovePoints(columnDeck, foundationDeck, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.ColumnToFoundationPoints));
         }
 
@@ -44,7 +44,7 @@ namespace Solitary.Tests
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
             ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
 
-            int points = ScoreCalculator.GetMovePoints(foundationDeck, columnDeck, 1);
+            int points = ScoreCalculator.GetMovePoints(foundationDeck, columnDeck, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.FoundationToColumnPoints));
         }
 
@@ -54,7 +54,7 @@ namespace Solitary.Tests
             ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck();
             ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
 
-            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 1);
+            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(0));
         }
 
@@ -69,10 +69,10 @@ namespace Solitary.Tests
             card.Hide();
             columnDeck1.Push(cardFactory.Create(CardRank.Five, CardSuit.Hearts));
 
-            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 1);
+            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.TurnOverColumnCardPoints));
 
-            points = ScoreCalculator.GetMovePoints(columnDeck2, columnDeck1, 1);
+            points = ScoreCalculator.GetMovePoints(columnDeck2, columnDeck1, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(0));
         }
 
@@ -88,8 +88,28 @@ namespace Solitary.Tests
             columnDeck1.Push(cardFactory.Create(CardRank.Five, CardSuit.Hearts));
             columnDeck1.Push(cardFactory.Create(CardRank.Four, CardSuit.Spades));
 
-            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 2);
+            int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 2, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.TurnOverColumnCardPoints));
+        }
+
+        [Test]
+        public void Test_Recycle_OneCardMode()
+        {
+            Deck sourceDeck = deckFactory.CreateReserveDeck();
+            Deck destinationDeck = deckFactory.CreateStockDeck();
+
+            int points = ScoreCalculator.GetMovePoints(sourceDeck, destinationDeck, 1, new GameSettings() { ThreeCardsMode = false });
+            Assert.That(points, Is.EqualTo(ScoreCalculator.RecycleReserve1Points));
+        }
+
+        [Test]
+        public void Test_Recycle_ThreeCardMode()
+        {
+            Deck sourceDeck = deckFactory.CreateReserveDeck();
+            Deck destinationDeck = deckFactory.CreateStockDeck();
+
+            int points = ScoreCalculator.GetMovePoints(sourceDeck, destinationDeck, 1, new GameSettings() { ThreeCardsMode = true });
+            Assert.That(points, Is.EqualTo(ScoreCalculator.RecycleReserve3Points));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Solitary.Core
 
         public void Execute()
         {
-            int points = ScoreCalculator.GetMovePoints(source, destination, amount);
+            int points = ScoreCalculator.GetMovePoints(source, destination, amount, game.Settings);
 
             cardWasRevealed = false;
             if (source is ColumnDeck && source.Count > amount && source.GetCard(amount).IsRevealed == false)

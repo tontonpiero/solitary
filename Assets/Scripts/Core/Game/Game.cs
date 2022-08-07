@@ -15,6 +15,7 @@ namespace Solitary.Core
         public float TotalTime { get; private set; } = 0f;
         public bool IsNew { get; private set; } = true;
         public int Id { get; private set; }
+        public IGameSettings Settings => settings;
 
         // Decks
         public StockDeck StockDeck { get; private set; }
@@ -32,13 +33,15 @@ namespace Solitary.Core
         private readonly IDeckFactory deckFactory;
         private readonly IGameSolver gameSolver;
         private readonly IGameSaver gameSaver;
+        private readonly IGameSettings settings;
 
-        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IGameSolver gameSolver, IGameSaver gameSaver)
+        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IGameSolver gameSolver, IGameSaver gameSaver, IGameSettings settings)
         {
             this.commandInvoker = commandInvoker;
             this.deckFactory = deckFactory;
             this.gameSolver = gameSolver;
             this.gameSaver = gameSaver;
+            this.settings = settings;
         }
 
         public void Start(int id = 0)
@@ -167,6 +170,16 @@ namespace Solitary.Core
             gameSaver.ClearData();
         }
 
+        public void Draw()
+        {
+            if (State != GameState.Started) return;
+
+            int amount = settings.ThreeCardsMode ? 3 : 1;
+            amount = Math.Min(StockDeck.Count, amount);
+
+            MoveCards(StockDeck, ReserveDeck, amount);
+        }
+
         public void Recycle()
         {
             if (State != GameState.Started) return;
@@ -214,7 +227,18 @@ namespace Solitary.Core
 
             if (gameSolver.TrySolve(this, out Deck source, out Deck destination, out int amount))
             {
-                MoveCards(source, destination, amount);
+                if (source is StockDeck && destination is ReserveDeck)
+                {
+                    Draw();
+                }
+                else if (source is ReserveDeck && destination is StockDeck)
+                {
+                    Recycle();
+                }
+                else
+                {
+                    MoveCards(source, destination, amount);
+                }
                 return true;
             }
             return false;

@@ -82,7 +82,7 @@ namespace Solitary
             AudioClip clip = library.GetSound(name);
             if (clip != null)
             {
-                musicPlayer.Play(clip);
+                musicPlayer.Play(clip, true);
                 musicPlayer.SetVolume(musicGlobalVolume);
             }
         }

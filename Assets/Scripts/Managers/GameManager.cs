@@ -1,6 +1,7 @@
 using Solitary.Core;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace Solitary.Manager
@@ -84,10 +85,21 @@ namespace Solitary.Manager
 
         private void CheckEndGame()
         {
-            if (game.StockDeck.Count == 0 && game.ReserveDeck.Count == 0)
+            if (IsReadyToEndGame())
             {
                 StartCoroutine(EndGame());
             }
+        }
+
+        private bool IsReadyToEndGame()
+        {
+            if (game.StockDeck.Count > 0) return false;
+            if (game.ReserveDeck.Count > 0) return false;
+            foreach (ColumnDeck columnDeck in game.ColumnDecks)
+            {
+                if (columnDeck.GetCards(columnDeck.Count).Any(c => !c.IsRevealed)) return false;
+            }
+            return true;
         }
 
         private IEnumerator EndGame()
@@ -112,7 +124,6 @@ namespace Solitary.Manager
             {
                 AudioManager.PlaySound("move_card");
             }
-
         }
 
         public void ResolveNextMove()
@@ -125,6 +136,14 @@ namespace Solitary.Manager
             }
 
             CheckEndGame();
+        }
+
+        public void Draw()
+        {
+            if (preventMove) return;
+
+            AudioManager.PlaySound("move_card");
+            game.Draw();
         }
 
         public void Recycle()

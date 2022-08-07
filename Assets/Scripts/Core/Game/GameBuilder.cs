@@ -8,6 +8,7 @@ namespace Solitary.Core
             private IDeckFactory deckFactory;
             private IGameSolver gameSolver;
             private IGameSaver gameSaver;
+            private IGameSettings settings;
 
             public Builder WithCommandInvoker(ICommandInvoker commandInvoker)
             {
@@ -33,13 +34,26 @@ namespace Solitary.Core
                 return this;
             }
 
+            public Builder WithGameSettings(IGameSettings settings)
+            {
+                this.settings = settings;
+                return this;
+            }
+
             public Game Build()
             {
+                if (settings == null)
+                {
+                    settings = new GameSettings();
+                    settings.Load();
+                }
+
                 return new Game(
                     commandInvoker ?? new CommandInvoker(),
                     deckFactory ?? new Deck.Factory(),
                     gameSolver ?? new GameSolver(),
-                    gameSaver ?? new Game.Saver()
+                    gameSaver ?? new Game.Saver(),
+                    settings
                 );
             }
         }

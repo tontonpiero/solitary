@@ -27,6 +27,18 @@ namespace Solitary.Utils
             }
         }
 
+        public void LoadData(T target)
+        {
+            string strData = PlayerPrefs.GetString(key, null);
+            //Debug.Log($"PlayerPrefsDataSource - LoadData() {strData}");
+            if (string.IsNullOrEmpty(strData)) return;
+            try
+            {
+                JsonUtility.FromJsonOverwrite(strData, target);
+            }
+            catch (Exception) { }
+        }
+
         public void SaveData(T data)
         {
             string strData = JsonUtility.ToJson(data);

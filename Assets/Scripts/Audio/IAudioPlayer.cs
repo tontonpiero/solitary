@@ -2,9 +2,9 @@
 
 namespace Solitary
 {
-    public interface ISoundPlayer
+    public interface IAudioPlayer
     {
-        void Play(AudioClip clip);
+        void Play(AudioClip clip, bool loop = false);
         void SetVolume(float volume);
         void Stop();
     }

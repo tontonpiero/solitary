@@ -10,7 +10,7 @@ namespace Solitary.Core
         public const int RecycleReserve1Points = -100;
         public const int RecycleReserve3Points = -20;
 
-        static public int GetMovePoints(Deck source, Deck destination, int amount)
+        static public int GetMovePoints(Deck source, Deck destination, int amount, IGameSettings settings)
         {
             int points = 0;
 
@@ -18,7 +18,7 @@ namespace Solitary.Core
             {
                 if (destination is FoundationDeck) points = ReserveToFoundationPoints;
                 else if (destination is ColumnDeck) points = ReserveToColumnPoints;
-                else if (destination is StockDeck) points = RecycleReserve1Points;
+                else if (destination is StockDeck) points = settings.ThreeCardsMode ? RecycleReserve3Points : RecycleReserve1Points;
             }
             else if (source is ColumnDeck)
             {

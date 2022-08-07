@@ -19,10 +19,12 @@ namespace Solitary.UI
 
         private void Start()
         {
-            AudioManager.MusicGlobalVolume = 0.2f;
-            AudioManager.SFXGlobalVolume = 1f;
             AudioManager.PlayMusic("main_music");
+            UpdateUI();
+        }
 
+        public void UpdateUI()
+        {
             IGameSaver gameSaver = new Game.Saver();
             resumeButton.interactable = gameSaver.HasData();
             textVersion.text = Application.version;

@@ -1,6 +1,7 @@
 using Solitary.Core;
 using Solitary.Manager;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Solitary.UI
 {
@@ -9,6 +10,19 @@ namespace Solitary.UI
         [Header("Managers")]
         [SerializeField] private GameManager gameManager;
         [SerializeField] private LevelManager levelManager;
+
+        [Header("Menu")]
+        [SerializeField] private Button helpButton;
+        [SerializeField] private Button undoButton;
+
+        private void Start()
+        {
+            IGameSettings settings = new GameSettings();
+            settings.Load();
+
+            helpButton.interactable = settings.AllowHelp;
+            undoButton.interactable = settings.AllowUndo;
+        }
 
         public async void OnClickNewGame()
         {

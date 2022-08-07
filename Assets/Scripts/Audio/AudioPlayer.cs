@@ -3,30 +3,31 @@ using UnityEngine;
 namespace Solitary
 {
     [RequireComponent(typeof(AudioSource))]
-    public class AudioPlayer : MonoBehaviour, ISoundPlayer
+    public class AudioPlayer : MonoBehaviour, IAudioPlayer
     {
-        private AudioSource musicSource;
+        private AudioSource audioSource;
 
         private void Awake()
         {
-            musicSource = GetComponent<AudioSource>();
+            audioSource = GetComponent<AudioSource>();
         }
 
-        public void Play(AudioClip clip)
+        public void Play(AudioClip clip, bool loop = false)
         {
-            if (musicSource.clip == clip && musicSource.isPlaying) return;
-            musicSource.clip = clip;
-            musicSource.Play();
+            if (audioSource.clip == clip && audioSource.isPlaying) return;
+            audioSource.clip = clip;
+            audioSource.Play();
+            audioSource.loop = loop;
         }
 
         public void SetVolume(float volume)
         {
-            musicSource.volume = volume;
+            audioSource.volume = volume;
         }
 
         public void Stop()
         {
-            musicSource.Stop();
+            audioSource.Stop();
         }
     }
 }

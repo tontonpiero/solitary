@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using Solitary.Core;
-using System.Collections.Generic;
 
 namespace Solitary.Tests
 {
