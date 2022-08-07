@@ -7,7 +7,7 @@ namespace Solitary.Core
     [Serializable]
     public class GameSettings : IGameSettings
     {
-        public const string SaveGamePrefKey = "game_settings";
+        public const string PrefKey = "game_settings";
         private readonly IDataSaver<GameSettings> dataSource;
 
         [SerializeField] private bool allowHelp = true;
@@ -20,7 +20,7 @@ namespace Solitary.Core
 
         public GameSettings()
         {
-            dataSource = new PlayerPrefsDataSaver<GameSettings>(SaveGamePrefKey);
+            dataSource = new PlayerPrefsDataSaver<GameSettings>(PrefKey);
         }
 
         public void Load() => dataSource.LoadData(this);
