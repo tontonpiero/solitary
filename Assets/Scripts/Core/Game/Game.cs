@@ -177,7 +177,7 @@ namespace Solitary.Core
             int amount = settings.ThreeCardsMode ? 3 : 1;
             amount = Math.Min(StockDeck.Count, amount);
 
-            MoveCards(StockDeck, ReserveDeck, amount);
+            MoveCards(StockDeck, ReserveDeck, amount, true);
         }
 
         public void Recycle()
