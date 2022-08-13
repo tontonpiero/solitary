@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: IconAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 1
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 6c4f2cc18a6f6d543950675f006bcc0b, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 1e0eee4186d40924a88e55aa518ee439, type: 3}
+  - {fileID: 21300000, guid: c59fb7512c23e37478342692d01b8670, type: 3}
+  - {fileID: 21300000, guid: bbfcacc27d43b054498d699d7a0d0876, type: 3}
+  - {fileID: 21300000, guid: 44f2171342311bb44bad257baae61701, type: 3}
+  - {fileID: 21300000, guid: 19eb7157cdb204b47b45f364d1e9d79b, type: 3}
+  - {fileID: 21300000, guid: 288f9ed7851c9b54ebdbe1cc5588772a, type: 3}
+  - {fileID: 21300000, guid: a6d053488a3c07b42b3b5d3b4b6889ac, type: 3}
+  - {fileID: 21300000, guid: 94ea79685861029458c8c5a94d75f40a, type: 3}
+  - {fileID: 21300000, guid: e515e829827e5144593b9e859d879c48, type: 3}
+  - {fileID: 21300000, guid: 69496a29b58a10c4a967a8a756316bca, type: 3}
+  - {fileID: 21300000, guid: cf67aed924cda22488df190b6231e201, type: 3}
+  - {fileID: 21300000, guid: aa9fa72c4f354c841acc25ff235dd3dd, type: 3}
+  - {fileID: 21300000, guid: 16a0050e708097f4b8d7d52bb39bd6c8, type: 3}
+  - {fileID: 21300000, guid: 7a701fce640369c45bb33b885d2eb4cc, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Pictoicon_Add
+  - Pictoicon_Setting
+  - Pictoicon_Control_Fw
+  - Pictoicon_Confirm
+  - Pictoicon_Cancel
+  - Pictoicon_Help
+  - Pictoicon_Card
+  - Pictoicon_Control_Pause
+  - Pictoicon_Undo
+  - Pictoicon_Gear
+  - Pictoicon_Question
+  - Pictoicon_Home_0
+  - Pictoicon_Plus
+  - Pictoicon_Trophy_0
+  m_RenderDataMap: {}
+  m_Tag: IconAtlas
+  m_IsVariant: 0
