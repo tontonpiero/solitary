@@ -338,6 +338,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnGainFocus:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLoseFocus:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!225 &2223416901127184076
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -672,7 +678,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4822692997105200579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd7fc32e6113b8f48b7288ed082374e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0becf15501ea95d418490ae66057a2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   soundName: click

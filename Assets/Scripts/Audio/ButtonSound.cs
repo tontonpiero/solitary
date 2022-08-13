@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Solitary
+namespace Utils.Audio
 {
     public class ButtonSound : MonoBehaviour
     {

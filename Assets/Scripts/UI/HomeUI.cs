@@ -19,7 +19,6 @@ namespace Solitary.UI
 
         private void Start()
         {
-            AudioManager.PlayMusic("main_music");
             UpdateUI();
         }
 

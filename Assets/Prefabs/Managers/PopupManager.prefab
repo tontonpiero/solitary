@@ -143,7 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8086407503995102614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd7fc32e6113b8f48b7288ed082374e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0becf15501ea95d418490ae66057a2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   soundName: click
@@ -1866,7 +1866,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8086407504916210210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd7fc32e6113b8f48b7288ed082374e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0becf15501ea95d418490ae66057a2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   soundName: click

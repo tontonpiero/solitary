@@ -1,33 +1,42 @@
 using UnityEngine;
 
-namespace Solitary
+namespace Utils.Audio
 {
-    [RequireComponent(typeof(AudioSource))]
     public class AudioPlayer : MonoBehaviour, IAudioPlayer
     {
-        private AudioSource audioSource;
+        private AudioSource musicAudioSource;
+        private AudioSource sfxAudioSource;
+
+        public float MusicVolume { get => musicAudioSource.volume; set => musicAudioSource.volume = value; }
+        public float SfxVolume { get => sfxAudioSource.volume; set => sfxAudioSource.volume = value; }
 
         private void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
+            musicAudioSource = gameObject.AddComponent<AudioSource>();
+            sfxAudioSource = gameObject.AddComponent<AudioSource>();
+            gameObject.AddComponent<AudioListener>();
+
+            DontDestroyOnLoad(gameObject);
         }
 
-        public void Play(AudioClip clip, bool loop = false)
+        public void PlayMusic(AudioClip clip)
         {
-            if (audioSource.clip == clip && audioSource.isPlaying) return;
-            audioSource.clip = clip;
-            audioSource.Play();
-            audioSource.loop = loop;
+            if (clip == null) return;
+            if (musicAudioSource.clip == clip && musicAudioSource.isPlaying) return;
+            musicAudioSource.clip = clip;
+            musicAudioSource.loop = true;
+            musicAudioSource.Play();
         }
 
-        public void SetVolume(float volume)
+        public void PlaySfx(AudioClip clip, float volume)
         {
-            audioSource.volume = volume;
+            if (clip == null) return;
+            sfxAudioSource.PlayOneShot(clip, volume);
         }
 
-        public void Stop()
+        public void StopMusic()
         {
-            audioSource.Stop();
+            musicAudioSource.Stop();
         }
     }
 }

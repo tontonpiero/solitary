@@ -1,6 +1,7 @@
 using Solitary.Core;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.Audio;
 
 namespace Solitary
 {

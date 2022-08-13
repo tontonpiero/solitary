@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Solitary
+namespace Utils.Audio
 {
 
     static public class AudioManager
@@ -8,35 +8,42 @@ namespace Solitary
         private const string SFXVolumeKey = "_sfx_volume_";
         private const string MusicVolumeKey = "_music_volume_";
 
-        static private AudioPlayer musicPlayer;
+        static private AudioPlayer audioPlayer;
         static private AudioLibrary library;
 
-        static private float musicGlobalVolume = 0.5f;
-        static private float sfxGlobalVolume = 0.5f;
         static private bool isInitialized = false;
 
         static public float SFXGlobalVolume
         {
-            get => sfxGlobalVolume;
+            get
+            {
+                Initialize();
+                if (!isInitialized) return 0f;
+                return audioPlayer.SfxVolume;
+            }
             set
             {
                 Initialize();
                 if (!isInitialized) return;
-                sfxGlobalVolume = value;
+                audioPlayer.SfxVolume = value;
                 PlayerPrefs.SetFloat(SFXVolumeKey, value);
             }
         }
 
         static public float MusicGlobalVolume
         {
-            get => musicGlobalVolume;
+            get
+            {
+                Initialize();
+                if (!isInitialized) return 0f;
+                return audioPlayer.MusicVolume;
+            }
             set
             {
                 Initialize();
                 if (!isInitialized) return;
-                musicGlobalVolume = value;
-                musicPlayer.SetVolume(musicGlobalVolume);
-                PlayerPrefs.SetFloat(MusicVolumeKey, musicGlobalVolume);
+                audioPlayer.MusicVolume = value;
+                PlayerPrefs.SetFloat(MusicVolumeKey, value);
             }
         }
 
@@ -44,54 +51,37 @@ namespace Solitary
         {
             if (isInitialized) return;
             if (!Application.isPlaying) return;
-            sfxGlobalVolume = PlayerPrefs.GetFloat(SFXVolumeKey, musicGlobalVolume);
-            musicGlobalVolume = PlayerPrefs.GetFloat(MusicVolumeKey, sfxGlobalVolume);
 
             library = Resources.Load<AudioLibrary>("AudioLibrary");
-            if(library == null) return;
+            if (library == null) return;
 
-            musicPlayer = new GameObject("MusicPlayer").AddComponent<AudioPlayer>();
-            GameObject.DontDestroyOnLoad(musicPlayer.gameObject);
+            audioPlayer = new GameObject("AudioPlayer").AddComponent<AudioPlayer>();
 
             isInitialized = true;
+
+            SFXGlobalVolume = PlayerPrefs.GetFloat(SFXVolumeKey, 0.5f);
+            MusicGlobalVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 0.5f);
         }
 
-        static public void PlaySound(string name, Vector3 position, float volume = 1f)
+        static public void PlaySound(string name, float volume = 1f)
         {
             Initialize();
             if (!isInitialized) return;
-            AudioClip clip = library.GetSound(name);
-            if (clip != null)
-                AudioSource.PlayClipAtPoint(clip, position, volume * sfxGlobalVolume);
-        }
-
-        static public void PlaySound(string name, float volume)
-        {
-            PlaySound(name, Camera.main.transform.position, volume);
-        }
-
-        static public void PlaySound(string name)
-        {
-            PlaySound(name, Camera.main.transform.position, 1f);
+            audioPlayer.PlaySfx(library.GetSound(name), volume);
         }
 
         static public void PlayMusic(string name)
         {
             Initialize();
             if (!isInitialized) return;
-            AudioClip clip = library.GetSound(name);
-            if (clip != null)
-            {
-                musicPlayer.Play(clip, true);
-                musicPlayer.SetVolume(musicGlobalVolume);
-            }
+            audioPlayer.PlayMusic(library.GetSound(name));
         }
 
         static public void StopMusic()
         {
             Initialize();
             if (!isInitialized) return;
-            musicPlayer.Stop();
+            audioPlayer.StopMusic();
         }
     }
 

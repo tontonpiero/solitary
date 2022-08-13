@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-namespace Solitary
+namespace Utils.Audio
 {
     public interface IAudioPlayer
     {
-        void Play(AudioClip clip, bool loop = false);
-        void SetVolume(float volume);
-        void Stop();
+        float MusicVolume { get; set; }
+        float SfxVolume { get; set; }
+
+        void PlayMusic(AudioClip clip);
+        void PlaySfx(AudioClip clip, float volume);
+        void StopMusic();
     }
 }
