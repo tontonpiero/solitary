@@ -57,6 +57,9 @@ namespace Solitary.Manager
         private void Update()
         {
             game?.Update(Time.unscaledDeltaTime);
+
+            if (Input.GetKeyDown(KeyCode.H)) ResolveNextMove();
+            if (Input.GetKeyDown(KeyCode.U)) UndoLastMove();
         }
 
         private void OnApplicationPause(bool pause)

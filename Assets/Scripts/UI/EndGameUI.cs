@@ -1,9 +1,11 @@
 using Solitary.Core;
 using Solitary.Manager;
+using Solitary.Utils;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils.Audio;
 
 namespace Solitary.UI
@@ -17,6 +19,8 @@ namespace Solitary.UI
         [SerializeField] private TMP_Text textMoves;
         [SerializeField] private TMP_Text textTime;
         [SerializeField] private TMP_Text textScore;
+        [SerializeField] private TMP_Text textBestScore;
+        [SerializeField] private Image bestScoreIcon;
 
         private void Awake()
         {
@@ -36,11 +40,17 @@ namespace Solitary.UI
         {
             gameObject.SetActive(true);
 
+            StatsManager statsManager = new StatsManager();
+            statsManager.SaveScore(gameManager.GetScore());
+
             textMoves.text = gameManager.GetMoves().ToString();
             TimeSpan time = TimeSpan.FromSeconds(gameManager.GetTotalTime());
             textTime.text = time.ToString(@"mm\:ss");
             textScore.text = gameManager.GetScore().ToString();
-            
+            textBestScore.text = $"Best score: {statsManager.Data.BestScore}";
+
+            bestScoreIcon.gameObject.SetActive(gameManager.GetScore() == statsManager.Data.BestScore);
+
             StartCoroutine(DelayPlayVictorySound());
         }
 
