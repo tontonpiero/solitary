@@ -15,3 +15,4 @@ https://github.com/tontonpiero/solitary/releases
 - Add an help counter
 - ~~Add a settings popup to manage sounds and game options~~
 - More unit tests (game saver, game solver, etc.)
+- Player stats (Games count, victories, best score, etc.)
