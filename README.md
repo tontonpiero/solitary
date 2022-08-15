@@ -8,11 +8,5 @@ https://github.com/tontonpiero/solitary/releases
 - No internet connection is required
 - Unity version is 2020.3.23f1
 
-## Possible improvements & evolutions
-- Save/Load undoable command history
-- Manage landscape mode
-- ~~Add a mode 'reserve x 3'~~
-- Add an help counter
-- ~~Add a settings popup to manage sounds and game options~~
-- More unit tests (game saver, game solver, etc.)
-- Player stats (Games count, victories, best score, etc.)
+## Future improvements & evolutions
+- New visuals
