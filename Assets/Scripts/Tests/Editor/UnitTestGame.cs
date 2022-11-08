@@ -22,7 +22,7 @@ namespace Solitary.Tests
 
             Assert.That(game.State, Is.EqualTo(GameState.Started));
             Assert.That(game.StockDeck, Is.Not.Null);
-            Assert.That(game.StockDeck.Count, Is.EqualTo(52));
+            Assert.That(game.StockDeck.Count, Is.GreaterThan(0));
             Assert.That(game.ReserveDeck, Is.Not.Null);
             Assert.That(game.ReserveDeck.Count, Is.EqualTo(0));
             Assert.That(game.ColumnDecks, Is.Not.Null);
@@ -376,14 +376,14 @@ namespace Solitary.Tests
             game.MoveCards(game.StockDeck, game.ReserveDeck, game.StockDeck.Count);
 
             Assert.That(game.StockDeck.Count, Is.EqualTo(0));
-            Assert.That(game.ReserveDeck.Count, Is.EqualTo(52));
+            int previousReserveCount = game.ReserveDeck.Count;
 
             Card previousReserveTopCard = game.ReserveDeck.TopCard;
 
             game.Recycle();
 
-            Assert.That(game.StockDeck.Count, Is.EqualTo(52));
             Assert.That(game.ReserveDeck.Count, Is.EqualTo(0));
+            Assert.That(game.StockDeck.Count, Is.EqualTo(previousReserveCount));
             Assert.That(game.StockDeck.TopCard, Is.Not.EqualTo(previousReserveTopCard));
         }
 
@@ -396,11 +396,12 @@ namespace Solitary.Tests
             game.Settings.ThreeCardsMode = false;
 
             Card previousStockTopCard = game.StockDeck.TopCard;
+            int previousCount = game.StockDeck.Count;
 
             game.Draw();
 
             Assert.That(game.ReserveDeck.Count, Is.EqualTo(1));
-            Assert.That(game.StockDeck.Count, Is.EqualTo(51));
+            Assert.That(game.StockDeck.Count, Is.EqualTo(previousCount - 1));
 
             Assert.That(game.ReserveDeck.TopCard, Is.EqualTo(previousStockTopCard));
         }
@@ -414,11 +415,12 @@ namespace Solitary.Tests
             game.Settings.ThreeCardsMode = true;
 
             Card previousStockCard3 = game.StockDeck.GetCard(2);
+            int previousCount = game.StockDeck.Count;
 
             game.Draw();
 
             Assert.That(game.ReserveDeck.Count, Is.EqualTo(3));
-            Assert.That(game.StockDeck.Count, Is.EqualTo(49));
+            Assert.That(game.StockDeck.Count, Is.EqualTo(previousCount - 3));
 
             Assert.That(game.ReserveDeck.TopCard, Is.EqualTo(previousStockCard3));
         }
