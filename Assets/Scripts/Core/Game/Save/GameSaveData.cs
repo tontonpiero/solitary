@@ -9,12 +9,14 @@ namespace Solitary.Core
         public int Id;
         public int Score;
         public int Moves;
-        public float TotalTime;
+        public float Time;
 
-        public DeckData sData; // stock deck
-        public DeckData wData; // Reserve deck
-        public DeckData[] fData; // foundation decks
-        public DeckData[] cData; // column decks
+        public DeckData SData; // stock deck
+        public DeckData RData; // reserve deck
+        public DeckData[] FData; // foundation decks
+        public DeckData[] CData; // column decks
+
+        public MoveCommandData[] Cmds;
     }
 
     [Serializable]
@@ -24,17 +26,30 @@ namespace Solitary.Core
     }
 
     [Serializable]
+    public struct MoveCommandData
+    {
+        public string Src; // source deck name
+        public int SrcIdx; // source deck index
+        public string Dest; // destination deck name
+        public int DestIdx; // destination deck index
+        public int Amount; // amount of cards
+        public int PrevScore; // previous score
+        public bool Reverse; // reverse moved cards
+        public bool CarRev; // was card revealed
+    }
+
+    [Serializable]
     public struct CardData
     {
         public CardData(CardRank rank, CardSuit suit, bool isVisible)
         {
-            r = rank;
-            s = suit;
-            v = isVisible;
+            R = rank;
+            S = suit;
+            V = isVisible;
         }
 
-        public CardRank r; // rank
-        public CardSuit s; // suit
-        public bool v; // isVisible
+        public CardRank R; // rank
+        public CardSuit S; // suit
+        public bool V; // is visible
     }
 }

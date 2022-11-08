@@ -4,15 +4,16 @@ namespace Solitary.Core
     {
         public class Builder
         {
-            private ICommandInvoker commandInvoker;
+            private IMoveCommandInvoker moveCommandInvoker;
             private IDeckFactory deckFactory;
             private IGameSolver gameSolver;
             private IGameSaver gameSaver;
             private IGameSettings settings;
+            private Game originalGame;
 
-            public Builder WithCommandInvoker(ICommandInvoker commandInvoker)
+            public Builder WithMoveCommandInvoker(IMoveCommandInvoker moveCommandInvoker)
             {
-                this.commandInvoker = commandInvoker;
+                this.moveCommandInvoker = moveCommandInvoker;
                 return this;
             }
 
@@ -40,6 +41,12 @@ namespace Solitary.Core
                 return this;
             }
 
+            public Builder HasOriginalGame(Game originalGame)
+            {
+                this.originalGame = originalGame;
+                return this;
+            }
+
             public Game Build()
             {
                 if (settings == null)
@@ -49,11 +56,12 @@ namespace Solitary.Core
                 }
 
                 return new Game(
-                    commandInvoker ?? new CommandInvoker(),
+                    moveCommandInvoker ?? new MoveCommandInvoker(),
                     deckFactory ?? new Deck.Factory(),
                     gameSolver ?? new GameSolver(),
                     gameSaver ?? new Game.Saver(),
-                    settings
+                    settings,
+                    originalGame
                 );
             }
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Solitary.Core
 {
@@ -29,47 +30,85 @@ namespace Solitary.Core
         public event Action<GameState> OnStateChanged;
 
         // Systems
-        private readonly ICommandInvoker commandInvoker;
+        private readonly IMoveCommandInvoker moveCommandInvoker;
         private readonly IDeckFactory deckFactory;
         private readonly IGameSolver gameSolver;
         private readonly IGameSaver gameSaver;
         private readonly IGameSettings settings;
 
-        private Game(ICommandInvoker commandInvoker, IDeckFactory deckFactory, IGameSolver gameSolver, IGameSaver gameSaver, IGameSettings settings)
+        private Game(IMoveCommandInvoker moveCommandInvoker, IDeckFactory deckFactory, IGameSolver gameSolver, IGameSaver gameSaver, IGameSettings settings, Game originalGame)
         {
-            this.commandInvoker = commandInvoker;
+            this.moveCommandInvoker = moveCommandInvoker;
             this.deckFactory = deckFactory;
             this.gameSolver = gameSolver;
             this.gameSaver = gameSaver;
             this.settings = settings;
+
+            this.moveCommandInvoker.Game = this;
+
+            if (originalGame != null)
+            {
+                CloneFromGame(originalGame);
+            }
+        }
+
+        private void CloneFromGame(Game originalGame)
+        {
+            SetState(GameState.Started);
+            CreateDecks();
+
+            StockDeck.Load(originalGame.StockDeck.Save());
+            ReserveDeck.Load(originalGame.ReserveDeck.Save());
+            for (int i = 0; i < ColumnsCount; i++)
+            {
+                ColumnDecks[i].Load(originalGame.ColumnDecks[i].Save());
+            }
+            for (int i = 0; i < FoundationsCount; i++)
+            {
+                FoundationDecks[i].Load(originalGame.FoundationDecks[i].Save());
+            }
         }
 
         public void Start(int id = 0)
         {
             if (State != GameState.NotStarted) return;
 
-            if (id == 0)
+            bool isReplay = id != 0;
+            if (isReplay)
+            {
+                Id = id;
+            }
+            else
             {
                 Random rnd = new Random();
                 Id = rnd.Next(1, int.MaxValue);
             }
-            else
-            {
-                Id = id;
-            }
 
             SetState(GameState.Started);
 
-            CreateDecks();
-
             if (gameSaver.HasData())
             {
+                CreateDecks();
                 gameSaver.Load(this);
             }
             else
             {
-                StockDeck.Fill();
-                StockDeck.Shuffle(Id);
+                bool isReady = false;
+                int tries = 0;
+                while (!isReady)
+                {
+                    CreateDecks();
+                    StockDeck.Fill();
+                    StockDeck.Shuffle(Id);
+                    Deal();
+                    isReady = isReplay || tries >= 50 || !settings.EnsureSolvable || IsSolvable();
+                    if (!isReady)
+                    {
+                        tries++;
+                        Random rnd = new Random();
+                        Id = rnd.Next(1, int.MaxValue);
+                    }
+                }
             }
         }
 
@@ -91,7 +130,7 @@ namespace Solitary.Core
             ColumnDecks = new ColumnDeck[ColumnsCount];
             for (int i = 0; i < ColumnDecks.Length; i++)
             {
-                ColumnDecks[i] = deckFactory.CreateColumnDeck();
+                ColumnDecks[i] = deckFactory.CreateColumnDeck(i);
             }
 
             FoundationDecks = new FoundationDeck[FoundationsCount];
@@ -101,7 +140,7 @@ namespace Solitary.Core
             }
         }
 
-        public void Deal()
+        private void Deal()
         {
             for (int i = 0; i < ColumnDecks.Length; i++)
             {
@@ -143,14 +182,16 @@ namespace Solitary.Core
 
         public bool CanMoveCard(Deck source, Deck destination, Card card) => source != null && source.CanMoveCardTo(destination, card);
 
-        public void MoveCards(Deck source, Deck destination, int amount = 1, bool reverse = false)
+        public void MoveCards(Deck source, Deck destination, int amount = 1)
         {
             if (State != GameState.Started) return;
 
             if (source == null || destination == null || amount < 1) return;
 
-            ICommand command = new MoveCommand(this, source, destination, amount, reverse);
-            commandInvoker.AddCommand(command);
+            bool reverse = (source is StockDeck && destination is ReserveDeck) || (source is ReserveDeck && destination is StockDeck);
+
+            IMoveCommand command = new MoveCommand(this, source, destination, amount, reverse);
+            moveCommandInvoker.AddCommand(command);
 
             SetMoves(Moves + 1);
 
@@ -177,23 +218,23 @@ namespace Solitary.Core
             int amount = settings.ThreeCardsMode ? 3 : 1;
             amount = Math.Min(StockDeck.Count, amount);
 
-            MoveCards(StockDeck, ReserveDeck, amount, true);
+            MoveCards(StockDeck, ReserveDeck, amount);
         }
 
         public void Recycle()
         {
             if (State != GameState.Started) return;
 
-            MoveCards(ReserveDeck, StockDeck, ReserveDeck.Count, true);
+            MoveCards(ReserveDeck, StockDeck, ReserveDeck.Count);
         }
 
         public bool UndoLastMove()
         {
             if (State != GameState.Started) return false;
 
-            if (commandInvoker.Count > 0)
+            if (moveCommandInvoker.Count > 0)
             {
-                commandInvoker.UndoCommand();
+                moveCommandInvoker.UndoCommand();
 
                 SetMoves(Moves + 1);
 
@@ -242,6 +283,13 @@ namespace Solitary.Core
                 return true;
             }
             return false;
+        }
+
+        public bool IsSolvable()
+        {
+            if (State != GameState.Started) return false;
+
+            return gameSolver.IsSolvable(this);
         }
 
         public void Dispose()

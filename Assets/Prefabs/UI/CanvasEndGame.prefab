@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 3686054148892985619}
   - component: {fileID: 1411973385256731312}
   - component: {fileID: 1500522379438897471}
+  - component: {fileID: 6731514298262549537}
   m_Layer: 0
-  m_Name: BestScoreValue
+  m_Name: BestScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -5}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1411973385256731312
 CanvasRenderer:
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Best score: 560'
+  m_text: 'Meilleurs score : 666'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -134,6 +135,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6731514298262549537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3563663406304401754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: hud.best_score.label
+  PluralKey: 
+  Parameters:
+  - Value: 666
+    Localize: 0
+  ToUpper: 0
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &4822692996489019576
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,7 +468,7 @@ MonoBehaviour:
   textMoves: {fileID: 4822692997500104046}
   textTime: {fileID: 4822692997945223521}
   textScore: {fileID: 4822692998342155302}
-  textBestScore: {fileID: 1500522379438897471}
+  textBestScore: {fileID: 6731514298262549537}
   bestScoreIcon: {fileID: 4966555218548203033}
 --- !u!114 &6261625351941554894
 MonoBehaviour:
@@ -856,6 +877,7 @@ GameObject:
   - component: {fileID: 4822692997294068131}
   - component: {fileID: 4822692997294068129}
   - component: {fileID: 4822692997294068128}
+  - component: {fileID: 8622849551602958434}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -979,6 +1001,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8622849551602958434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4822692997294068130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: hud.score.label
+  PluralKey: 
+  Parameters: []
+  ToUpper: 1
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &4822692997301463021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,6 +1180,7 @@ GameObject:
   - component: {fileID: 4822692997373298681}
   - component: {fileID: 4822692997373298679}
   - component: {fileID: 4822692997373298678}
+  - component: {fileID: 6617593220105764288}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -1194,7 +1235,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TIME
+  m_text: Temps
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -1263,6 +1304,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6617593220105764288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4822692997373298680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: hud.time.label
+  PluralKey: 
+  Parameters: []
+  ToUpper: 0
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &4822692997416726409
 GameObject:
   m_ObjectHideFlags: 0
@@ -1483,6 +1542,7 @@ GameObject:
   - component: {fileID: 4822692997545714685}
   - component: {fileID: 4822692997545714683}
   - component: {fileID: 4822692997545714682}
+  - component: {fileID: 7256468257496634200}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -1537,7 +1597,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Game
+  m_text: Nouvelle partie
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -1606,6 +1666,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7256468257496634200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4822692997545714684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: button.new_game
+  PluralKey: 
+  Parameters: []
+  ToUpper: 0
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &4822692997662258096
 GameObject:
   m_ObjectHideFlags: 0
@@ -2225,6 +2303,7 @@ GameObject:
   - component: {fileID: 4822692998474522195}
   - component: {fileID: 4822692998474522193}
   - component: {fileID: 4822692998474522192}
+  - component: {fileID: 4474163721580321177}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -2279,7 +2358,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MOVES
+  m_text: COUPS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -2348,6 +2427,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4474163721580321177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4822692998474522194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: hud.moves.label
+  PluralKey: 
+  Parameters: []
+  ToUpper: 1
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &4822692998501796087
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,6 +2456,7 @@ GameObject:
   - component: {fileID: 4822692998501796084}
   - component: {fileID: 4822692998501796082}
   - component: {fileID: 4822692998501796085}
+  - component: {fileID: 6394529498112775317}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2413,7 +2511,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: VICTORY
+  m_text: VICTOIRE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -2482,6 +2580,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6394529498112775317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4822692998501796087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: popup.end_game.title
+  PluralKey: 
+  Parameters: []
+  ToUpper: 1
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &4822692998531425131
 GameObject:
   m_ObjectHideFlags: 0

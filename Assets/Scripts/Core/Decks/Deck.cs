@@ -6,18 +6,25 @@ namespace Solitary.Core
 {
     public delegate void CardsMovedEventHandler(Deck deck, IEnumerable<Card> cards);
 
-    public abstract class Deck : IDisposable
+    public abstract class Deck : IDisposable, ISavable<DeckData>
     {
         public event CardsMovedEventHandler OnCardsAdded;
         public event CardsMovedEventHandler OnCardsRemoved;
 
-        protected Stack<Card> cards = new Stack<Card>();
-
+        public int Index { get; private set; }
         public Card TopCard => IsEmpty ? null : cards.Peek();
         public bool IsEmpty => cards.Count == 0;
         public int Count => cards.Count;
 
-        protected Deck() { }
+
+        protected Stack<Card> cards = new Stack<Card>();
+
+        protected Deck(int index)
+        {
+            Index = index;
+        }
+
+        public IEnumerable<Card> Cards => cards;
 
         /// <summary>
         /// Get card at specified index from top (the card stays in the deck)
@@ -72,8 +79,8 @@ namespace Solitary.Core
             ICardFactory cardFactory = new Card.Factory();
             foreach (CardData cardData in data.Cards)
             {
-                Card card = cardFactory.Create(cardData.r, cardData.s);
-                if (cardData.v)
+                Card card = cardFactory.Create(cardData.R, cardData.S);
+                if (cardData.V)
                 {
                     card.Hide();
                     card.Reveal();
@@ -98,7 +105,7 @@ namespace Solitary.Core
 
         public class Factory : IDeckFactory
         {
-            public ColumnDeck CreateColumnDeck() => new ColumnDeck();
+            public ColumnDeck CreateColumnDeck(int index) => new ColumnDeck(index);
 
             public FoundationDeck CreateFoundationDeck(CardSuit suit) => new FoundationDeck(suit);
 

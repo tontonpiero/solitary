@@ -1,3 +1,4 @@
+using Modules.Localization;
 using Solitary.Core;
 using Solitary.Manager;
 using Solitary.Utils;
@@ -19,7 +20,7 @@ namespace Solitary.UI
         [SerializeField] private TMP_Text textMoves;
         [SerializeField] private TMP_Text textTime;
         [SerializeField] private TMP_Text textScore;
-        [SerializeField] private TMP_Text textBestScore;
+        [SerializeField] private LocalizeText textBestScore;
         [SerializeField] private Image bestScoreIcon;
 
         private void Awake()
@@ -47,7 +48,7 @@ namespace Solitary.UI
             TimeSpan time = TimeSpan.FromSeconds(gameManager.GetTotalTime());
             textTime.text = time.ToString(@"mm\:ss");
             textScore.text = gameManager.GetScore().ToString();
-            textBestScore.text = $"Best score: {statsManager.Data.BestScore}";
+            textBestScore.SetParameter(0, statsManager.Data.BestScore);
 
             bestScoreIcon.gameObject.SetActive(gameManager.GetScore() == statsManager.Data.BestScore);
 

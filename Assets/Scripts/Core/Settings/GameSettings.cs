@@ -13,10 +13,12 @@ namespace Solitary.Core
         [SerializeField] private bool allowHelp = true;
         [SerializeField] private bool allowUndo = true;
         [SerializeField] private bool threeCardsMode = true;
+        [SerializeField] private bool ensureSolvable = false;
 
         public bool AllowHelp { get { return allowHelp; } set { allowHelp = value; } }
         public bool AllowUndo { get { return allowUndo; } set { allowUndo = value; } }
         public bool ThreeCardsMode { get { return threeCardsMode; } set { threeCardsMode = value; } }
+        public bool EnsureSolvable { get { return ensureSolvable; } set { ensureSolvable = value; } }
 
         public GameSettings()
         {

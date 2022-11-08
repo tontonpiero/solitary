@@ -168,7 +168,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_CanPush_To_ColumnDeck()
         {
-            ColumnDeck deck = new ColumnDeck();
+            ColumnDeck deck = new ColumnDeck(0);
             Card card1 = testCardFactory.Create(CardRank.King, CardSuit.Hearts);
             Card card2 = testCardFactory.Create(CardRank.Queen, CardSuit.Spades);
             Card card3 = testCardFactory.Create(CardRank.Jack, CardSuit.Diamonds);

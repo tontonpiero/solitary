@@ -25,19 +25,25 @@ namespace Solitary.Manager
 
         public CardView GetCardView(Card card) => cardViewByCard[card];
 
-        public void CreateDeckCards(DeckView deckView)
+        public void CreateDeckCards(DeckView deckView, DeckView stockDeckView)
         {
             IEnumerable<Card> cards = deckView.Deck.GetCards(deckView.Deck.Count).Reverse();
             foreach (Card card in cards)
             {
                 CardView cardView = Instantiate(cardViewPrefab, cardsContainer, false);
-                cardView.transform.position = deckView.transform.position;
                 cardView.SetCard(card);
                 cardView.OnCardDragStarted += OnCardDragStarted;
                 cardView.OnCardDragComplete += OnCardDragComplete;
                 cardView.OnCardDoubleClicked += OnCardDoubleClicked;
                 cardViewByCard.Add(card, cardView);
-                deckView.AddCardView(cardView);
+
+                cardView.transform.position = stockDeckView.transform.position;
+                stockDeckView.AddCardView(cardView);
+
+                if (deckView != stockDeckView)
+                {
+                    MoveCard(card, deckView);
+                }
             }
         }
 

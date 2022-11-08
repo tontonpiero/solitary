@@ -47,7 +47,6 @@ namespace Solitary.Manager
             {
                 preventMove = true;
                 yield return new WaitForSeconds(0.5f);
-                game.Deal();
                 AudioManager.PlaySound("move_cards");
                 yield return new WaitForSeconds(1f);
                 preventMove = false;
@@ -60,6 +59,10 @@ namespace Solitary.Manager
 
             if (Input.GetKeyDown(KeyCode.H)) ResolveNextMove();
             if (Input.GetKeyDown(KeyCode.U)) UndoLastMove();
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Debug.Log("IsSolvable=" + game.IsSolvable());
+            }
         }
 
         private void OnApplicationPause(bool pause)

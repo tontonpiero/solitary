@@ -3,6 +3,8 @@ namespace Solitary.Core
 
     public class ReserveDeck : Deck
     {
+        public ReserveDeck() : base(0) { }
+
         protected override void OnChanged()
         {
             foreach (Card card in cards)

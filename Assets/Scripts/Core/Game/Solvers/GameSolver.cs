@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Solitary.Core
 {
     public class GameSolver : IGameSolver
@@ -5,6 +7,25 @@ namespace Solitary.Core
 
         public bool TrySolve(Game game, out Deck source, out Deck destination, out int amount)
         {
+            List<SolverMove> possibleMoves = GetPossibleMoves(game);
+            if (possibleMoves.Count > 0)
+            {
+                source = possibleMoves[0].Source;
+                destination = possibleMoves[0].Destination;
+                amount = possibleMoves[0].Amount;
+                return true;
+            }
+
+            amount = 0;
+            source = null;
+            destination = null;
+            return false;
+        }
+
+        private List<SolverMove> GetPossibleMoves(Game game)
+        {
+            List<SolverMove> moves = new List<SolverMove>();
+
             // try columns to other columns
             for (int columnSourceIndex = 0; columnSourceIndex < Game.ColumnsCount; columnSourceIndex++)
             {
@@ -12,11 +33,9 @@ namespace Solitary.Core
                 for (int columnDestIndex = 0; columnDestIndex < Game.ColumnsCount; columnDestIndex++)
                 {
                     ColumnDeck columnDestDeck = game.ColumnDecks[columnDestIndex];
-                    if (CanSolveColumn(columnSourceDeck, columnDestDeck, out amount))
+                    if (CanSolveColumn(columnSourceDeck, columnDestDeck, out int amount))
                     {
-                        source = columnSourceDeck;
-                        destination = columnDestDeck;
-                        return true;
+                        moves.Add(new SolverMove() { Source = columnSourceDeck, Destination = columnDestDeck, Amount = amount });
                     }
                 }
             }
@@ -30,10 +49,7 @@ namespace Solitary.Core
                     FoundationDeck foundationDeck = game.FoundationDecks[foundationIndex];
                     if (CanSolve(columnDeck, foundationDeck))
                     {
-                        source = columnDeck;
-                        destination = foundationDeck;
-                        amount = 1;
-                        return true;
+                        moves.Add(new SolverMove() { Source = columnDeck, Destination = foundationDeck, Amount = 1 });
                     }
                 }
             }
@@ -44,10 +60,7 @@ namespace Solitary.Core
                 ColumnDeck columnDestDeck = game.ColumnDecks[columnDestIndex];
                 if (CanSolve(game.ReserveDeck, columnDestDeck))
                 {
-                    source = game.ReserveDeck;
-                    destination = columnDestDeck;
-                    amount = 1;
-                    return true;
+                    moves.Add(new SolverMove() { Source = game.ReserveDeck, Destination = columnDestDeck, Amount = 1 });
                 }
             }
 
@@ -57,32 +70,20 @@ namespace Solitary.Core
                 FoundationDeck foundationDeck = game.FoundationDecks[foundationIndex];
                 if (CanSolve(game.ReserveDeck, foundationDeck))
                 {
-                    source = game.ReserveDeck;
-                    destination = foundationDeck;
-                    amount = 1;
-                    return true;
+                    moves.Add(new SolverMove() { Source = game.ReserveDeck, Destination = foundationDeck, Amount = 1 });
                 }
             }
 
             if (game.StockDeck.Count > 0)
             {
-                source = game.StockDeck;
-                destination = game.ReserveDeck;
-                amount = 1;
-                return true;
+                moves.Add(new SolverMove() { Source = game.StockDeck, Destination = game.ReserveDeck, Amount = 1 });
             }
             else if (game.ReserveDeck.Count > 0)
             {
-                source = game.ReserveDeck;
-                destination = game.StockDeck;
-                amount = game.ReserveDeck.Count;
-                return true;
+                moves.Add(new SolverMove() { Source = game.ReserveDeck, Destination = game.StockDeck, Amount = game.ReserveDeck.Count });
             }
 
-            amount = 0;
-            source = null;
-            destination = null;
-            return false;
+            return moves;
         }
 
         private bool CanSolve(Deck source, Deck destination)
@@ -118,6 +119,54 @@ namespace Solitary.Core
                 return true;
             }
             return false;
+        }
+
+        public bool IsSolvable(Game game)
+        {
+            Game gameClone = new Game.Builder()
+                .WithGameSaver(new DummyGameSaver())
+                .HasOriginalGame(game)
+                .Build();
+
+            solveIterations = 0;
+            bool isSolvable = TrySolveRecursive(gameClone);
+
+            UnityEngine.Debug.Log("isSolvable=" + isSolvable + " iterations=" + solveIterations);
+
+            return isSolvable;
+        }
+
+        private const int maxIterations = 200;
+        private int solveIterations = 0;
+        private bool TrySolveRecursive(Game game)
+        {
+            List<SolverMove> possibleMoves = GetPossibleMoves(game);
+            solveIterations++;
+            if (game.State == GameState.Over) return true;
+            if (solveIterations == maxIterations) return false;
+            if (possibleMoves.Count == 0) return false;
+            foreach (SolverMove move in possibleMoves)
+            {
+                game.MoveCards(move.Source, move.Destination, move.Amount);
+
+                return TrySolveRecursive(game);
+            }
+            return false;
+        }
+
+        private class DummyGameSaver : IGameSaver
+        {
+            public void ClearData() { }
+            public bool HasData() => false;
+            public void Load(Game game) { }
+            public void Save(Game game) { }
+        }
+
+        private struct SolverMove
+        {
+            public Deck Source;
+            public Deck Destination;
+            public int Amount;
         }
     }
 }

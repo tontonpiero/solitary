@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c62db1135543184fb20c6b612b337ac, type: 3}
+  m_Name: LocalizationData
+  m_EditorClassIdentifier: 
+  Translations:
+  - Key: button.new_game
+    Translations:
+    - Lang: 1
+      Value: Nouvelle partie
+    - Lang: 2
+      Value: New Game
+  - Key: button.resume_game
+    Translations:
+    - Lang: 1
+      Value: Reprendre
+    - Lang: 2
+      Value: Resume Game
+  - Key: settings.music
+    Translations:
+    - Lang: 1
+      Value: Musique
+    - Lang: 2
+      Value: Music
+  - Key: settings.sounds
+    Translations:
+    - Lang: 1
+      Value: Sons
+    - Lang: 2
+      Value: Sounds
+  - Key: settings.help
+    Translations:
+    - Lang: 1
+      Value: Aide
+    - Lang: 2
+      Value: Allow Help
+  - Key: settings.undo
+    Translations:
+    - Lang: 1
+      Value: Annuler
+    - Lang: 2
+      Value: Allow Undo
+  - Key: settings.three_cards
+    Translations:
+    - Lang: 1
+      Value: Mode 3 cartes
+    - Lang: 2
+      Value: 3 cards mode
+  - Key: settings.ensure_solvable
+    Translations:
+    - Lang: 1
+      Value: "Partie toujours r\xE9soluble"
+    - Lang: 2
+      Value: Ensure solvable
+  - Key: button.apply
+    Translations:
+    - Lang: 1
+      Value: Appliquer
+    - Lang: 2
+      Value: Apply
+  - Key: settings.title
+    Translations:
+    - Lang: 1
+      Value: "Param\xE8tres"
+    - Lang: 2
+      Value: Settings
+  - Key: hud.score.label
+    Translations:
+    - Lang: 1
+      Value: Score
+    - Lang: 2
+      Value: Score
+  - Key: hud.moves.label
+    Translations:
+    - Lang: 1
+      Value: Coups
+    - Lang: 2
+      Value: Moves
+  - Key: popup.pause.title
+    Translations:
+    - Lang: 1
+      Value: Pause
+    - Lang: 2
+      Value: Game Paused
+  - Key: button.restart_game
+    Translations:
+    - Lang: 1
+      Value: Recommencer
+    - Lang: 2
+      Value: Restart Game
+  - Key: popup.end_game.title
+    Translations:
+    - Lang: 1
+      Value: Victoire
+    - Lang: 2
+      Value: Victory
+  - Key: hud.time.label
+    Translations:
+    - Lang: 1
+      Value: Temps
+    - Lang: 2
+      Value: Time
+  - Key: hud.best_score.label
+    Translations:
+    - Lang: 1
+      Value: 'Meilleurs score : {0}'
+    - Lang: 2
+      Value: 'Best score: {0}'

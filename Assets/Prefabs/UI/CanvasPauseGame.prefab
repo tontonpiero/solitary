@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5955550685729283475}
   - component: {fileID: 8369325521913519017}
   - component: {fileID: 6299498558149151028}
+  - component: {fileID: 6719268067329766275}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -134,6 +135,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6719268067329766275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986914458614722147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: button.restart_game
+  PluralKey: 
+  Parameters: []
+  ToUpper: 0
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &4529851490024811954
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +533,7 @@ GameObject:
   - component: {fileID: 9098413153096557293}
   - component: {fileID: 9098413153096557291}
   - component: {fileID: 9098413153096557292}
+  - component: {fileID: 2988975225340751363}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -568,7 +588,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GAME PAUSED
+  m_text: PAUSE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -637,6 +657,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2988975225340751363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098413153096557294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: popup.pause.title
+  PluralKey: 
+  Parameters: []
+  ToUpper: 1
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &9098413153455420171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,6 +1056,7 @@ GameObject:
   - component: {fileID: 9098413153965871529}
   - component: {fileID: 9098413153965871527}
   - component: {fileID: 9098413153965871528}
+  - component: {fileID: 5649149236819159139}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -1072,7 +1111,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Resume Game
+  m_text: Reprendre
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -1141,6 +1180,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5649149236819159139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098413153965871530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: button.resume_game
+  PluralKey: 
+  Parameters: []
+  ToUpper: 0
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &9098413154114994321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,6 +1247,7 @@ GameObject:
   - component: {fileID: 9098413154196726596}
   - component: {fileID: 9098413154196726594}
   - component: {fileID: 9098413154196726595}
+  - component: {fileID: 2776603243917676055}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -1244,7 +1302,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Game
+  m_text: Nouvelle partie
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
   m_sharedMaterial: {fileID: -5641921424272361904, guid: ee9713e95f31894468ed2af52d2c41e6, type: 2}
@@ -1313,6 +1371,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2776603243917676055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098413154196726597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa2a98aa198f53409cd84c533a96a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: button.new_game
+  PluralKey: 
+  Parameters: []
+  ToUpper: 0
+  FirstCharToUpper: 0
+  VerboseLogging: 0
 --- !u!1 &9098413154365943719
 GameObject:
   m_ObjectHideFlags: 0

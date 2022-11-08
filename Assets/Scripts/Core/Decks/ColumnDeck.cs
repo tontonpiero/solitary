@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Solitary.Core
 {
 
     public class ColumnDeck : Deck
     {
+        public ColumnDeck(int index) : base(index) { }
+
         protected override void OnChanged()
         {
             TopCard?.Reveal();

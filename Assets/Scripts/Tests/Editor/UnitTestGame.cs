@@ -37,8 +37,6 @@ namespace Solitary.Tests
             Game game = CreateTestableGame(out _);
             game.Start(1);
 
-            game.Deal();
-
             int columnCardsCount = 0;
             for (int i = 0; i < Game.ColumnsCount; i++)
             {
@@ -70,25 +68,28 @@ namespace Solitary.Tests
         [Test]
         public void Test_MoveCommand()
         {
-            Game game = CreateTestableGame(out CommandInvoker commandInvoker);
+            Game game = CreateTestableGame(out MoveCommandInvoker commandInvoker);
             game.Start(1);
 
-            int moveAmount = 3;
-            int initialStockCount = game.StockDeck.Count;
-            int initialReserveCount = game.ReserveDeck.Count;
-            Card initialStockTopCard = game.StockDeck.TopCard;
-            game.MoveCards(game.StockDeck, game.ReserveDeck, moveAmount);
+            Deck sourceDeck = game.StockDeck;
+            Deck destinationDeck = game.ColumnDecks[0];
 
-            Assert.That(game.StockDeck.Count, Is.EqualTo(initialStockCount - moveAmount));
-            Assert.That(game.ReserveDeck.Count, Is.EqualTo(initialReserveCount + moveAmount));
-            Assert.That(game.ReserveDeck.TopCard, Is.EqualTo(initialStockTopCard));
+            int moveAmount = 3;
+            int initialSourceCount = sourceDeck.Count;
+            int initialDestinationCount = destinationDeck.Count;
+            Card initialSourceTopCard = sourceDeck.TopCard;
+            game.MoveCards(sourceDeck, destinationDeck, moveAmount);
+
+            Assert.That(sourceDeck.Count, Is.EqualTo(initialSourceCount - moveAmount));
+            Assert.That(destinationDeck.Count, Is.EqualTo(initialDestinationCount + moveAmount));
+            Assert.That(destinationDeck.TopCard, Is.EqualTo(initialSourceTopCard));
             Assert.That(commandInvoker.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Test_UndoCommand()
         {
-            Game game = CreateTestableGame(out CommandInvoker commandInvoker);
+            Game game = CreateTestableGame(out MoveCommandInvoker commandInvoker);
             game.Start(1);
 
             int moveAmount = 3;
@@ -422,12 +423,12 @@ namespace Solitary.Tests
             Assert.That(game.ReserveDeck.TopCard, Is.EqualTo(previousStockCard3));
         }
 
-        private Game CreateTestableGame(out CommandInvoker commandInvoker)
+        private Game CreateTestableGame(out MoveCommandInvoker commandInvoker)
         {
-            commandInvoker = new CommandInvoker();
+            commandInvoker = new MoveCommandInvoker();
 
             return new Game.Builder()
-                .WithCommandInvoker(commandInvoker)
+                .WithMoveCommandInvoker(commandInvoker)
                 .WithGameSaver(new TestGameSaver())
                 .Build();
         }

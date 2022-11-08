@@ -4,7 +4,7 @@
     {
         StockDeck CreateStockDeck();
         ReserveDeck CreateReserveDeck();
-        ColumnDeck CreateColumnDeck();
+        ColumnDeck CreateColumnDeck(int index);
         FoundationDeck CreateFoundationDeck(CardSuit suit);
     }
 }

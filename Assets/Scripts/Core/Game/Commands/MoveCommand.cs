@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Solitary.Core
 {
-    public class MoveCommand : ICommand
+    public class MoveCommand : IMoveCommand
     {
         private Deck source;
         private Deck destination;
@@ -48,6 +48,41 @@ namespace Solitary.Core
             game.SetScore(previousScore);
 
             if (cardWasRevealed) source.GetCard(amount).Hide();
+        }
+
+        public MoveCommandData Save()
+        {
+            MoveCommandData data = new MoveCommandData()
+            {
+                Amount = amount,
+                CarRev = cardWasRevealed,
+                Reverse = reverse,
+                PrevScore = previousScore,
+                Src = source.GetType().Name,
+                SrcIdx = source.Index,
+                Dest = destination.GetType().Name,
+                DestIdx = destination.Index
+            };
+            return data;
+        }
+
+        public void Load(MoveCommandData data)
+        {
+            amount = data.Amount;
+            cardWasRevealed = data.CarRev;
+            reverse = data.Reverse;
+            previousScore = data.PrevScore;
+            source = GetDeck(data.Src, data.SrcIdx);
+            destination = GetDeck(data.Dest, data.DestIdx);
+        }
+
+        private Deck GetDeck(string typeName, int index)
+        {
+            if (typeName == game.StockDeck.GetType().Name) return game.StockDeck;
+            if (typeName == game.ReserveDeck.GetType().Name) return game.ReserveDeck;
+            if (typeName == game.ColumnDecks[0].GetType().Name) return game.ColumnDecks[index];
+            if (typeName == game.FoundationDecks[0].GetType().Name) return game.FoundationDecks[index];
+            return null;
         }
     }
 }

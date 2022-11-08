@@ -12,6 +12,7 @@ namespace Solitary
         [SerializeField] private Toggle helpToggle;
         [SerializeField] private Toggle undoToggle;
         [SerializeField] private Toggle threeCardsToggle;
+        [SerializeField] private Toggle ensureSolvableToggle;
 
         private float previousMusicVolume;
         private float previousSfxVolume;
@@ -43,6 +44,9 @@ namespace Solitary
 
             // 3 cards mode
             threeCardsToggle.isOn = settings.ThreeCardsMode;
+
+            // ensure solbable
+            ensureSolvableToggle.isOn = settings.EnsureSolvable;
         }
 
         public void OnMusicVolumeValueChange()
@@ -79,6 +83,7 @@ namespace Solitary
             settings.AllowHelp = helpToggle.isOn;
             settings.AllowUndo = undoToggle.isOn;
             settings.ThreeCardsMode = threeCardsToggle.isOn;
+            settings.EnsureSolvable = ensureSolvableToggle.isOn;
 
             settings.Save();
 

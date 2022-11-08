@@ -8,7 +8,7 @@ namespace Solitary.Core
     {
         public CardSuit Suit { get; private set; }
 
-        public FoundationDeck(CardSuit suit)
+        public FoundationDeck(CardSuit suit) : base((int)suit)
         {
             Suit = suit;
         }

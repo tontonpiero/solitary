@@ -22,7 +22,7 @@ namespace Solitary.Tests
         public void Test_Reserve_To_Column()
         {
             ReserveDeck ReserveDeck = deckFactory.CreateReserveDeck();
-            ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck = deckFactory.CreateColumnDeck(0);
 
             int points = ScoreCalculator.GetMovePoints(ReserveDeck, columnDeck, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.ReserveToColumnPoints));
@@ -31,7 +31,7 @@ namespace Solitary.Tests
         [Test]
         public void Test_Column_To_Foundation()
         {
-            ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck = deckFactory.CreateColumnDeck(0);
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
 
             int points = ScoreCalculator.GetMovePoints(columnDeck, foundationDeck, 1, new GameSettings());
@@ -42,7 +42,7 @@ namespace Solitary.Tests
         public void Test_Foundation_To_Column()
         {
             FoundationDeck foundationDeck = deckFactory.CreateFoundationDeck(CardSuit.Hearts);
-            ColumnDeck columnDeck = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck = deckFactory.CreateColumnDeck(0);
 
             int points = ScoreCalculator.GetMovePoints(foundationDeck, columnDeck, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(ScoreCalculator.FoundationToColumnPoints));
@@ -51,8 +51,8 @@ namespace Solitary.Tests
         [Test]
         public void Test_Column_To_Column()
         {
-            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck();
-            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck(0);
+            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck(0);
 
             int points = ScoreCalculator.GetMovePoints(columnDeck1, columnDeck2, 1, new GameSettings());
             Assert.That(points, Is.EqualTo(0));
@@ -61,8 +61,8 @@ namespace Solitary.Tests
         [Test]
         public void Test_TurnOverCard()
         {
-            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck();
-            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck(0);
+            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck(0);
 
             Card card = cardFactory.Create(CardRank.Queen, CardSuit.Clubs);
             columnDeck1.Push(card);
@@ -79,8 +79,8 @@ namespace Solitary.Tests
         [Test]
         public void Test_TurnOverCard_WhileMovingSeveralCards()
         {
-            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck();
-            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck();
+            ColumnDeck columnDeck1 = deckFactory.CreateColumnDeck(0);
+            ColumnDeck columnDeck2 = deckFactory.CreateColumnDeck(0);
 
             Card card = cardFactory.Create(CardRank.Queen, CardSuit.Clubs);
             columnDeck1.Push(card);

@@ -27,22 +27,22 @@ namespace Solitary.Core
                     Id = game.Id,
                     Moves = game.Moves,
                     Score = game.Score,
-                    TotalTime = game.TotalTime,
-                    sData = game.StockDeck.Save(),
-                    wData = game.ReserveDeck.Save(),
-                    fData = new DeckData[FoundationsCount],
-                    cData = new DeckData[ColumnsCount]
+                    Time = game.TotalTime,
+                    SData = game.StockDeck.Save(),
+                    RData = game.ReserveDeck.Save(),
+                    FData = new DeckData[FoundationsCount],
+                    CData = new DeckData[ColumnsCount]
                 };
                 for (int i = 0; i < FoundationsCount; i++)
                 {
-                    data.fData[i] = game.FoundationDecks[i].Save();
+                    data.FData[i] = game.FoundationDecks[i].Save();
                 }
                 for (int i = 0; i < ColumnsCount; i++)
                 {
-                    data.cData[i] = game.ColumnDecks[i].Save();
+                    data.CData[i] = game.ColumnDecks[i].Save();
                 }
 
-                // TODO : save commands history
+                data.Cmds = game.moveCommandInvoker.Save();
 
                 return data;
             }
@@ -58,20 +58,20 @@ namespace Solitary.Core
                 game.Id = data.Id;
                 game.SetMoves(data.Moves);
                 game.SetScore(data.Score);
-                game.TotalTime = data.TotalTime;
-                game.StockDeck.Load(data.sData);
-                game.ReserveDeck.Load(data.wData);
+                game.TotalTime = data.Time;
+                game.StockDeck.Load(data.SData);
+                game.ReserveDeck.Load(data.RData);
                 for (int i = 0; i < FoundationsCount; i++)
                 {
-                    game.FoundationDecks[i].Load(data.fData[i]);
+                    game.FoundationDecks[i].Load(data.FData[i]);
                 }
                 for (int i = 0; i < ColumnsCount; i++)
                 {
-                    game.ColumnDecks[i].Load(data.cData[i]);
+                    game.ColumnDecks[i].Load(data.CData[i]);
                 }
                 game.IsNew = false;
 
-                // TODO : load commands history
+                game.moveCommandInvoker.Load(data.Cmds);
             }
 
             public void ClearData() => dataSource.ClearData();

@@ -15,7 +15,7 @@ namespace Solitary.Utils
         public T LoadData()
         {
             string strData = PlayerPrefs.GetString(key, null);
-            //Debug.Log($"PlayerPrefsDataSource - LoadData() {strData}");
+            Debug.Log($"PlayerPrefsDataSource - LoadData() {strData}");
             if (string.IsNullOrEmpty(strData)) return default;
             try
             {

@@ -25,23 +25,23 @@ namespace Solitary.Manager
 
         public void InitializeDecks(Game game)
         {
-            SetupDeckView(stockDeckView, game.StockDeck);
-            SetupDeckView(ReserveDeckView, game.ReserveDeck);
+            SetupDeckView(stockDeckView, game.StockDeck, stockDeckView);
+            SetupDeckView(ReserveDeckView, game.ReserveDeck, stockDeckView);
             for (int i = 0; i < Game.FoundationsCount; i++)
             {
-                SetupDeckView(foundationDeckViews[i], game.FoundationDecks[i]);
+                SetupDeckView(foundationDeckViews[i], game.FoundationDecks[i], stockDeckView);
             }
             for (int i = 0; i < Game.ColumnsCount; i++)
             {
-                SetupDeckView(columnDeckViews[i], game.ColumnDecks[i]);
+                SetupDeckView(columnDeckViews[i], game.ColumnDecks[i], stockDeckView);
             }
         }
 
-        private void SetupDeckView(DeckView deckView, Deck deck)
+        private void SetupDeckView(DeckView deckView, Deck deck, DeckView fromDeckView)
         {
             deckView.Deck = deck;
             deckViewByDeck[deck] = deckView;
-            cardManager.CreateDeckCards(deckView);
+            cardManager.CreateDeckCards(deckView, fromDeckView);
             deckView.Deck.OnCardsAdded += OnCardsAddedToDeck;
             deckView.Deck.OnCardsRemoved += OnCardsRemovedFromDeck;
             deckView.OnDoubleClickDeck += OnDoubleClickDeck;

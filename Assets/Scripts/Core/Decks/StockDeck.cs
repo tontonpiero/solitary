@@ -9,7 +9,7 @@ namespace Solitary.Core
     {
         private ICardFactory cardFactory;
 
-        public StockDeck(ICardFactory cardFactory)
+        public StockDeck(ICardFactory cardFactory) : base(0)
         {
             this.cardFactory = cardFactory;
         }
